@@ -1,0 +1,60 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
+
+body
+  margin: 0
+  padding: 0
+.form
+  font-style: normal
+  font-family: Inter, sans-serif
+  line-height: normal
+  &__header
+    color: #404040
+    font-size: 37px
+    font-weight: 600
+    letter-spacing: 0.37px
+  &__subheader
+    color: #7D7D7D
+    text-align: center
+    font-size: 17px
+    font-weight: 400
+    line-height: 30px
+    &_link
+      font-size: 17px
+      color: #7D7D7D
+      overflow: hidden
+      text-decoration: none
+      font-weight: 600
+  &__label
+    color: #344054
+    font-size: 14px
+    font-weight: 500
+    line-height: 20px
+  &__input
+    border-radius: 30px
+    border: none
+    outline: none
+    padding: 12px 16px
+    background: #FFF
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.10)
+  &__button
+    button
+      border: none
+      border-radius: 34px
+      background: #404040
+      box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.10)
+      padding: 13px 56px
+      color: #FFF
+      font-size: 17px
+      font-weight: 600
+      &:hover
+        background: #2f2f2f
+        cursor: pointer
+.login-page
+  background-image: url("@/assets/images/auth_background.svg")
+  background-size: cover
+  display: flex
+  justify-content: center
+  align-items: center
+  height: 100%
