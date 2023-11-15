@@ -139,48 +139,69 @@ export default {
 
 <style scoped lang="sass">
 .login
-    &__wrapper
-        display: flex
-        border-radius: 40px
-        background: rgba(255, 255, 255, 0.70)
-        box-shadow: 0 0 22px 3px rgba(137, 137, 137, 0.25)
-        width: 75%
-        padding: 20px 0
-        align-items: center
-        justify-content: center
-    &__form
-        display: flex
-        flex-direction: column
-        gap: 6px
-        align-items: center
-    &__input-fields
-        display: flex
-        flex-wrap: wrap
-        flex-direction: column
-        width: 100%
-        &_partly
-            display: flex
-            flex-wrap: wrap
-            flex-direction: row
-            flex-basis: 50%
-            width: fill-available
-            justify-content: space-between
-.checkboxes
+  &__wrapper
     display: flex
-    width: 100%
+    border-radius: 40px
+    background: rgba(255, 255, 255, 0.70)
+    box-shadow: 0 0 22px 3px rgba(137, 137, 137, 0.25)
+    width: 75%
+    height: 85%
+    padding: 20px 0
+    align-items: center
+    justify-content: center
+    @media (max-width: 576px)
+      transition: all 0.3s ease-out
+      width: 95%
+      height: fit-content
+      padding: 5px 0
+    @media (min-width: 576px) and (max-width: 765.98px)
+      transition: all 0.3s ease-out
+      width: 85%
+  &__form
+    display: flex
+    flex-direction: column
+    gap: 16px
+    align-items: center
+    @media (max-width: 576px)
+      gap: 3px
+  &__input-fields
+    display: flex
     flex-wrap: wrap
     flex-direction: column
-    .checkbox
-        display: flex
-        align-items: center
-        color: #7D7D7D
-        font-family: Inter, sans-serif
-        font-size: 14px
-        font-style: normal
-        font-weight: 500
-        line-height: 24px
-        a
-            text-decoration: none
-            color: #7D7D7D
-            font-weight: 700
+    width: 100%
+    &_partly
+      display: flex
+      flex-wrap: wrap
+      flex-direction: row
+      flex-basis: 50%
+      width: fill-available
+      justify-content: space-between
+      @media (max-width: 576px)
+        flex-direction: column
+.checkboxes
+  display: flex
+  width: 100%
+  flex-wrap: wrap
+  flex-direction: column
+  .checkbox
+    display: flex
+    align-items: center
+    color: #7D7D7D
+    font-family: Inter, sans-serif
+    font-size: 14px
+    font-style: normal
+    font-weight: 500
+    line-height: 24px
+    @media (max-width: 576px)
+      font-size: 9px
+    a
+      text-decoration: none
+      color: #7D7D7D
+      font-weight: 700
+.field_container
+  @media (max-width: 576px)
+    width: 100%
+.input-width-fix
+  @media (max-width: 576px)
+    width: fill-available
 </style>
