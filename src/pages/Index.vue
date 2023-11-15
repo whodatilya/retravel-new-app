@@ -1,17 +1,18 @@
-<script>
-import { defineComponent } from "vue";
-
-export default defineComponent({
-  name: "Index"
-});
-</script>
-
 <template>
   <div>
-    123
+    <Sidebar />
+    <main>
+    </main>
   </div>
 </template>
 
-<style scoped lang="sass">
-
-</style>
+<script>
+import { defineComponent } from "vue";
+import Sidebar from "@/components/Sidebar.vue";
+export default defineComponent({
+  name: "Index",
+  components: {
+    Sidebar
+  }
+});
+</script>
