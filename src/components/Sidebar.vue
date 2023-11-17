@@ -1,5 +1,5 @@
 <template>
-  <div class="flex pt-16 pl-14">
+  <nav class="flex pt-16 pl-14 w-fit fixed">
     <div class="flex flex-col gap-4">
       <img :src="logo" alt="Логотип" class="mb-4">
       <div
@@ -29,7 +29,7 @@
         {{ item.title }}
       </div>
     </div>
-  </div>
+  </nav>
 </template>
 <script>
 import { defineComponent } from "vue";
