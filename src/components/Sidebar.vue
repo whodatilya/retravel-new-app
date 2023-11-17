@@ -1,6 +1,6 @@
 <template>
-  <nav class="flex pt-16 pl-14 w-fit fixed">
-    <div class="flex flex-col gap-4">
+  <nav class="flex flex-col h-full justify-between pb-10 pt-16 pl-14 w-fit fixed">
+    <div class="flex flex-col gap-2">
       <img :src="logo" alt="Логотип" class="mb-4">
       <div
         class="flex gap-6 br-10 menu__text p-1.5"
@@ -24,9 +24,22 @@
           class="menu__item-image"
           :class="{ 'menu__item-image-active': item.componentName === selectedPage }"
           :src="require(`@/assets/images/${item.icon}.svg`)"
-          alt=""
+          :alt="item.title"
         />
         {{ item.title }}
+      </div>
+    </div>
+    <div>
+      <div
+        class="menu__text fs-18 menu__item p-4 gap-4 br-10 font-semibold"
+        @click="quit"
+      >
+        <img
+          class="menu__item-image"
+          :src="iconExit"
+          alt="Выход"
+        />
+        Выход
       </div>
     </div>
   </nav>
@@ -35,6 +48,7 @@
 import { defineComponent } from "vue";
 import logo from "@/assets/images/logo.svg";
 import iconChat from '@/assets/images/iconChat.svg'
+import iconExit from '@/assets/images/iconExit.svg'
 import iconUser from '@/assets/images/iconUser.svg'
 import iconFavourite from '@/assets/images/iconFavourite.svg'
 import iconFolder from '@/assets/images/iconFolder.svg'
@@ -47,6 +61,7 @@ export default defineComponent({
     return {
       logo,
       iconUser,
+      iconExit,
       menuItems: [
         {
           title: 'Главная',
