@@ -3,14 +3,14 @@
     <div class="flex flex-col gap-4">
       <img :src="logo" alt="Логотип" class="mb-4">
       <div
-        class="flex gap-6 br-10 menu__text"
+        class="flex gap-6 br-10 menu__text p-1.5"
         :class="{ 'menu__text-active': selectedPage === 'Settings' }"
         @click="switchPage('Settings')"
       >
         <img :src="iconUser" alt="Пользователь">
         <div class="flex flex-col justify-center user-text">
-          <div class="menu__text fs-18 font-semibold">Имя Фамилия</div>
-          <div class="menu__text fs-14 font-medium">Пользователь</div>
+          <div class="menu__text user-text__active fs-18 font-semibold">Имя Фамилия</div>
+          <div class="menu__text user-text__active fs-14 font-medium">Пользователь</div>
         </div>
       </div>
       <div
@@ -110,8 +110,9 @@ $main-green: #4E944F
     &-active
       color: #FFFFFF
       background: $main-green
-      .menu__text
-        color: #FFFFFF
+      .user-text
+        &__active
+          color: #FFFFFF
 .fs
   &-18
     font-size: 18px
