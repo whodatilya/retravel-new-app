@@ -145,7 +145,9 @@ export default {
     background: rgba(255, 255, 255, 0.70)
     box-shadow: 0 0 22px 3px rgba(137, 137, 137, 0.25)
     width: 75%
-    height: 85%
+    min-height: 85%
+    max-height: 100%
+    height: fit-content
     padding: 20px 0
     align-items: center
     justify-content: center
@@ -160,7 +162,7 @@ export default {
   &__form
     display: flex
     flex-direction: column
-    gap: 16px
+    gap: 8px
     align-items: center
     @media (max-width: 576px)
       gap: 3px
@@ -204,4 +206,15 @@ export default {
 .input-width-fix
   @media (max-width: 576px)
     width: fill-available
+.form
+  &__input
+    border-radius: 30px
+    border: none
+    outline: none
+    padding: 8px 16px
+    background: #FFF
+    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.10)
+    @media (max-width: 576px)
+      font-size: 12px
+      padding: 8px 12px
 </style>

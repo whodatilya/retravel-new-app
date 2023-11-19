@@ -13,4 +13,5 @@ export default {
 <style scoped lang="sass">
 #app
   height: 100vh
+  font-family: Lato,sans-serif
 </style>

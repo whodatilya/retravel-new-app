@@ -1,8 +1,6 @@
 <template>
   <div>
     <Sidebar />
-    <main>
-    </main>
   </div>
 </template>
 
