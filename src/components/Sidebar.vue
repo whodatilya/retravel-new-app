@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex flex-col h-full justify-between pb-10 pt-16 pl-14 w-fit fixed">
+  <nav class="flex flex-col h-full justify-between fixed">
     <div class="flex flex-col gap-2">
       <img :src="logo" alt="Логотип" class="mb-4">
       <div
@@ -97,9 +97,6 @@ export default defineComponent({
       this.selectedComponent = componentName
       this.$emit('selectedComponent', this.selectedComponent)
     },
-    processQuit() {
-      this.isOpen = !this.isOpen
-    },
     quit() {
       this.$store.dispatch('user/logout')
     }
@@ -129,9 +126,4 @@ $main-green: #4E944F
       .user-text
         &__active
           color: #FFFFFF
-.fs
-  &-18
-    font-size: 18px
-  &-14
-    font-size: 14px
 </style>
