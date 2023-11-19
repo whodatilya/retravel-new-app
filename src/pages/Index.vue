@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Sidebar />
+    <Sidebar  @selectedComponent="processComponent"/>
   </div>
 </template>
 
@@ -11,6 +11,16 @@ export default defineComponent({
   name: "Index",
   components: {
     Sidebar
+  },
+  data () {
+    return {
+      selectedSidebarComponent: 'Main'
+    }
+  },
+  methods: {
+    processComponent (componentName) {
+      this.selectedSidebarComponent = componentName
+    }
   }
 });
 </script>

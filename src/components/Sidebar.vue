@@ -4,7 +4,7 @@
       <img :src="logo" alt="Логотип" class="mb-4">
       <div
         class="flex gap-6 br-10 menu__text p-1.5"
-        :class="{ 'menu__text-active': selectedPage === 'Settings' }"
+        :class="{ 'menu__text-active': selectedComponent === 'Settings' }"
         @click="switchPage('Settings')"
       >
         <img :src="iconUser" alt="Пользователь">
@@ -18,11 +18,11 @@
         v-for="(item, index) in menuItems"
         :key="index"
         @click="switchPage(item.componentName)"
-        :class="{ 'menu__text-active': item.componentName === selectedPage }"
+        :class="{ 'menu__text-active': item.componentName === selectedComponent }"
       >
         <img
           class="menu__item-image"
-          :class="{ 'menu__item-image-active': item.componentName === selectedPage }"
+          :class="{ 'menu__item-image-active': item.componentName === selectedComponent }"
           :src="require(`@/assets/images/${item.icon}.svg`)"
           :alt="item.title"
         />
@@ -89,12 +89,13 @@ export default defineComponent({
           componentName: 'Favourites'
         }
       ],
-      selectedPage: 'Main'
+      selectedComponent: 'Main'
     }
   },
   methods: {
     switchPage(componentName) {
-      this.selectedPage = componentName
+      this.selectedComponent = componentName
+      this.$emit('selectedComponent', this.selectedComponent)
     },
     processQuit() {
       this.isOpen = !this.isOpen
