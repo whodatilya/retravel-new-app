@@ -1,22 +1,24 @@
 <template>
-  <div>
+  <div class="flex">
     <Sidebar class="pb-10 pt-16 ml-14" @selectedComponent="processComponent"/>
-<!--    <component-->
-<!--      :is="selectedSidebarComponent"-->
-<!--    />-->
-<!--    <Main />-->
+    <component
+      :is="selectedSidebarComponent"
+      class="flex-grow"
+    />
   </div>
 </template>
 
 <script>
 import { defineComponent } from "vue";
 import Sidebar from "@/components/Sidebar.vue";
-// import Main from "@/components/Main.vue";
+import Main from "@/components/Main.vue";
+import Favourites from "@/components/Favourites.vue";
 export default defineComponent({
   name: "Index",
   components: {
     Sidebar,
-    // Main
+    Favourites,
+    Main
   },
   data () {
     return {

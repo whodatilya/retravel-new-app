@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex flex-col h-full justify-between fixed">
+  <nav class="flex flex-col h-[100vh] justify-between">
     <div class="flex flex-col gap-2">
       <img :src="logo" alt="Логотип" class="mb-4">
       <div

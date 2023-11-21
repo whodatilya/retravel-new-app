@@ -13,10 +13,7 @@
         <yandex-map-default-scheme-layer />
       </YandexMap>
       <div class="map__search ml-8 p-5 br-20 max-w-[350px]">
-        <div class="search_input br-20 fs-12 p-1.5">
-          <img :src="iconSearch" alt="Поиск">
-          <input class="br-20 pl-2" type="text" placeholder="Поиск по направлениям...">
-        </div>
+        <Search placeholder-value="Поиск по направлениям..."/>
       </div>
     </main>
   </div>
@@ -27,10 +24,12 @@ import backButton from '@/assets/images/back_button.svg'
 import logoUnfilled from '@/assets/images/logo_unfilled.svg'
 import iconSearch from '@/assets/images/iconSearch.svg'
 import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
+import Search from "@/components/Elements/Search.vue";
 
 export default defineComponent({
   name: "Map",
   components: {
+    Search,
     YandexMap,
     YandexMapDefaultSchemeLayer
   },
@@ -85,9 +84,4 @@ export default defineComponent({
     position: absolute
     border: 1px solid #D0D0D0
     height: 90%
-.search_input
-  display: flex
-  border: 1px solid #D0D0D0
-  input
-    outline: none
 </style>
