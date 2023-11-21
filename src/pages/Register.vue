@@ -214,8 +214,9 @@ export default {
     outline: none
     padding: 8px 16px
     background: #FFF
-    box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.10)
+    box-shadow: 0 10px 30px 0 rgb(0 0 0 / 15%)
     @media (max-width: 576px)
+      width: fill-available
       font-size: 12px
       padding: 8px 12px
 </style>

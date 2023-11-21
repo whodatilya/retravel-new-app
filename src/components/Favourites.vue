@@ -16,9 +16,9 @@
 <script>
 import { defineComponent } from "vue";
 import iconSearch from '@/assets/images/iconSearch.svg'
-import favourite1 from '@/assets/images/cardImages/favourite1.svg'
-import favourite2 from '@/assets/images/cardImages/favourite2.svg'
-import favourite3 from '@/assets/images/cardImages/favourite3.svg'
+import favourite1 from '@/assets/images/cardImages/favourites/favourite1.svg'
+import favourite2 from '@/assets/images/cardImages/favourites/favourite2.svg'
+import favourite3 from '@/assets/images/cardImages/favourites/favourite3.svg'
 import Search from "@/components/Elements/Search.vue";
 import FavouriteCard from "@/components/Cards/FavouriteCard.vue";
 

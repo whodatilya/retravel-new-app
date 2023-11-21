@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex flex-col h-[100vh] justify-between">
+  <nav class="flex flex-col h-[100vh] justify-between sticky sticky-sidebar">
     <div class="flex flex-col gap-2">
       <img :src="logo" alt="Логотип" class="mb-4">
       <div
@@ -104,6 +104,8 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="sass">
+.sticky-sidebar
+  top: 0
 $main-green: #4E944F
 .menu
   &__item
