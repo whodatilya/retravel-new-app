@@ -176,6 +176,7 @@ export default {
       flex-wrap: wrap
       flex-direction: row
       flex-basis: 50%
+      gap: 10px
       width: fill-available
       justify-content: space-between
       @media (max-width: 576px)

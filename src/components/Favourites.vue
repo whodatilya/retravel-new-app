@@ -4,7 +4,7 @@
       class="mt-6 ml-12"
       placeholder-value="Поиск публикаций..."
     />
-    <div class="main-container mt-3 ml-7 mr-7 br-20 p-6">
+    <div class="main-container my-3 mx-7 br-20 p-6">
       <favourite-card
         v-for="favourite in favourites"
         :favourite-data="favourite"
@@ -54,9 +54,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-.component-container
-  background: #DAE8DA
-  border: 1px solid #4E944F
 .main-container
   display: grid
   grid-template-columns: repeat(3, 1fr)
