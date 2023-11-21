@@ -27,6 +27,13 @@ export default defineComponent({
     processComponent (componentName) {
       this.selectedSidebarComponent = componentName
     }
+  },
+  watch: {
+    selectedSidebarComponent (val) {
+      if (val === 'Map') {
+        this.$router.push('map')
+      }
+    }
   }
 });
 </script>

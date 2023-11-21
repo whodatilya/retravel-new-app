@@ -39,15 +39,5 @@ export default defineComponent({
     background: #DAE8DA
     border-radius: 25px
     border: 1px solid #4E944F80
-.input-with-icon
-  display: flex
-  img
-    position: absolute
-    padding-left: 0.3rem
-  input
-    display: flex
-    outline: none
-    padding: 0.7rem 2rem
-    border-radius: 100px
 
 </style>

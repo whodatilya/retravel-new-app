@@ -72,8 +72,11 @@ body
   justify-content: center
   align-items: center
   height: 100%
-.br-10
-  border-radius: 10px
+.br
+  &-10
+    border-radius: 10px
+  &-20
+    border-radius: 20px
 .fs
   &-12
     font-size: 12px
@@ -89,3 +92,16 @@ body
   color: $black-text
 .color-main-gray
   color: $gray-text
+.map-fix
+  .ymaps3x0--map-container
+    border-radius: 1.25rem
+.input-with-icon
+  display: flex
+  img
+    position: absolute
+    padding-left: 0.3rem
+  input
+    display: flex
+    outline: none
+    padding: 0.7rem 2rem
+    border-radius: 100px
