@@ -16,7 +16,7 @@
     </div>
     <div class="popular br-20 my-2.5">
       <div class="flex flex-row justify-between items-center">
-        <div>
+        <div class="fs-18 font-semibold color-main-black">
           Популярные маршруты
         </div>
         <div class="filter-button flex flex-row p-1.5 br-8 gap-0.5">
@@ -42,6 +42,19 @@
       </div>
     </div>
   </main>
+  <div class="flex flex-col ml-2 mt-9 max-w-[20%]">
+    <div class="fs-18 font-semibold color-main-black">Карта достопримечательностей</div>
+    <div>Тут карта должна быть?</div>
+    <div class="flex flex-col gap-4">
+      <div class="fs-18 color-main-black font-semibold">Избранные локации</div>
+      <popular-card
+        v-for="card in popularCards"
+        :key="card.id"
+        :card-data="card"
+        :is-tiny="true"
+      />
+    </div>
+  </div>
 </template>
 <script>
 import { defineComponent } from "vue";
@@ -127,7 +140,7 @@ export default defineComponent({
   &__wrapper
     display: flex
     flex-direction: column
-    max-width: 49%
+    flex-basis: 49%
     background: #DAE8DA
     border-radius: 25px
     border: 1px solid #4E944F80
