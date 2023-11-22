@@ -47,11 +47,12 @@ export default {
   },
   methods: {
     async login() {
+      const formData = {
+        email: this.email,
+        password: this.password
+      }
       await this.$store
-        .dispatch('user/login', {
-          login: this.email,
-          password: this.password
-        })
+        .dispatch('user/login', formData)
         .then(response => {
           this.$router.push({ path: '/' })
         })

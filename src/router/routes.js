@@ -20,13 +20,13 @@ const routes = [
       path: '/',
       name: 'index',
       component: () => import('@/pages/Index.vue'),
-      // beforeEnter: ifAuthenticated
+      beforeEnter: ifAuthenticated
   },
   {
     path: '/map',
     name: 'map',
     component: () => import('@/pages/Map.vue'),
-    // beforeEnter: ifAuthenticated
+    beforeEnter: ifAuthenticated
   }
 ]
 export default routes

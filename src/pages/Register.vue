@@ -114,14 +114,16 @@ export default {
   methods: {
     async register() {
       if (this.password.length && this.password === this.repassword && this.checked_policy) {
+        const formData = {
+          name: this.firstName,
+          surname: this.secondName,
+          email: this.email,
+          phone: this.phoneNumber,
+          password: this.password,
+          repeatPassword: this.repassword
+        }
         await this.$store
-          .dispatch('user/register', {
-            firstname: this.firstName,
-            secondname: this.secondName,
-            login: this.email,
-            phone_number: this.phoneNumber,
-            password: this.password
-          })
+          .dispatch('user/register', formData)
           .then(response => {
             console.log('response', response)
             this.$router.push({ path: '/login' })

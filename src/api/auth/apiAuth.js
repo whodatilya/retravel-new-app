@@ -1,25 +1,20 @@
-import axios from "axios";
-import {BASE_URL} from "@/api/urls";
+import request from "@/api/config";
 
 export default {
-    async register (login, password) {
-        return axios({
+    async register (formData) {
+        return request({
+            url: '/api/user/',
             method: 'POST',
-            url: `${BASE_URL}/api/register`,
-            data: {
-                email: login,
-                password: password
-            }
+            data: formData
         })
+          .then(response => response.data)
     },
-    async login (login, password) {
-        return axios({
+    async login (formData) {
+        return request({
             method: 'POST',
-            url: `${BASE_URL}/api/login_check`,
-            data: {
-                email: login,
-                password: password
-            }
+            url: '/login',
+            data: formData
         })
+          .then(response => response.data)
     }
 }
