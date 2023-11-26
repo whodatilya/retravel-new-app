@@ -62,9 +62,9 @@ import iconSearch from '@/assets/images/iconSearch.svg'
 import iconBanner from '@/assets/images/iconBanner.svg'
 import iconFilter from '@/assets/images/iconFilter.svg'
 
-import image1 from '@/assets/images/cardImages/places/image1.svg'
-import image2 from '@/assets/images/cardImages/places/image2.svg'
-import image3 from '@/assets/images/cardImages/places/image3.svg'
+import elbrus from '@/assets/images/cardImages/places/elbrus.png'
+import plato from '@/assets/images/cardImages/places/plato.jpg'
+import kamchatka from '@/assets/images/cardImages/places/kamchatka.jpg'
 
 import karelia from '@/assets/images/cardImages/popular/image1.svg'
 import altay from '@/assets/images/cardImages/popular/image2.svg'
@@ -88,20 +88,20 @@ export default defineComponent({
       placeCards: [
         {
           id: 0,
-          icon: image1,
+          icon: elbrus,
           title: 'Эльбрус',
           location: 'Кабардино-Балкария',
           rating: 3
         },
         {
           id: 1,
-          icon: image2,
+          icon: plato,
           title: 'Плато Путорана',
           location: 'Красноярский край',
           rating: 3
         },{
           id: 2,
-          icon: image3,
+          icon: kamchatka,
           title: 'Долина гейзеров',
           location: 'Камчатка',
           rating: 3

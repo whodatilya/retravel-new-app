@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <Sidebar class="pb-10 pt-16 ml-14" @selectedComponent="processComponent"/>
+    <Sidebar class="pb-10 pt-16 ml-28" @selectedComponent="processComponent"/>
     <component
       :is="selectedSidebarComponent"
       class="flex-grow"
