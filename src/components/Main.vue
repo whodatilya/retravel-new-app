@@ -44,7 +44,15 @@
   </main>
   <div class="flex flex-col ml-2 mt-9 max-w-[20%]">
     <div class="fs-18 font-semibold color-main-black">Карта достопримечательностей</div>
-    <div>Тут карта должна быть?</div>
+    <YandexMap
+      @click="openMap"
+      class="map-fix cursor-pointer"
+      height="25rem"
+      :settings="mapSettings"
+      width="100%"
+    >
+      <yandex-map-default-scheme-layer />
+    </YandexMap>
     <div class="flex flex-col gap-4">
       <div class="fs-18 color-main-black font-semibold">Избранные локации</div>
       <popular-card
@@ -73,9 +81,12 @@ import hibins from '@/assets/images/cardImages/popular/image3.svg'
 import PlaceCard from "@/components/Cards/PlaceCard.vue";
 import PopularCard from "@/components/Cards/PopularCard.vue";
 import Search from "@/components/Elements/Search.vue";
+import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
 export default defineComponent({
   name: "Main",
   components: {
+    YandexMapDefaultSchemeLayer,
+    YandexMap,
     Search,
     PlaceCard,
     PopularCard
@@ -129,7 +140,22 @@ export default defineComponent({
           location: 'Россия, Кольский полуостров',
           rating: 2
         }
-      ]
+      ],
+      mapSettings: {
+        location: {
+          center: [
+            49.154205,
+            55.790713
+          ],
+          zoom: 10,
+          zIndex: 1
+        }
+      }
+    }
+  },
+  methods: {
+    openMap () {
+      this.$router.push({ path: 'map' })
     }
   }
 });
