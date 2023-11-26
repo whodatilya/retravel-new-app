@@ -3,7 +3,9 @@
     <div class="login__wrapper">
       <div class="login__form">
         <div class="form__header">Регистрация</div>
-        <div class="form__subheader">Пожалуйста, создайте аккаунт, чтобы продолжить работу</div>
+        <div class="form__subheader">
+          Пожалуйста, создайте аккаунт, чтобы продолжить работу
+        </div>
         <div class="login__input-fields_partly">
           <div>
             <div class="form__label" style="padding-bottom: 5px">Имя</div>
@@ -40,7 +42,9 @@
           />
         </div>
         <div class="login__input-fields">
-          <div class="form__label" style="padding-bottom: 5px">Номер телефона</div>
+          <div class="form__label" style="padding-bottom: 5px">
+            Номер телефона
+          </div>
           <input
             v-model="phoneNumber"
             v-mask="'+ # (###) ### ## ##'"
@@ -62,7 +66,9 @@
           />
         </div>
         <div class="login__input-fields">
-          <div class="form__label" style="padding-bottom: 5px">Повторите пароль</div>
+          <div class="form__label" style="padding-bottom: 5px">
+            Повторите пароль
+          </div>
           <input
             v-model="repassword"
             class="form__input"
@@ -73,12 +79,31 @@
         </div>
         <div class="checkboxes">
           <div class="checkbox">
-            <input type="checkbox" v-model="checked_policy" required style="margin-right: 5px" />
-            <div>Принимаю условия <a href="https://retravel.tech/privacy">политики конфиденциальности.</a></div>
+            <input
+              type="checkbox"
+              v-model="checked_policy"
+              required
+              style="margin-right: 5px"
+            />
+            <div>
+              Принимаю условия
+              <a href="https://retravel.tech/privacy"
+                >политики конфиденциальности.</a
+              >
+            </div>
           </div>
           <div class="checkbox">
-            <input type="checkbox" v-model="checked_guide" style="margin-right: 5px" />
-            <div>Я гид (необходим <a href="https://www.gosuslugi.ru/543222/2/info">аттестат экскурсовода</a>)</div>
+            <input
+              type="checkbox"
+              v-model="checked_guide"
+              style="margin-right: 5px"
+            />
+            <div>
+              Я гид (необходим
+              <a href="https://www.gosuslugi.ru/543222/2/info"
+                >аттестат экскурсовода</a
+              >)
+            </div>
           </div>
         </div>
         <div class="form__button">
@@ -89,13 +114,16 @@
         </span>
       </div>
     </div>
+    <guide-modal v-if="0" @onClose="1" @onSubmit="2" />
   </div>
 </template>
 
 <script>
 import { mask } from 'vue-the-mask'
+import GuideModal from '@/components/Modals/GuideModal.vue'
 export default {
   name: 'Register',
+  components: { GuideModal },
   directives: {
     mask
   },
@@ -113,7 +141,14 @@ export default {
   },
   methods: {
     async register() {
-      if (this.password.length && this.password === this.repassword && this.checked_policy) {
+      // if (this.checked_guide) {
+      //   return 11
+      // }
+      if (
+        this.password.length &&
+        this.password === this.repassword &&
+        this.checked_policy
+      ) {
         const formData = {
           name: this.firstName,
           surname: this.secondName,
@@ -132,7 +167,9 @@ export default {
             alert(`Не получается зарегистрироваться из-за ошибки - ${e}`)
           })
       } else {
-        alert('Пароли не совпадают или не приняты условия политики конфиденциальности')
+        alert(
+          'Пароли не совпадают или не приняты условия политики конфиденциальности'
+        )
       }
     }
   }
