@@ -37,12 +37,19 @@ export default defineComponent({
   &__wrapper
     display: flex
     flex-direction: column
+    height: fill-available
+    width: fill-available
     background: white
     box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.05)
+    img
+      border-radius: 10px 10px 0 0
+      height: 70%
     &:hover
       cursor: pointer
   &__content
     display: flex
     flex-direction: column
     padding: 0.75rem
+    justify-content: center
+    height: 30%
 </style>

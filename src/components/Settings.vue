@@ -1,5 +1,5 @@
 <template>
-  <div class="component-container m-12 br-25">
+  <div class="component-container">
     <div class="m-6">
       1
     </div>

@@ -140,7 +140,7 @@ export default defineComponent({
   &__wrapper
     display: flex
     flex-direction: column
-    flex-basis: 49%
+    flex-basis: 45%
     background: #DAE8DA
     border-radius: 25px
     border: 1px solid #4E944F80
