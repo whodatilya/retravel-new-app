@@ -10,13 +10,27 @@
           </div>
         </div>
         <div class="drop-zone br-20" @click="selectFile">
-          <input id="uploadFile" ref="myFiles" type="file" name="file" accept="application/pdf" />
+          <input
+            id="uploadFile"
+            ref="myFiles"
+            type="file"
+            name="file"
+            accept="application/pdf"
+            @change="processFile"
+          />
           <img class="w-fit" :src="iconUpload" alt="" />
-          <div class="w-[238px]">Перетащите файл или нажмите для загрузки</div>
+          <div class="w-[238px]">{{ dropZoneText }}</div>
         </div>
         <div class="flex flex-row justify-between gap-3">
-          <button @click="closeModal" class="basis-[50%] button button__cancel">Отмена</button>
-          <button @click="submitModal" class="basis-[50%] button button__submit">Продолжить</button>
+          <button @click="closeModal" class="basis-[50%] button button__cancel">
+            Отмена
+          </button>
+          <button
+            @click="submitModal"
+            class="basis-[50%] button button__submit"
+          >
+            Продолжить
+          </button>
         </div>
       </div>
     </div>
@@ -32,7 +46,9 @@ export default defineComponent({
   data() {
     return {
       iconFile,
-      iconUpload
+      iconUpload,
+      file: null,
+      dropZoneText: 'Нажмите для загрузки файла'
     }
   },
   methods: {
@@ -40,11 +56,19 @@ export default defineComponent({
       this.$emit('onClose')
     },
     submitModal() {
-      this.$emit('onSubmit')
+      if (this.file) {
+        this.$emit('onSubmit', this.file)
+        this.dropZoneText = 'Нажмите для загрузки файла'
+      } else {
+        this.dropZoneText = 'Для продолжения загрузите файл'
+      }
     },
     selectFile() {
       const fileInput = document.getElementById('uploadFile')
       fileInput.click()
+    },
+    processFile() {
+      this.file = this.$refs.myFiles.files[0]
     }
   }
 })
@@ -94,6 +118,10 @@ export default defineComponent({
     color: white
     padding: 0.7rem 0
     background: #4E944F
+    &:hover
+      background: rgba(78, 148, 79, 0.85)
   &__cancel
     border: 1px solid #D0D5DD
+    &:hover
+      background: rgba(234, 234, 234, 0.85)
 </style>

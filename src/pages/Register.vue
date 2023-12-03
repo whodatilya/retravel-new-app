@@ -114,7 +114,11 @@
         </span>
       </div>
     </div>
-    <guide-modal v-if="0" @onClose="1" @onSubmit="2" />
+    <guide-modal
+      v-if="isModalOpened"
+      @onClose="toggleModal"
+      @onSubmit="processFormFile"
+    />
   </div>
 </template>
 
@@ -135,15 +139,21 @@ export default {
       phoneNumber: '',
       password: '',
       repassword: '',
+      guideCertificate: null,
       checked_policy: false,
-      checked_guide: false
+      checked_guide: false,
+      isModalOpened: false
     }
   },
   methods: {
+    processFormFile(formData) {
+      this.guideCertificate = formData
+      this.toggleModal()
+    },
+    toggleModal() {
+      this.isModalOpened = !this.isModalOpened
+    },
     async register() {
-      // if (this.checked_guide) {
-      //   return 11
-      // }
       if (
         this.password.length &&
         this.password === this.repassword &&
@@ -157,10 +167,12 @@ export default {
           password: this.password,
           repeatPassword: this.repassword
         }
+        if (this.checked_guide && this.guideCertificate) {
+          formData.guideCertificate = this.guideCertificate
+        }
         await this.$store
           .dispatch('user/register', formData)
           .then(response => {
-            console.log('response', response)
             this.$router.push({ path: '/login' })
           })
           .catch(e => {
@@ -170,6 +182,13 @@ export default {
         alert(
           'Пароли не совпадают или не приняты условия политики конфиденциальности'
         )
+      }
+    }
+  },
+  watch: {
+    checked_guide(val) {
+      if (val) {
+        this.isModalOpened = true
       }
     }
   }

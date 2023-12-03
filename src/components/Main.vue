@@ -3,16 +3,14 @@
     <div class="flex flex-col justify-between color-main-black">
       <div class="flex flex-row justify-between">
         <div class="font-bold fs-28">Добрый день!</div>
-        <search placeholder-value="Поиск по направлениям..."/>
+        <search placeholder-value="Поиск по направлениям..." />
       </div>
-      <div class="fs-12 w-[16rem]">Добро пожаловать на туристическую платформу Re:Travel!</div>
+      <div class="fs-12 w-[16rem]">
+        Добро пожаловать на туристическую платформу Re:Travel!
+      </div>
     </div>
     <div class="cards my-2.5">
-      <place-card
-        v-for="card in placeCards"
-        :key="card.id"
-        :card-data="card"
-      />
+      <place-card v-for="card in placeCards" :key="card.id" :card-data="card" />
     </div>
     <div class="popular br-20 my-2.5">
       <div class="flex flex-row justify-between items-center">
@@ -20,12 +18,12 @@
           Популярные маршруты
         </div>
         <div class="filter-button flex flex-row p-1.5 br-8 gap-0.5">
-          <img :src="iconFilter" alt="">
+          <img :src="iconFilter" alt="" />
           <div class="color-main-gray fs-12">Фильтр</div>
         </div>
       </div>
       <div class="color-main-gray fs-12">
-<!--        Сделать pluralize-->
+        <!--        Сделать pluralize-->
         Найдено {{ popularCards.length }} направлений
       </div>
       <popular-card
@@ -35,19 +33,23 @@
       />
     </div>
     <div class="footer-banner color-semi-white my-2.5">
-      <img :src="iconBanner" alt="">
+      <img :src="iconBanner" alt="" />
       <div class="text text-end">
         <div class="fs-16 font-semibold">Присоединяйтесь к лучшим турам!</div>
-        <div class="fs-12 font-normal">Найдите наилучший маршрут для уникального путешествия</div>
+        <div class="fs-12 font-normal">
+          Найдите наилучший маршрут для уникального путешествия
+        </div>
       </div>
     </div>
   </main>
   <div class="flex flex-col ml-2 mt-9 max-w-[20%]">
-    <div class="fs-18 font-semibold color-main-black">Карта достопримечательностей</div>
+    <div class="fs-18 font-semibold color-main-black">
+      Карта достопримечательностей
+    </div>
     <YandexMap
       @click="openMap"
-      class="map-fix cursor-pointer"
-      height="25rem"
+      class="map-fix map-outline cursor-pointer"
+      height="17rem"
       :settings="mapSettings"
       width="100%"
     >
@@ -65,7 +67,7 @@
   </div>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 import iconSearch from '@/assets/images/iconSearch.svg'
 import iconBanner from '@/assets/images/iconBanner.svg'
 import iconFilter from '@/assets/images/iconFilter.svg'
@@ -78,12 +80,12 @@ import karelia from '@/assets/images/cardImages/popular/image1.svg'
 import altay from '@/assets/images/cardImages/popular/image2.svg'
 import hibins from '@/assets/images/cardImages/popular/image3.svg'
 
-import PlaceCard from "@/components/Cards/PlaceCard.vue";
-import PopularCard from "@/components/Cards/PopularCard.vue";
-import Search from "@/components/Elements/Search.vue";
-import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
+import PlaceCard from '@/components/Cards/PlaceCard.vue'
+import PopularCard from '@/components/Cards/PopularCard.vue'
+import Search from '@/components/Elements/Search.vue'
+import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
 export default defineComponent({
-  name: "Main",
+  name: 'Main',
   components: {
     YandexMapDefaultSchemeLayer,
     YandexMap,
@@ -91,7 +93,7 @@ export default defineComponent({
     PlaceCard,
     PopularCard
   },
-  data () {
+  data() {
     return {
       iconSearch,
       iconFilter,
@@ -110,7 +112,8 @@ export default defineComponent({
           title: 'Плато Путорана',
           location: 'Красноярский край',
           rating: 3
-        },{
+        },
+        {
           id: 2,
           icon: kamchatka,
           title: 'Долина гейзеров',
@@ -143,10 +146,7 @@ export default defineComponent({
       ],
       mapSettings: {
         location: {
-          center: [
-            49.154205,
-            55.790713
-          ],
+          center: [49.154205, 55.790713],
           zoom: 10,
           zIndex: 1
         }
@@ -154,11 +154,11 @@ export default defineComponent({
     }
   },
   methods: {
-    openMap () {
+    openMap() {
       this.$router.push({ path: 'map' })
     }
   }
-});
+})
 </script>
 
 <style scoped lang="sass">
