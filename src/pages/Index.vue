@@ -1,43 +1,58 @@
 <template>
   <div class="flex">
-    <Sidebar class="sidebar pb-10 pt-16 ml-28" @selectedComponent="processComponent"/>
+    <Sidebar
+      class="sidebar pb-10 pt-16 ml-28"
+      @selectedComponent="processComponent"
+    />
     <component
-      :is="selectedSidebarComponent"
+      :is="
+        getSelectedComponentName
+          ? getSelectedComponentName
+          : mainSidebarComponentName
+      "
       class="flex-grow"
     />
   </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-import Sidebar from "@/components/Sidebar.vue";
-import Settings from "@/components/Settings.vue";
-import Main from "@/components/Main.vue";
-import Favourites from "@/components/Favourites.vue";
+import { defineComponent } from 'vue'
+import Sidebar from '@/components/Sidebar.vue'
+import Settings from '@/components/Settings.vue'
+import Main from '@/components/Main.vue'
+import Favourites from '@/components/Favourites.vue'
+import Publications from '@/components/Publications.vue'
+
 export default defineComponent({
-  name: "Index",
+  name: 'Index',
   components: {
     Sidebar,
     Settings,
     Favourites,
-    Main
+    Main,
+    Publications
   },
-  data () {
+  data() {
     return {
-      selectedSidebarComponent: 'Main'
+      mainSidebarComponentName: 'Main'
+    }
+  },
+  computed: {
+    getSelectedComponentName() {
+      return this.$store.getters['components/getSelectedComponent']
     }
   },
   methods: {
-    processComponent (componentName) {
-      this.selectedSidebarComponent = componentName
+    processComponent(componentName) {
+      this.$store.commit('components/selectComponent', componentName)
     }
   },
   watch: {
-    selectedSidebarComponent (val) {
+    getSelectedComponentName(val) {
       if (val === 'Map') {
         this.$router.push('map')
       }
     }
   }
-});
+})
 </script>

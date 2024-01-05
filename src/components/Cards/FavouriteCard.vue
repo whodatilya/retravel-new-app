@@ -1,10 +1,10 @@
 <template>
   <div class="favourite__wrapper br-10">
-    <img :src="favouriteData.icon" alt="">
+    <img :src="favouriteData.icon" alt="" />
     <div class="favourite__content">
       <div class="flex flex-row justify-between">
         <div class="fs-16 font-semibold">{{ favouriteData.title }}</div>
-        <img :src="iconRating" alt="Рейтинг">
+        <img :src="iconRating" alt="Рейтинг" />
       </div>
       <div class="fs-12 font-medium color-main-gray">
         {{ favouriteData.location }}
@@ -13,12 +13,12 @@
   </div>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 import iconRating from '@/assets/images/cardImages/iconRating.svg'
 
 export default defineComponent({
-  name: "FavouriteCard",
-  data () {
+  name: 'FavouriteCard',
+  data() {
     return {
       iconRating
     }
@@ -29,7 +29,7 @@ export default defineComponent({
       default: () => {}
     }
   }
-});
+})
 </script>
 
 <style scoped lang="sass">

@@ -1,49 +1,42 @@
 <template>
   <div class="flex flex-col h-[100vh]">
     <header class="map__header">
-      <img @click="goBack" class="icon" :src="backButton" alt="">
-      <img class="icon" :src="logoUnfilled" alt="">
+      <img @click="goBack" class="icon" :src="backButton" alt="" />
+      <img class="icon" :src="logoUnfilled" alt="" />
     </header>
     <main class="map__content map-fix flex-1">
-      <YandexMap
-        style="padding: 1rem"
-        :settings="mapSettings"
-        width="100%"
-      >
+      <YandexMap style="padding: 1rem" :settings="mapSettings" width="100%">
         <yandex-map-default-scheme-layer />
       </YandexMap>
       <div class="map__search ml-8 p-5 br-20 max-w-[350px]">
-        <Search placeholder-value="Поиск по направлениям..."/>
+        <Search placeholder-value="Поиск по направлениям..." />
       </div>
     </main>
   </div>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 import backButton from '@/assets/images/back_button.svg'
 import logoUnfilled from '@/assets/images/logo_unfilled.svg'
 import iconSearch from '@/assets/images/iconSearch.svg'
-import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
-import Search from "@/components/Elements/Search.vue";
+import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
+import Search from '@/components/Elements/Search.vue'
 
 export default defineComponent({
-  name: "Map",
+  name: 'Map',
   components: {
     Search,
     YandexMap,
     YandexMapDefaultSchemeLayer
   },
-  data () {
+  data() {
     return {
       backButton,
       logoUnfilled,
       iconSearch,
       mapSettings: {
         location: {
-          center: [
-            49.154205,
-            55.790713
-          ],
+          center: [49.154205, 55.790713],
           zoom: 10,
           zIndex: 1
         }
@@ -52,10 +45,11 @@ export default defineComponent({
   },
   methods: {
     goBack() {
+      this.$store.commit('components/selectComponent', 'Main')
       this.$router.go(-1)
     }
   }
-});
+})
 </script>
 
 <style scoped lang="sass">
