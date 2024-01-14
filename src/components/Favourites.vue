@@ -50,6 +50,12 @@ export default defineComponent({
           icon: sochi,
           title: 'Наименование4',
           location: 'Локация4'
+        },
+        {
+          id: 4,
+          icon: sochi,
+          title: 'Наименование4',
+          location: 'Локация4'
         }
       ]
     }
@@ -65,7 +71,7 @@ export default defineComponent({
 <style scoped lang="sass">
 .main-container
   display: grid
-  grid-template-columns: repeat(3, 1fr)
+  grid-template-columns: repeat(4, 1fr)
   grid-template-rows: repeat(2, 1fr)
   height: 100%
   grid-gap: 1rem
