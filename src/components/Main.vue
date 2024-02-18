@@ -56,7 +56,9 @@
       <yandex-map-default-scheme-layer />
     </YandexMap>
     <div class="flex flex-col gap-4">
-      <div class="fs-18 color-main-black font-semibold">Избранные локации</div>
+      <div class="fs-18 color-main-black font-semibold pt-10">
+        Избранные локации
+      </div>
       <popular-card
         v-for="card in popularCards"
         :key="card.id"
@@ -179,12 +181,6 @@ export default defineComponent({
   flex-direction: column
   background: white
   padding: 1.5rem
-.filter-button
-  border: 1px solid #D0D0D0
-  background: white
-  &:hover
-    cursor: pointer
-    background: rgba(208, 208, 208, 0.25)
 .footer-banner
   position: relative
   width: 100%
