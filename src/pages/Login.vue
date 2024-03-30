@@ -3,7 +3,9 @@
     <div class="login__wrapper">
       <div class="login__form">
         <div class="form__header">Авторизация</div>
-        <div class="form__subheader">Пожалуйста, войдите, чтобы продолжить работу</div>
+        <div class="form__subheader">
+          Пожалуйста, войдите, чтобы продолжить работу
+        </div>
         <div class="login__input-fields">
           <div class="form__label" style="padding-bottom: 5px">Email</div>
           <input
@@ -29,38 +31,32 @@
           <button @click="login" type="submit">Войти</button>
         </div>
         <span class="form__subheader">
-          Нет аккаунта? <a class="form__subheader_link" href="/signUp">Зарегистрироваться</a>
+          Нет аккаунта?
+          <a class="form__subheader_link" href="/signUp">Зарегистрироваться</a>
         </span>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'LoginPage',
-  data() {
-    return {
-      email: '',
-      password: ''
-    }
-  },
-  methods: {
-    async login() {
-      const formData = {
-        email: this.email,
-        password: this.password
-      }
-      await this.$store
-        .dispatch('user/login', formData)
-        .then(response => {
-          this.$router.push({ path: '/' })
-        })
-        .catch(e => {
-          alert(`Не получается авторизироваться из-за ошибки - ${e}`)
-        })
-    }
+<script setup>
+import { ref } from 'vue'
+import store from '@/store'
+import router from '@/router'
+
+const email = ref('')
+const password = ref('')
+
+const login = async () => {
+  const formData = {
+    email: email.value,
+    password: password.value
   }
+  await store.dispatch('user/login', formData).then(response => {
+    router
+      .push({ path: '/' })
+      .catch(e => alert(`Не получается авторизироваться из-за ошибки - ${e}`))
+  })
 }
 </script>
 

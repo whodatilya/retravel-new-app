@@ -122,77 +122,72 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { mask } from 'vue-the-mask'
 import GuideModal from '@/components/Modals/GuideModal.vue'
-export default {
-  name: 'Register',
-  components: { GuideModal },
-  directives: {
-    mask
-  },
-  data() {
-    return {
-      firstName: '',
-      secondName: '',
-      email: '',
-      phoneNumber: '',
-      password: '',
-      repassword: '',
-      guideCertificate: null,
-      checked_policy: false,
-      checked_guide: false,
-      isModalOpened: false
+import { ref, watch } from 'vue'
+import store from '@/store'
+import router from '@/router'
+
+const vMask = mask
+
+const firstName = ref('')
+const secondName = ref('')
+const email = ref('')
+const phoneNumber = ref('')
+const password = ref('')
+const repassword = ref('')
+
+const guideCertificate = ref(null)
+const checked_policy = ref(false)
+const checked_guide = ref(false)
+const isModalOpened = ref(false)
+
+const toggleModal = () => {
+  isModalOpened.value = !isModalOpened.value
+}
+const processFormFile = formData => {
+  guideCertificate.value = formData
+  toggleModal()
+}
+
+const register = async () => {
+  if (
+    password.value?.length &&
+    password.value === repassword.value &&
+    checked_policy.value
+  ) {
+    const formData = {
+      name: firstName.value,
+      surname: secondName.value,
+      email: email.value,
+      phone: phoneNumber.value,
+      password: password.value,
+      repeatPassword: repassword.value
     }
-  },
-  methods: {
-    processFormFile(formData) {
-      this.guideCertificate = formData
-      this.toggleModal()
-    },
-    toggleModal() {
-      this.isModalOpened = !this.isModalOpened
-    },
-    async register() {
-      if (
-        this.password.length &&
-        this.password === this.repassword &&
-        this.checked_policy
-      ) {
-        const formData = {
-          name: this.firstName,
-          surname: this.secondName,
-          email: this.email,
-          phone: this.phoneNumber,
-          password: this.password,
-          repeatPassword: this.repassword
-        }
-        if (this.checked_guide && this.guideCertificate) {
-          formData.guideCertificate = this.guideCertificate
-        }
-        await this.$store
-          .dispatch('user/register', formData)
-          .then(response => {
-            this.$router.push({ path: '/login' })
-          })
-          .catch(e => {
-            alert(`Не получается зарегистрироваться из-за ошибки - ${e}`)
-          })
-      } else {
-        alert(
-          'Пароли не совпадают или не приняты условия политики конфиденциальности'
-        )
-      }
+    if (checked_guide.value && guideCertificate.value) {
+      formData.guideCertificate = guideCertificate.value
     }
-  },
-  watch: {
-    checked_guide(val) {
-      if (val) {
-        this.isModalOpened = true
-      }
-    }
+    await store
+      .dispatch('user/register', formData)
+      .then(response => {
+        router.push({ path: '/login' })
+      })
+      .catch(e => alert(`Не получается зарегистрироваться из-за ошибки - ${e}`))
+  } else {
+    alert(
+      'Пароли не совпадают или не приняты условия политики конфиденциальности'
+    )
   }
 }
+watch(
+  () => checked_guide.value,
+  value => {
+    if (value) {
+      isModalOpened.value = true
+    }
+  }
+)
 </script>
 
 <style scoped lang="sass">
