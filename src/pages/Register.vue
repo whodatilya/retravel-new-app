@@ -163,7 +163,9 @@ const register = async () => {
       email: email.value,
       phone: phoneNumber.value,
       password: password.value,
-      repeatPassword: repassword.value
+      repeatPassword: repassword.value,
+      role: 'ROLE_TOURIST',
+      documents: ['']
     }
     if (checked_guide.value && guideCertificate.value) {
       formData.guideCertificate = guideCertificate.value

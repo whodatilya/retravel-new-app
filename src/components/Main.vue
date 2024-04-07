@@ -42,7 +42,7 @@
       </div>
     </div>
   </main>
-  <div class="flex flex-col ml-2 mt-9 max-w-[20%]">
+  <div class="flex flex-col gap-4 ml-2 mt-9 max-w-[20%]">
     <div class="fs-18 font-semibold color-main-black">
       Карта достопримечательностей
     </div>
