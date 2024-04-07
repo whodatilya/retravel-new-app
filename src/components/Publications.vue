@@ -1,70 +1,76 @@
 <template>
   <div class="component-container">
-    <div class="flex flex-row gap-2.5 my-10 mx-8 h-full">
-      <!--      <ViewPublication />-->
-      <EditPublication />
-      <EditPublicationRightBlock />
-      <!--      <div class="content-wrapper basis-5/12 flex flex-col">-->
-      <!--        <div class="flex flex-row justify-between">-->
-      <!--          <div class="flex gap-8 pb-10">-->
-      <!--            <img :src="iconUser" alt="" />-->
-      <!--            <div class="flex flex-col fs-18 font-medium">-->
-      <!--              <span>Имя</span>-->
-      <!--              <span>Фамилия</span>-->
-      <!--            </div>-->
-      <!--          </div>-->
-      <!--          <div class="flex flex-row items-center gap-1.5">-->
-      <!--            <img :src="iconStarBig" alt="рейтинг" />-->
-      <!--            <span class="fs-18 font-medium">4.8</span>-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--        <span class="fs-16 font-semibold">Наименование</span>-->
-      <!--        <span class="fs-12 font-light color-main-gray pb-5">Локация</span>-->
-      <!--        <button class="button__edit fs-14 font-semibold">-->
-      <!--          Редактировать публикацию-->
-      <!--        </button>-->
-      <!--        <div class="flex flex-col description-wrapper mt-4">-->
-      <!--          <span class="fs-16 font-semibold">Описание</span>-->
-      <!--          <div class="description-container mt-2">-->
-      <!--            тест тест тест тест тест тест тест тест тест тест тест тест-->
-      <!--          </div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+    <Search class="mt-6 ml-12" placeholder-value="Поиск публикаций..." />
+    <div class="main-container mt-3 mb-7 mx-7 br-20 p-6">
+      <favourite-card
+        v-for="publication in publications"
+        @click="openPublication(publication.id)"
+        :favourite-data="publication"
+        :key="publication.id"
+      />
     </div>
   </div>
 </template>
-<script>
-import { defineComponent } from 'vue'
-import iconStarBig from '@/assets/images/cardImages/iconStarBig.svg'
+<script setup>
 import 'vue3-carousel/dist/carousel.css'
-import iconUser from '@/assets/images/iconUser.svg'
-// import ViewPublication from '@/components/Publications/ViewPublication.vue'
-import EditPublication from '@/components/Publications/EditPublication.vue'
-import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
-
-export default defineComponent({
-  name: 'Publications',
-  data() {
-    return {
-      iconUser,
-      iconStarBig,
-      mapSettings: {
-        location: {
-          center: [49.154205, 55.790713],
-          zoom: 10,
-          zIndex: 1
-        }
-      }
-    }
+import Search from '@/components/Elements/Search.vue'
+import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
+import { reactive } from 'vue'
+import caves from '@/assets/images/cardImages/favourites/caves.jpg'
+import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
+import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
+import router from '@/router'
+const publications = reactive([
+  {
+    id: 0,
+    icon: caves,
+    title: 'Наименование1',
+    location: 'Локация1'
   },
-  components: {
-    EditPublicationRightBlock,
-    EditPublication
-    // ViewPublication
+  {
+    id: 1,
+    icon: sochi,
+    title: 'Наименование2',
+    location: 'Локация2'
+  },
+  {
+    id: 2,
+    icon: geyser,
+    title: 'Наименование3',
+    location: 'Локация3'
+  },
+  {
+    id: 3,
+    icon: sochi,
+    title: 'Наименование4',
+    location: 'Локация4'
+  },
+  {
+    id: 4,
+    icon: sochi,
+    title: 'Наименование4',
+    location: 'Локация4'
   }
-})
+])
+
+const openPublication = id => {
+  router.push({
+    name: 'publication',
+    params: {
+      id: id
+    }
+  })
+}
 </script>
 <style scoped lang="sass">
+.main-container
+  display: grid
+  grid-template-columns: repeat(4, 1fr)
+  grid-template-rows: repeat(2, 1fr)
+  height: 100%
+  grid-gap: 1rem
+  background: white
+  box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.05)
 .content-wrapper
   border-radius: 20px
   background: white

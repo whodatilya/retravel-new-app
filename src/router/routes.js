@@ -17,15 +17,27 @@ const routes = [
     component: () => import('@/pages/Register.vue')
   },
   {
-      path: '/',
-      name: 'index',
-      component: () => import('@/pages/Index.vue'),
-      beforeEnter: ifAuthenticated
+    path: '/',
+    name: 'index',
+    component: () => import('@/pages/Index.vue'),
+    beforeEnter: ifAuthenticated
   },
   {
     path: '/map',
     name: 'map',
     component: () => import('@/pages/Map.vue'),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/publication/:id',
+    name: 'publication',
+    component: () => import('@/pages/Publication.vue'),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/edit/:routeId',
+    name: 'editRoute',
+    component: () => import('@/pages/CreateRoute.vue'),
     beforeEnter: ifAuthenticated
   }
 ]

@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col basis-7/12 gap-2.5 w-[60%]">
-    <div class="content-wrapper flex flex-col gap-6">
+  <div class="flex flex-col flex-1 gap-2.5 w-[60%]">
+    <div class="content-wrapper flex flex-col flex-auto gap-6">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5">
           <div class="fs-18 font-semibold">Маршрут:</div>
@@ -20,15 +20,15 @@
       <YandexMap
         @click="openMap"
         class="map-fix cursor-pointer"
-        height="16rem"
+        height="100%"
         :settings="mapSettings"
         width="100%"
       >
         <yandex-map-default-scheme-layer />
       </YandexMap>
     </div>
-    <div class="content-wrapper h-full flex flex-row">
-      <Carousel style="width: 100%" :items-to-show="2.5" :wrap-around="true">
+    <div class="content-wrapper flex flex-1 flex-col">
+      <Carousel : :items-to-show="2.5" :wrap-around="true">
         <Slide v-for="slide in 10" :key="slide">
           <div class="carousel__item">{{ slide }}</div>
         </Slide>
@@ -44,6 +44,7 @@
 import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import { useRouter } from 'vue-router'
+import 'vue3-carousel/dist/carousel.css'
 
 const router = useRouter()
 

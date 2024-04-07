@@ -60,6 +60,7 @@ import iconHome from '@/assets/images/iconHome.svg'
 import iconMap from '@/assets/images/iconMap.svg'
 import store from '@/store'
 
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['selectedComponent'])
 
 const menuItems = [
