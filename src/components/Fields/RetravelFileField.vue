@@ -15,7 +15,7 @@
 
 <script setup>
 import { ref } from 'vue'
-
+// eslint-disable-next-line no-undef
 defineProps({
   dropZoneText: {
     type: String,
@@ -24,7 +24,7 @@ defineProps({
 })
 
 const myFiles = ref(null)
-
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['processFile'])
 const selectFile = () => {
   const fileInput = document.getElementById('uploadFile')

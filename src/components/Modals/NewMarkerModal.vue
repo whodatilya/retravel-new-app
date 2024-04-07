@@ -32,6 +32,7 @@ import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue
 import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 import { ref } from 'vue'
 
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['onClose', 'onSubmit'])
 
 const file = ref(null)

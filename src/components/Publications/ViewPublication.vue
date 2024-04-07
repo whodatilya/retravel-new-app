@@ -28,7 +28,7 @@
       </YandexMap>
     </div>
     <div class="content-wrapper flex flex-1 flex-col">
-      <Carousel : :items-to-show="2.5" :wrap-around="true">
+      <Carousel :items-to-show="2.5" :wrap-around="true">
         <Slide v-for="slide in 10" :key="slide">
           <div class="carousel__item">{{ slide }}</div>
         </Slide>
@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup lang="js">
+<script setup>
 import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import { useRouter } from 'vue-router'
