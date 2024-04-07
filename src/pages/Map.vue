@@ -27,7 +27,11 @@
         <Search placeholder-value="Поиск по направлениям..." />
       </div>
     </main>
-    <NewMarkerModal @on-close="toggleModal" @on-submit="createMarker" />
+    <NewMarkerModal
+      v-if="isModalActive"
+      @on-close="toggleModal"
+      @on-submit="createMarker"
+    />
   </div>
 </template>
 <script setup>
