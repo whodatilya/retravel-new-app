@@ -39,12 +39,12 @@ const routes = [
     name: 'favourite',
     component: () => import('@/pages/Favourite.vue'),
     beforeEnter: ifAuthenticated
-  },
-  {
-    path: '/edit/:routeId',
-    name: 'editRoute',
-    component: () => import('@/pages/CreateRoute.vue'),
-    beforeEnter: ifAuthenticated
   }
+  // {
+  //   path: '/edit/:routeId',
+  //   name: 'editRoute',
+  //   component: () => import('@/pages/CreateRoute.vue'),
+  //   beforeEnter: ifAuthenticated
+  // }
 ]
 export default routes
