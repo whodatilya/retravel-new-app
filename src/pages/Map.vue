@@ -1,55 +1,88 @@
 <template>
   <div class="flex flex-col h-[100vh]">
     <header class="map__header">
-      <img @click="goBack" class="icon" :src="backButton" alt="" />
-      <img class="icon" :src="logoUnfilled" alt="" />
+      <img
+        @click="goBack"
+        class="icon"
+        src="@/assets/images/back_button.svg"
+        alt=""
+      />
+      <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
     <main class="map__content map-fix flex-1">
       <YandexMap style="padding: 1rem" :settings="mapSettings" width="100%">
-        <yandex-map-default-scheme-layer />
+        <YandexMapDefaultFeaturesLayer />
+        <YandexMapDefaultSchemeLayer />
+        <yandex-map-controls :settings="{ position: 'right' }">
+          <yandex-map-zoom-control />
+        </yandex-map-controls>
+        <YandexMapDefaultMarker
+          v-for="marker in markers"
+          :key="marker.id"
+          :settings="{ coordinates: [49.154205, 55.790713, 0] }"
+        />
+        <YandexMapListener :settings="{ onClick: onCreatePoint }" />
       </YandexMap>
       <div class="map__search ml-8 p-5 br-20 max-w-[350px]">
         <Search placeholder-value="Поиск по направлениям..." />
       </div>
     </main>
+    <NewMarkerModal @on-close="toggleModal" @on-submit="createMarker" />
   </div>
 </template>
-<script>
-import { defineComponent } from 'vue'
-import backButton from '@/assets/images/back_button.svg'
-import logoUnfilled from '@/assets/images/logo_unfilled.svg'
-import iconSearch from '@/assets/images/iconSearch.svg'
-import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
+<script setup>
+import {
+  YandexMap,
+  YandexMapControls,
+  YandexMapDefaultFeaturesLayer,
+  YandexMapDefaultMarker,
+  YandexMapDefaultSchemeLayer,
+  YandexMapListener,
+  YandexMapMarker,
+  YandexMapControlButton,
+  YandexMapZoomControl
+} from 'vue-yandex-maps'
 import Search from '@/components/Elements/Search.vue'
+import { ref } from 'vue'
+import store from '@/store'
+import router from '@/router'
+import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 
-export default defineComponent({
-  name: 'Map',
-  components: {
-    Search,
-    YandexMap,
-    YandexMapDefaultSchemeLayer
-  },
-  data() {
-    return {
-      backButton,
-      logoUnfilled,
-      iconSearch,
-      mapSettings: {
-        location: {
-          center: [49.154205, 55.790713],
-          zoom: 10,
-          zIndex: 1
-        }
-      }
-    }
-  },
-  methods: {
-    goBack() {
-      this.$store.commit('components/selectComponent', 'Main')
-      this.$router.go(-1)
-    }
+const passedMap = ref([])
+const myMap = ref({})
+const isModalActive = ref(false)
+// const map = shallowRef(null)
+// console.log(map.value)
+
+const createMarker = () => {
+  //Todo: доделать создание маркеров на основе приходящих с модалки данных
+}
+const toggleModal = () => {
+  isModalActive.value = !isModalActive.value
+}
+const goBack = () => {
+  store.commit('components/selectComponent', 'Main')
+  router.go(-1)
+}
+const onCreatePoint = (_, e) => {
+  console.log('before', e?.coordinates)
+  // console.log('e', e?.entity?.coordinates)
+}
+
+const onLoading = map => {
+  console.log('map', map)
+  myMap.value = map
+  passedMap.value.push('loaded')
+  console.log(myMap.value)
+}
+
+const mapSettings = {
+  location: {
+    center: [49.154205, 55.790713],
+    zoom: 10,
+    zIndex: 1
   }
-})
+}
 </script>
 
 <style scoped lang="sass">
