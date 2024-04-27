@@ -29,6 +29,12 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
+    path: '/publication/create',
+    name: 'createPublication',
+    component: () => import('@/pages/PublicationCreate.vue'),
+    beforeEnter: ifAuthenticated
+  },
+  {
     path: '/publication/:id',
     name: 'publication',
     component: () => import('@/pages/Publication.vue'),
@@ -40,11 +46,5 @@ const routes = [
     component: () => import('@/pages/Favourite.vue'),
     beforeEnter: ifAuthenticated
   }
-  // {
-  //   path: '/edit/:routeId',
-  //   name: 'editRoute',
-  //   component: () => import('@/pages/CreateRoute.vue'),
-  //   beforeEnter: ifAuthenticated
-  // }
 ]
 export default routes

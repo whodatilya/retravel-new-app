@@ -1,6 +1,15 @@
 <template>
   <div class="component-container">
-    <Search class="mt-6 ml-12" placeholder-value="Поиск публикаций..." />
+    <div class="flex flex-row justify-between px-12 pt-6 items-center">
+      <Search placeholder-value="Поиск публикаций..." />
+      <div
+        class="flex flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
+        @click="createPublication"
+      >
+        <img src="@/assets/images/iconPlus.svg" alt="" />
+        <span class="fs-14 font-semibold">Новая публикация</span>
+      </div>
+    </div>
     <div class="main-container mt-3 mb-7 mx-7 br-20 p-6">
       <favourite-card
         v-for="publication in publications"
@@ -53,6 +62,12 @@ const publications = reactive([
   }
 ])
 
+const createPublication = () => {
+  router.push({
+    name: 'createPublication'
+  })
+}
+
 const openPublication = id => {
   router.push({
     name: 'publication',
@@ -89,4 +104,11 @@ const openPublication = id => {
       background: rgba(250, 250, 250, 0.70)
     &-wrapper
       flex: 1 0 auto
+.new-button
+  background: #4E944F
+  padding: 11px 12px
+  span
+    color: white
+  &:hover
+    background: rgba(78, 148, 79, 0.85)
 </style>

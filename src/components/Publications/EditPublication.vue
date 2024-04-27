@@ -15,7 +15,10 @@
           <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
           <div class="w-[238px]">{{ dropZoneText }}</div>
         </div>
-        <button class="button__pave fs-14 font-semibold">
+        <button
+          class="button__pave fs-14 font-semibold"
+          @click="router.push({ name: 'editRoute', params: { routeId: 1 } })"
+        >
           Редактировать публикацию
         </button>
         <RetravelTextField label-text="Название" />
@@ -33,6 +36,7 @@
 import { ref } from 'vue'
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
+import router from '@/router'
 
 const dropZoneText = 'Перетащите изображение или нажмите для загрузки'
 let file = ref(null)
