@@ -10,7 +10,7 @@
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
     <main class="publication__content flex !flex-row gap-2.5 flex-1">
-      <CreatePublicationGuide />
+      <CreatePublicationGuide @submit="onSubmitForm" />
       <EditPublicationRightBlock />
     </main>
   </div>
@@ -19,13 +19,21 @@
 <script setup>
 import store from '@/store'
 import router from '@/router'
-import CreatePublication from '@/components/Publications/CreatePublication.vue'
 import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
 import CreatePublicationGuide from '@/components/Publications/CreatePublicationGuide.vue'
+import { useForm } from 'vee-validate'
 
 const goBack = () => {
   store.commit('components/selectComponent', 'Main')
   router.go(-1)
+}
+
+const { handleSubmit } = useForm()
+
+const onSubmitForm = () => {
+  handleSubmit(values => {
+    console.log(values)
+  })()
 }
 </script>
 

@@ -15,11 +15,17 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useField } from 'vee-validate'
+import { defaultValidator } from '@/shared/validators/defaultValidator'
 // eslint-disable-next-line no-undef
-defineProps({
+const props = defineProps({
   dropZoneText: {
     type: String,
     default: 'Нажмите для загрузки файла'
+  },
+  fieldName: {
+    type: String,
+    default: null
   }
 })
 
@@ -31,8 +37,12 @@ const selectFile = () => {
   fileInput.click()
 }
 
+const { value } = useField(() => props.fieldName, defaultValidator, {
+  initialValue: null
+})
+
 const processFile = () => {
-  emit('processFile', myFiles.value.files[0])
+  value.value = myFiles.value.files[0]
 }
 </script>
 

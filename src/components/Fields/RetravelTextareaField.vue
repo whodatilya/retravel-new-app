@@ -1,21 +1,30 @@
 <template>
   <div class="flex flex-col gap-[6px]" style="height: -webkit-fill-available">
     <span class="color-main-gray font-semibold fs-12">{{ labelText }}</span>
-    <textarea class="retravel__input h-full" type="text" v-model="modelValue" />
+    <textarea class="retravel__input h-full" type="text" v-model="value" />
   </div>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
+import { useField } from 'vee-validate'
+import { defaultValidator } from '@/shared/validators/defaultValidator'
 
 let modelValue = ref('')
 
 // eslint-disable-next-line no-undef
-defineProps({
+const props = defineProps({
   labelText: {
     type: String,
     default: 'Наименование'
+  },
+  fieldName: {
+    type: String
   }
+})
+
+const { value } = useField(() => props.fieldName, defaultValidator, {
+  initialValue: null
 })
 
 watch(

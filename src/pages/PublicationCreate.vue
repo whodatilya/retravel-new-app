@@ -21,6 +21,9 @@ import store from '@/store'
 import router from '@/router'
 import CreatePublication from '@/components/Publications/CreatePublication.vue'
 import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
+import { useForm } from 'vee-validate'
+
+const { handleSubmit } = useForm()
 
 const goBack = () => {
   store.commit('components/selectComponent', 'Main')

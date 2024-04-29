@@ -4,13 +4,16 @@
       <span class="fs-18 font-semibold">Новая публикация</span>
       <div class="flex flex-row gap-7 justify-between">
         <div class="flex flex-col gap-4 basis-4/5">
-          <RetravelTextField label-text="Название" />
-          <RetravelTextField label-text="Стоимость" />
-          <RetravelTextField label-text="Количество человек" />
-          <RetravelTextField label-text="Дата" />
+          <RetravelTextField label-text="Название" field-name="name" />
+          <RetravelTextField label-text="Стоимость" field-name="price" />
+          <RetravelTextField
+            label-text="Количество человек"
+            field-name="tourParticipants"
+          />
+          <RetravelTextField label-text="Дата" field-name="date" />
         </div>
         <div>
-          <RetravelFileField class="!w-auto !h-full" />
+          <RetravelFileField class="!w-auto !h-full" field-name="tourImages" />
         </div>
       </div>
       <div
@@ -19,11 +22,13 @@
       >
         <span class="fs-14 font-semibold">Проложить маршрут</span>
       </div>
-      <RetravelTextareaField label-text="Описание" />
-      <RetravelTextareaField label-text="Расписание" />
+      <RetravelTextareaField label-text="Описание" field-name="description" />
+      <RetravelTextareaField label-text="Расписание" field-name="schedule" />
       <div class="flex flex-row justify-between">
         <button class="button__delete">Удалить</button>
-        <button class="button__save">Опубликовать</button>
+        <button class="button__save" @click="emit('submit')">
+          Опубликовать
+        </button>
       </div>
     </div>
   </div>
@@ -40,6 +45,8 @@ import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue
 const router = useRouter()
 
 const userFile = ref(null)
+
+const emit = defineEmits(['submit'])
 
 const onFileProcess = file => {
   userFile.value = file

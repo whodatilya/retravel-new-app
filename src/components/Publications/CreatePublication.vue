@@ -7,7 +7,6 @@
       <RetravelFileField
         class="!w-full !h-[27rem]"
         drop-zone-text="Перетащите изображение или нажмите для загрузки"
-        @process-file="onFileProcess"
       />
       <div
         class="flex flex-row gap-2.5 justify-center new-button br-8 cursor-pointer"
@@ -15,8 +14,8 @@
       >
         <span class="fs-14 font-semibold">Проложить маршрут</span>
       </div>
-      <RetravelTextField label-text="Название" />
-      <RetravelTextareaField label-text="Описание" />
+      <RetravelTextField label-text="Название" field-name="name" />
+      <RetravelTextareaField label-text="Описание" field-name="description" />
       <div class="flex flex-row justify-between">
         <button class="button__delete">Удалить</button>
         <button class="button__save">Опубликовать</button>
@@ -29,17 +28,13 @@
 import { useRouter } from 'vue-router'
 import 'vue3-carousel/dist/carousel.css'
 import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
-import { ref } from 'vue'
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
+import { useForm } from 'vee-validate'
 
 const router = useRouter()
 
-const userFile = ref(null)
-
-const onFileProcess = file => {
-  userFile.value = file
-}
+const { handleSubmit } = useForm()
 const openMap = () => {
   router.push({ path: 'map' })
 }
