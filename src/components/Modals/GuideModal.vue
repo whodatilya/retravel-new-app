@@ -9,18 +9,10 @@
             Загрузите аттестат экскурсовода, чтобы продолжить.
           </div>
         </div>
-        <div class="drop-zone br-20" @click="selectFile">
-          <input
-            id="uploadFile"
-            ref="myFiles"
-            type="file"
-            name="file"
-            accept="application/pdf"
-            @change="processFile"
-          />
-          <img class="w-fit" :src="iconUpload" alt="" />
-          <div class="w-[238px]">{{ dropZoneText }}</div>
-        </div>
+        <RetravelFileField
+          drop-zone-text="Нажмите для загрузки файла"
+          file-format="application/pdf"
+        />
         <div class="flex flex-row justify-between gap-3">
           <button @click="closeModal" class="basis-[50%] button button__cancel">
             Отмена
@@ -40,9 +32,11 @@
 import { defineComponent } from 'vue'
 import iconFile from '@/assets/images/iconFile.svg'
 import iconUpload from '@/assets/images/iconUpload.svg'
+import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 
 export default defineComponent({
   name: 'GuideModal',
+  components: { RetravelFileField },
   data() {
     return {
       iconFile,

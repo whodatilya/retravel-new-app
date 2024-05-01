@@ -8,7 +8,7 @@
           <RetravelTextField label-text="Стоимость" field-name="price" />
           <RetravelTextField
             label-text="Количество человек"
-            field-name="tourParticipants"
+            field-name="participantsCount"
           />
           <RetravelTextField label-text="Дата" field-name="date" />
         </div>
@@ -18,7 +18,7 @@
       </div>
       <div
         class="flex flex-row gap-2.5 justify-center new-button br-8 cursor-pointer"
-        @click="123"
+        @click="createRoute"
       >
         <span class="fs-14 font-semibold">Проложить маршрут</span>
       </div>
@@ -44,15 +44,16 @@ import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue
 
 const router = useRouter()
 
-const userFile = ref(null)
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['submit'])
 
-const onFileProcess = file => {
-  userFile.value = file
-}
-const openMap = () => {
-  router.push({ path: 'map' })
+const createRoute = () => {
+  router.push({
+    name: 'createRoute',
+    query: {
+      create: true
+    }
+  })
 }
 </script>
 

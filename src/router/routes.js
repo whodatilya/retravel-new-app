@@ -47,6 +47,15 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
+    path: '/publication/create-route',
+    name: 'createRoute',
+    component: () => import('@/pages/Map.vue'),
+    props: route => ({
+      create: route?.query?.create ?? undefined
+    }),
+    beforeEnter: ifAuthenticated
+  },
+  {
     path: '/favourite/:id',
     name: 'favourite',
     component: () => import('@/pages/Favourite.vue'),

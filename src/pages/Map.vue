@@ -7,9 +7,16 @@
         src="@/assets/images/back_button.svg"
         alt=""
       />
+      <div
+        v-if="create"
+        class="new-button br-8 cursor-pointer"
+        @click="backToForm"
+      >
+        <div class="fs-18 font-medium">Завершить прокладывание маршрута</div>
+      </div>
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="map__content map-fix flex-1">
+    <main v-if="userPosition.length" class="map__content map-fix flex-1">
       <YandexMap style="padding: 1rem" :settings="mapSettings" width="100%">
         <YandexMapDefaultFeaturesLayer />
         <YandexMapDefaultSchemeLayer />
@@ -17,9 +24,9 @@
           <yandex-map-zoom-control />
         </yandex-map-controls>
         <YandexMapDefaultMarker
-          v-for="marker in markers"
+          v-for="marker in routePoints"
           :key="marker.id"
-          :settings="{ coordinates: [49.154205, 55.790713, 0] }"
+          :settings="{ coordinates: [marker.latitude, marker.longitude, 0] }"
         />
         <YandexMapListener :settings="{ onClick: onCreatePoint }" />
       </YandexMap>
@@ -47,38 +54,71 @@ import {
   YandexMapZoomControl
 } from 'vue-yandex-maps'
 import Search from '@/components/Elements/Search.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import store from '@/store'
 import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
+import { useForm } from 'vee-validate'
 
-const passedMap = ref([])
-const myMap = ref({})
 const isModalActive = ref(false)
-// const map = shallowRef(null)
-// console.log(map.value)
+const routePoints = ref([])
+// eslint-disable-next-line no-undef
+defineProps({
+  create: {
+    type: Boolean,
+    default: false
+  }
+})
 
-const createMarker = () => {
+const { handleSubmit } = useForm()
+
+const createMarker = values => {
+  console.log('values', values)
+
+  routePoints.value[routePoints.value.length - 1] = {
+    ...routePoints.value[routePoints.value.length - 1],
+    name: values?.name,
+    description: values?.description,
+    travelPointsImages: values?.travelPointImages
+  }
+  console.log('routePoints', routePoints.value)
+  toggleModal()
   //Todo: доделать создание маркеров на основе приходящих с модалки данных
 }
+
 const toggleModal = () => {
   isModalActive.value = !isModalActive.value
 }
+
 const goBack = () => {
   store.commit('components/selectComponent', 'Main')
   router.go(-1)
 }
-const onCreatePoint = (_, e) => {
-  console.log('before', e?.coordinates)
-  // console.log('e', e?.entity?.coordinates)
+
+const backToForm = () => {
+  router.go(-1)
 }
 
-const onLoading = map => {
-  console.log('map', map)
-  myMap.value = map
-  passedMap.value.push('loaded')
-  console.log(myMap.value)
+const onCreatePoint = (_, e) => {
+  routePoints.value.push({
+    latitude: e?.coordinates?.[0],
+    longitude: e?.coordinates?.[1]
+  })
+  toggleModal()
 }
+
+const userPosition = ref([])
+
+onMounted(() => {
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userPosition.value = [pos.coords.latitude, pos.coords.longitude]
+      console.log(userPosition.value)
+    },
+    err => console.error(`Ошибка(${err.code}): ${err.message}`),
+    { maximumAge: 60000, timeout: 3000, enableHighAccuracy: true } // Для точности необходимо быстроту!
+  )
+})
 
 const mapSettings = {
   location: {
@@ -115,4 +155,10 @@ const mapSettings = {
     position: absolute
     border: 1px solid #D0D0D0
     height: 90%
+.new-button
+  background: #4E944F
+  padding: 8px 12px
+  color: white
+  &:hover
+    background: rgba(78, 148, 79, 0.85)
 </style>

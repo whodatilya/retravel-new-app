@@ -4,9 +4,10 @@
       <div class="marker__modal_inner br-12">
         <img width="48" src="@/assets/images/iconMarker.svg" alt="" />
         <span>Новая точка</span>
-        <RetravelTextField label-text="Наименование" />
-        <RetravelTextareaField label-text="Описание" />
+        <RetravelTextField label-text="Наименование" field-name="name" />
+        <RetravelTextareaField label-text="Описание" field-name="description" />
         <RetravelFileField
+          field-name="travelPointImages"
           drop-zone-text="Перетащите файл или нажмите для загрузки"
           @process-file="onFileProcess"
         />
@@ -31,6 +32,7 @@ import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
 import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 import { ref } from 'vue'
+import { useForm } from 'vee-validate'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['onClose', 'onSubmit'])
@@ -40,13 +42,14 @@ const file = ref(null)
 const onFileProcess = file => {
   file.value = file
 }
+
+const { values } = useForm()
 const closeModal = () => {
   emit('onClose')
 }
 
 const submitModal = () => {
-  // Todo: доделать отправку
-  emit('onSubmit', 'что-то')
+  emit('onSubmit', values)
 }
 </script>
 

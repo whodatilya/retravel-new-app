@@ -5,7 +5,7 @@
       ref="myFiles"
       type="file"
       name="file"
-      accept="application/pdf"
+      :accept="fileFormat"
       @change="processFile"
     />
     <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
@@ -26,6 +26,10 @@ const props = defineProps({
   fieldName: {
     type: String,
     default: null
+  },
+  fileFormat: {
+    type: String,
+    default: 'image/*'
   }
 })
 
