@@ -45,7 +45,7 @@ import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue
 const router = useRouter()
 
 const userFile = ref(null)
-
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['submit'])
 
 const onFileProcess = file => {
