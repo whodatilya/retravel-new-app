@@ -1,11 +1,11 @@
 <template>
-  <div class="flex flex-col gap-[6px]" style="height: -webkit-fill-available">
+  <div class="flex flex-col gap-[6px]">
     <span class="color-main-gray font-semibold fs-12">{{ labelText }}</span>
-    <textarea
-      :style="additionalStyle"
-      class="retravel__input h-full"
-      type="text"
+    <input
+      class="retravel__input"
+      type="password"
       v-model="value"
+      :style="additionalStyle"
     />
   </div>
 </template>
@@ -24,7 +24,8 @@ const props = defineProps({
     default: 'Наименование'
   },
   fieldName: {
-    type: String
+    type: String,
+    required: true
   },
   additionalStyle: {
     type: Object,
@@ -47,9 +48,9 @@ watch(
 <style lang="sass" scoped>
 .retravel
   &__input
-    resize: none
     outline: none
     padding: 6px
     border: 1px solid #D0D0D0
     border-radius: 8px
+    height: 30px
 </style>

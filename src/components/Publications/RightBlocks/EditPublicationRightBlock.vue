@@ -1,5 +1,5 @@
 <template>
-  <div class="content-wrapper basis-4/12 flex flex-col gap-5">
+  <div class="content-wrapper basis-5/12 flex flex-col gap-5">
     <div class="flex flex-row justify-between items-center">
       <div class="fs-18 font-semibold">Мои публикации</div>
       <div class="filter-button flex flex-row p-1.5 br-8 gap-0.5">

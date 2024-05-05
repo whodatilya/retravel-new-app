@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-[100vh]">
-    <header class="publication__header">
+    <header class="user_info__header">
       <img
         @click="goBack"
         class="icon"
@@ -9,7 +9,7 @@
       />
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="publication__content flex !flex-row gap-2.5 flex-1">
+    <main class="user_info__content flex !flex-row gap-2.5 flex-1">
       <ViewPublication />
       <PublicationInfo />
     </main>
@@ -19,17 +19,19 @@
 <script setup>
 import ViewPublication from '@/components/Publications/ViewPublication.vue'
 import PublicationInfo from '@/components/Publications/RightBlocks/PublicationInfo.vue'
-import store from '@/store'
 import router from '@/router'
+import { useComponentsStore } from '@/store/components/useComponentsStore'
+
+const { selectComponent } = useComponentsStore()
 
 const goBack = () => {
-  store.commit('components/selectComponent', 'Main')
+  selectComponent('Main')
   router.go(-1)
 }
 </script>
 
 <style lang="sass" scoped>
-.publication
+.user_info
   &__header
     display: flex
     flex-direction: row

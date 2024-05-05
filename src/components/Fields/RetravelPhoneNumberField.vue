@@ -1,41 +1,35 @@
 <template>
-  <div class="drop-zone br-20" @click="selectFile">
+  <div class="flex flex-col gap-[6px]">
+    <span class="color-main-gray font-semibold fs-12">{{ labelText }}</span>
     <input
-      id="uploadFile"
-      ref="myFiles"
-      type="file"
       :style="additionalStyle"
-      name="file"
-      :multiple="multiple"
-      :accept="fileFormat"
-      @change="processFile"
+      v-model="value"
+      v-mask="'+ # (###) ### ## ##'"
+      placeholder="+ 7 (900) 000-00-00"
+      class="retravel__input"
+      type="text"
+      autocomplete="false"
+      required
     />
-    <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
-    <div class="w-[238px]">{{ dropZoneText }}</div>
   </div>
 </template>
 
 <script setup>
+import { mask } from 'vue-the-mask'
+
+const vMask = mask
 import { ref } from 'vue'
 import { useField } from 'vee-validate'
 import { defaultValidator } from '@/shared/validators/defaultValidator'
 // eslint-disable-next-line no-undef
 const props = defineProps({
-  dropZoneText: {
+  labelText: {
     type: String,
-    default: 'Нажмите для загрузки файла'
+    default: 'Наименование'
   },
   fieldName: {
     type: String,
-    default: null
-  },
-  fileFormat: {
-    type: String,
-    default: 'image/*'
-  },
-  multiple: {
-    type: Boolean,
-    default: false
+    required: true
   },
   additionalStyle: {
     type: Object,
@@ -59,21 +53,12 @@ const processFile = () => {
   value.value = myFiles.value.files
 }
 </script>
-
 <style lang="sass" scoped>
-.drop-zone
-  display: flex
-  flex-direction: column
-  justify-content: center
-  position: relative
-  align-items: center
-  text-align: center
-  width: 27rem
-  height: 14rem
-  border: 1px dashed #7D7D7D
-  &:hover
-    background: #f6f6f6
-    cursor: pointer
-  input
-    display: none
+.retravel
+  &__input
+    outline: none
+    padding: 6px
+    border: 1px solid #D0D0D0
+    border-radius: 8px
+    height: 30px
 </style>

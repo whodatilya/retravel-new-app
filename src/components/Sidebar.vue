@@ -51,17 +51,19 @@
 <script setup>
 import { ref } from 'vue'
 import logo from '@/assets/images/logo.svg'
-import iconChat from '@/assets/images/iconChat.svg'
+// import iconChat from '@/assets/images/iconChat.svg'
 import iconExit from '@/assets/images/iconExit.svg'
 import iconUser from '@/assets/images/iconUser.svg'
 import iconFavourite from '@/assets/images/iconFavourite.svg'
 import iconFolder from '@/assets/images/iconFolder.svg'
 import iconHome from '@/assets/images/iconHome.svg'
 import iconMap from '@/assets/images/iconMap.svg'
-import store from '@/store'
+import { useAuthStore } from '@/store/auth/useAuthStore'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['selectedComponent'])
+
+const { logout } = useAuthStore()
 
 const menuItems = [
   {
@@ -79,11 +81,11 @@ const menuItems = [
     icon: 'iconFolder',
     componentName: 'Publications'
   },
-  {
-    title: 'Чат',
-    icon: 'iconChat',
-    componentName: 'Chat'
-  },
+  // {
+  //   title: 'Чат',
+  //   icon: 'iconChat',
+  //   componentName: 'Chat'
+  // },
   {
     title: 'Избранное',
     icon: 'iconFavourite',
@@ -96,7 +98,7 @@ const switchPage = componentName => {
   emit('selectedComponent', selectedComponent.value)
 }
 const quit = () => {
-  store.dispatch('user/logout')
+  logout()
 }
 </script>
 <style scoped lang="sass">

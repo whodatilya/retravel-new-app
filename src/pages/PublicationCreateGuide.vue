@@ -17,22 +17,27 @@
 </template>
 
 <script setup>
-import store from '@/store'
 import router from '@/router'
 import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
 import CreatePublicationGuide from '@/components/Publications/CreatePublicationGuide.vue'
 import { useForm } from 'vee-validate'
+import { useComponentsStore } from '@/store/components/useComponentsStore'
+import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+
+const { selectComponent } = useComponentsStore()
+
+const { createPublication } = usePublicationsStore()
 
 const goBack = () => {
-  store.commit('components/selectComponent', 'Main')
+  selectComponent('Main')
   router.go(-1)
 }
 
 const { handleSubmit } = useForm()
 
 const onSubmitForm = () => {
-  handleSubmit(values => {
-    console.log(values)
+  handleSubmit(async values => {
+    await createPublication(values)
   })()
 }
 </script>

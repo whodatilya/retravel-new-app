@@ -29,6 +29,12 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
+    path: '/user/:id',
+    name: 'user',
+    component: () => import('@/pages/UserInfo.vue'),
+    beforeEnter: ifAuthenticated
+  },
+  {
     path: '/publication/create',
     name: 'createPublication',
     component: () => import('@/pages/PublicationCreate.vue'),

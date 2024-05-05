@@ -2,6 +2,7 @@
   <div class="flex flex-col h-[100vh]">
     <header class="map__header">
       <img
+        v-if="!create"
         @click="goBack"
         class="icon"
         src="@/assets/images/back_button.svg"
@@ -55,10 +56,12 @@ import {
 } from 'vue-yandex-maps'
 import Search from '@/components/Elements/Search.vue'
 import { onMounted, ref } from 'vue'
-import store from '@/store'
 import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 import { useForm } from 'vee-validate'
+import { useComponentsStore } from '@/store/components/useComponentsStore'
+
+const { selectComponent } = useComponentsStore()
 
 const isModalActive = ref(false)
 const routePoints = ref([])
@@ -91,7 +94,7 @@ const toggleModal = () => {
 }
 
 const goBack = () => {
-  store.commit('components/selectComponent', 'Main')
+  selectComponent('Main')
   router.go(-1)
 }
 

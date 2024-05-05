@@ -19,11 +19,13 @@
 <script setup>
 import ViewPublication from '@/components/Publications/ViewPublication.vue'
 import PublicationInfo from '@/components/Publications/RightBlocks/PublicationInfo.vue'
-import store from '@/store'
 import router from '@/router'
+import { useComponentsStore } from '@/store/components/useComponentsStore'
+
+const { selectComponent } = useComponentsStore()
 
 const goBack = () => {
-  store.commit('components/selectComponent', 'Main')
+  selectComponent('Main')
   router.go(-1)
 }
 </script>

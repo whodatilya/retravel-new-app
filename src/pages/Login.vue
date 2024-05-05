@@ -28,7 +28,7 @@
           />
         </div>
         <div class="form__button">
-          <button @click="login" type="submit">Войти</button>
+          <button @click="loginUser" type="submit">Войти</button>
         </div>
         <span class="form__subheader">
           Нет аккаунта?
@@ -41,22 +41,24 @@
 
 <script setup>
 import { ref } from 'vue'
-import store from '@/store'
 import router from '@/router'
+import { useAuthStore } from '@/store/auth/useAuthStore'
+
+const { login } = useAuthStore()
 
 const email = ref('')
 const password = ref('')
 
-const login = async () => {
+const loginUser = async () => {
   const formData = {
     email: email.value,
     password: password.value
   }
-  await store.dispatch('user/login', formData).then(response => {
-    router
-      .push({ path: '/' })
-      .catch(e => alert(`Не получается авторизироваться из-за ошибки - ${e}`))
-  })
+  await login(formData)
+    .then(response => {
+      router.push({ path: '/' })
+    })
+    .catch(e => alert(`Не получается авторизироваться из-за ошибки - ${e}`))
 }
 </script>
 

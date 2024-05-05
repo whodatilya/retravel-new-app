@@ -13,7 +13,11 @@
           <RetravelTextField label-text="Дата" field-name="date" />
         </div>
         <div>
-          <RetravelFileField class="!w-auto !h-full" field-name="tourImages" />
+          <RetravelFileField
+            class="!w-auto !h-full"
+            field-name="tourImages"
+            multiple
+          />
         </div>
       </div>
       <div

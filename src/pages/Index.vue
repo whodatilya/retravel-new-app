@@ -18,16 +18,18 @@
 <script>
 import { defineComponent } from 'vue'
 import Sidebar from '@/components/Sidebar.vue'
-import Settings from '@/components/Settings.vue'
 import Main from '@/components/Main.vue'
 import Favourites from '@/components/Favourites.vue'
 import Publications from '@/components/Publications.vue'
+import { useComponentsStore } from '@/store/components/useComponentsStore'
+
+const { getSelectedComponent, selectComponent } = useComponentsStore()
 
 export default defineComponent({
   name: 'Index',
   components: {
     Sidebar,
-    Settings,
+    // Settings,
     Favourites,
     Main,
     Publications
@@ -39,18 +41,29 @@ export default defineComponent({
   },
   computed: {
     getSelectedComponentName() {
-      return this.$store.getters['components/getSelectedComponent']
+      return getSelectedComponent()
     }
   },
   methods: {
     processComponent(componentName) {
-      this.$store.commit('components/selectComponent', componentName)
+      selectComponent(componentName)
     }
+  },
+  mounted() {
+    // Тут должен быть запрос пользователя
   },
   watch: {
     getSelectedComponentName(val) {
       if (val === 'Map') {
-        this.$router.push('map')
+        this.$router.push({ name: 'map' })
+      } else if (val === 'Settings') {
+        this.$router.push({
+          name: 'user',
+          // Временно
+          params: {
+            id: 1
+          }
+        })
       }
     }
   }

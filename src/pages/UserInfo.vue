@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col h-[100vh]">
-    <header class="publication__header">
+    <header class="user__header">
       <img
         @click="goBack"
         class="icon"
@@ -9,21 +9,23 @@
       />
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="publication__content flex !flex-row gap-2.5 flex-1">
-      <CreatePublication />
-      <EditPublicationRightBlock />
+    <main class="user__content flex !flex-row gap-2.5 flex-1 overflow-y-auto">
+      <ViewUser />
+      <Reviews />
+      <!--      <ViewPublication />-->
+      <!--      <PublicationInfo />-->
     </main>
   </div>
 </template>
 
 <script setup>
+import ViewPublication from '@/components/Publications/ViewPublication.vue'
+import PublicationInfo from '@/components/Publications/RightBlocks/PublicationInfo.vue'
 import router from '@/router'
-import CreatePublication from '@/components/Publications/CreatePublication.vue'
-import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
-import { useForm } from 'vee-validate'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
+import ViewUser from '@/components/User/ViewUser.vue'
+import Reviews from '@/components/User/Reviews.vue'
 
-const { handleSubmit } = useForm()
 const { selectComponent } = useComponentsStore()
 
 const goBack = () => {
@@ -33,7 +35,7 @@ const goBack = () => {
 </script>
 
 <style lang="sass" scoped>
-.publication
+.user
   &__header
     display: flex
     flex-direction: row

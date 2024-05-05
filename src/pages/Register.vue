@@ -107,7 +107,7 @@
           </div>
         </div>
         <div class="form__button">
-          <button @click="register" type="submit">Создать аккаунт</button>
+          <button @click="registerUser" type="submit">Создать аккаунт</button>
         </div>
         <span class="form__subheader">
           Есть аккаунт? <a class="form__subheader_link" href="/login">Войти</a>
@@ -126,8 +126,10 @@
 import { mask } from 'vue-the-mask'
 import GuideModal from '@/components/Modals/GuideModal.vue'
 import { ref, watch } from 'vue'
-import store from '@/store'
 import router from '@/router'
+import { useAuthStore } from '@/store/auth/useAuthStore'
+
+const { register } = useAuthStore()
 
 const vMask = mask
 
@@ -151,7 +153,7 @@ const processFormFile = formData => {
   toggleModal()
 }
 
-const register = async () => {
+const registerUser = async () => {
   if (
     password.value?.length &&
     password.value === repassword.value &&
@@ -170,8 +172,7 @@ const register = async () => {
     if (checked_guide.value && guideCertificate.value) {
       formData.guideCertificate = guideCertificate.value
     }
-    await store
-      .dispatch('user/register', formData)
+    await register(formData)
       .then(response => {
         router.push({ path: '/login' })
       })

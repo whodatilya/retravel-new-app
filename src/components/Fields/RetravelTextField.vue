@@ -1,7 +1,12 @@
 <template>
   <div class="flex flex-col gap-[6px]">
     <span class="color-main-gray font-semibold fs-12">{{ labelText }}</span>
-    <input class="retravel__input" type="text" v-model="value" />
+    <input
+      class="retravel__input"
+      :style="additionalStyle"
+      type="text"
+      v-model="value"
+    />
   </div>
 </template>
 
@@ -21,6 +26,10 @@ const props = defineProps({
   fieldName: {
     type: String,
     required: true
+  },
+  additionalStyle: {
+    type: Object,
+    required: false
   }
 })
 
