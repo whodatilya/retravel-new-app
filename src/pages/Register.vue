@@ -128,6 +128,7 @@ import GuideModal from '@/components/Modals/GuideModal.vue'
 import { ref, watch } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/store/auth/useAuthStore'
+import { useForm } from 'vee-validate'
 
 const { register } = useAuthStore()
 
@@ -139,6 +140,8 @@ const email = ref('')
 const phoneNumber = ref('')
 const password = ref('')
 const repassword = ref('')
+
+const { values } = useForm()
 
 const guideCertificate = ref(null)
 const checked_policy = ref(false)
@@ -166,11 +169,11 @@ const registerUser = async () => {
       phone: phoneNumber.value,
       password: password.value,
       repeatPassword: repassword.value,
-      role: 'ROLE_TOURIST',
+      role: guideCertificate.value ? 'ROLE_GUIDE' : 'ROLE_TOURIST',
       documents: ['']
     }
     if (checked_guide.value && guideCertificate.value) {
-      formData.guideCertificate = guideCertificate.value
+      formData.documents[0] = guideCertificate.value
     }
     await register(formData)
       .then(response => {

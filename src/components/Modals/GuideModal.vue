@@ -11,6 +11,7 @@
         </div>
         <RetravelFileField
           drop-zone-text="Нажмите для загрузки файла"
+          field-name="documents"
           file-format="application/pdf"
         />
         <div class="flex flex-row justify-between gap-3">
@@ -28,44 +29,31 @@
     </div>
   </div>
 </template>
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { defineComponent, ref } from 'vue'
 import iconFile from '@/assets/images/iconFile.svg'
 import iconUpload from '@/assets/images/iconUpload.svg'
 import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
+import { useForm } from 'vee-validate'
 
-export default defineComponent({
-  name: 'GuideModal',
-  components: { RetravelFileField },
-  data() {
-    return {
-      iconFile,
-      iconUpload,
-      file: null,
-      dropZoneText: 'Нажмите для загрузки файла'
-    }
-  },
-  methods: {
-    closeModal() {
-      this.$emit('onClose')
-    },
-    submitModal() {
-      if (this.file) {
-        this.$emit('onSubmit', this.file)
-        this.dropZoneText = 'Нажмите для загрузки файла'
-      } else {
-        this.dropZoneText = 'Для продолжения загрузите файл'
-      }
-    },
-    selectFile() {
-      const fileInput = document.getElementById('uploadFile')
-      fileInput.click()
-    },
-    processFile() {
-      this.file = this.$refs.myFiles.files[0]
-    }
+const dropZoneText = ref('Нажмите для загрузки файла')
+
+const emit = defineEmits(['onClose', 'onSubmit'])
+
+const { values } = useForm()
+
+const closeModal = () => {
+  emit('onClose')
+}
+
+const submitModal = () => {
+  if (values.documents) {
+    emit('onSubmit', values.documents)
+    dropZoneText.value = 'Нажмите для загрузки файла'
+  } else {
+    dropZoneText.value = 'Для продолжения загрузите файл'
   }
-})
+}
 </script>
 
 <style scoped lang="sass">

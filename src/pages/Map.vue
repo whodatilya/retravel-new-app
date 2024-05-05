@@ -76,15 +76,12 @@ defineProps({
 const { handleSubmit } = useForm()
 
 const createMarker = values => {
-  console.log('values', values)
-
   routePoints.value[routePoints.value.length - 1] = {
     ...routePoints.value[routePoints.value.length - 1],
     name: values?.name,
     description: values?.description,
     travelPointsImages: values?.travelPointImages
   }
-  console.log('routePoints', routePoints.value)
   toggleModal()
   //Todo: доделать создание маркеров на основе приходящих с модалки данных
 }
@@ -116,7 +113,6 @@ onMounted(() => {
   navigator.geolocation.getCurrentPosition(
     pos => {
       userPosition.value = [pos.coords.latitude, pos.coords.longitude]
-      console.log(userPosition.value)
     },
     err => console.error(`Ошибка(${err.code}): ${err.message}`),
     { maximumAge: 60000, timeout: 3000, enableHighAccuracy: true } // Для точности необходимо быстроту!

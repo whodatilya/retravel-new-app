@@ -36,13 +36,6 @@ const props = defineProps({
 const { value } = useField(() => props.fieldName, defaultValidator, {
   initialValue: null
 })
-
-watch(
-  () => modelValue.value,
-  newValue => {
-    console.log(newValue)
-  }
-)
 </script>
 
 <style lang="sass" scoped>

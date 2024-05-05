@@ -56,7 +56,7 @@ const { value } = useField(() => props.fieldName, defaultValidator, {
 })
 
 const processFile = () => {
-  value.value = myFiles.value.files
+  value.value = props.multiple ? myFiles.value.files : myFiles.value.files[0]
 }
 </script>
 

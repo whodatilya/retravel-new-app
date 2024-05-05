@@ -9,7 +9,6 @@
         <RetravelFileField
           field-name="travelPointImages"
           drop-zone-text="Перетащите файл или нажмите для загрузки"
-          @process-file="onFileProcess"
         />
         <div class="flex flex-row justify-between gap-3">
           <button @click="closeModal" class="basis-[50%] button button__cancel">
@@ -36,12 +35,6 @@ import { useForm } from 'vee-validate'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['onClose', 'onSubmit'])
-
-const file = ref(null)
-
-const onFileProcess = file => {
-  file.value = file
-}
 
 const { values } = useForm()
 const closeModal = () => {

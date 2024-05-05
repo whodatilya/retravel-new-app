@@ -22,6 +22,7 @@ export const useAuthStore = defineStore('authnetication', () => {
 
     if (response.token) {
       localStorage.setItem('token', response.token)
+      localStorage.setItem('roles', response.roles)
     }
   }
 
