@@ -29,6 +29,10 @@ import caves from '@/assets/images/cardImages/favourites/caves.jpg'
 import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
 import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
 import router from '@/router'
+import { useAuthStore } from '@/store/auth/useAuthStore'
+
+const { getRoles } = useAuthStore()
+
 const publications = reactive([
   {
     id: 0,
@@ -63,8 +67,15 @@ const publications = reactive([
 ])
 
 const createPublication = () => {
+  const roles = getRoles()
+  let pathName = null
+  if (roles.includes('ROLE_GUIDE')) {
+    pathName = 'createPublicationGuide'
+  } else {
+    pathName = 'createPublication'
+  }
   router.push({
-    name: 'createPublication'
+    name: pathName
   })
 }
 

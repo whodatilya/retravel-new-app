@@ -26,7 +26,7 @@ import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 
 const { selectComponent } = useComponentsStore()
 
-const { createPublication } = usePublicationsStore()
+const { createPublicationGuide } = usePublicationsStore()
 
 const goBack = () => {
   selectComponent('Main')
@@ -37,7 +37,7 @@ const { handleSubmit } = useForm()
 
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    await createPublication(values)
+    await createPublicationGuide(values)
   })()
 }
 </script>

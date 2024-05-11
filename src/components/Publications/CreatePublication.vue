@@ -7,10 +7,11 @@
       <RetravelFileField
         class="!w-full !h-[27rem]"
         drop-zone-text="Перетащите изображение или нажмите для загрузки"
+        field-name="routeImages"
       />
       <div
         class="flex flex-row gap-2.5 justify-center new-button br-8 cursor-pointer"
-        @click="123"
+        @click="createRoute"
       >
         <span class="fs-14 font-semibold">Проложить маршрут</span>
       </div>
@@ -18,7 +19,9 @@
       <RetravelTextareaField label-text="Описание" field-name="description" />
       <div class="flex flex-row justify-between">
         <button class="button__delete">Удалить</button>
-        <button class="button__save">Опубликовать</button>
+        <button class="button__save" @click="emit('submit')">
+          Опубликовать
+        </button>
       </div>
     </div>
   </div>
@@ -34,7 +37,19 @@ import { useForm } from 'vee-validate'
 
 const router = useRouter()
 
+// eslint-disable-next-line no-undef
+const emit = defineEmits(['submit'])
+
 const { handleSubmit } = useForm()
+
+const createRoute = () => {
+  router.push({
+    name: 'createRoute',
+    query: {
+      create: true
+    }
+  })
+}
 const openMap = () => {
   router.push({ path: 'map' })
 }

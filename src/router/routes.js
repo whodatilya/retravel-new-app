@@ -42,7 +42,7 @@ const routes = [
   },
   {
     path: '/publication/guide/create',
-    name: 'createPublication',
+    name: 'createPublicationGuide',
     component: () => import('@/pages/PublicationCreateGuide.vue'),
     beforeEnter: ifAuthenticated
   },

@@ -60,14 +60,25 @@ import RetravelPhoneNumberField from '@/components/Fields/RetravelPhoneNumberFie
 import RetravelPasswordField from '@/components/Fields/RetravelPasswordField.vue'
 import { useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth/useAuthStore'
+import { onMounted } from 'vue'
 
 const { changeUserData } = useAuthStore()
+const { getUser } = useAuthStore()
 
-const { handleSubmit } = useForm()
+const userId = localStorage.getItem('userId')
+
+const { handleSubmit, setValues } = useForm()
+
+onMounted(async () => {
+  const user = await getUser(userId)
+  if (user) {
+    setValues(user)
+  }
+})
 
 const submitUserData = () => {
   handleSubmit(async values => {
-    await changeUserData(values)
+    await changeUserData(userId, values)
   })()
 }
 </script>

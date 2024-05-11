@@ -37,7 +37,7 @@ import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 import { useForm } from 'vee-validate'
 
 const dropZoneText = ref('Нажмите для загрузки файла')
-
+// eslint-disable-next-line no-undef
 const emit = defineEmits(['onClose', 'onSubmit'])
 
 const { values } = useForm()

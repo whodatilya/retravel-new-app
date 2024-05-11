@@ -12,15 +12,11 @@
     <main class="user__content flex !flex-row gap-2.5 flex-1 overflow-y-auto">
       <ViewUser />
       <Reviews />
-      <!--      <ViewPublication />-->
-      <!--      <PublicationInfo />-->
     </main>
   </div>
 </template>
 
 <script setup>
-import ViewPublication from '@/components/Publications/ViewPublication.vue'
-import PublicationInfo from '@/components/Publications/RightBlocks/PublicationInfo.vue'
 import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import ViewUser from '@/components/User/ViewUser.vue'
