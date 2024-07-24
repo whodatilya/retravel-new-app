@@ -96,8 +96,10 @@ import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 import { useForm } from 'vee-validate'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
+import { useMapStore } from '@/store/map/useMapStore'
 
 const { selectComponent } = useComponentsStore()
+const { setRoutePoints } = useMapStore()
 
 const isModalActive = ref(false)
 const routePoints = ref([])
@@ -148,6 +150,7 @@ const goBack = () => {
 }
 
 const backToForm = () => {
+  setRoutePoints(routePoints.value)
   router.go(-1)
 }
 

@@ -19,14 +19,14 @@ export const useAuthStore = defineStore('authnetication', () => {
       url: '/login',
       data: formData
     }).catch(error => alert('Error!' + error))
-
-    if (response.token) {
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('roles', response.roles)
-      localStorage.setItem('userId', response.id)
+    const responseData = response.data
+    if (responseData.token) {
+      localStorage.setItem('token', responseData.token)
+      localStorage.setItem('roles', responseData.roles)
+      localStorage.setItem('userId', responseData.id)
     }
 
-    return response.data
+    return responseData
   }
 
   const changeUserData = async (userId, userData) => {

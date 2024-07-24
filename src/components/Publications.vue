@@ -24,52 +24,29 @@
 import 'vue3-carousel/dist/carousel.css'
 import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
-import { reactive } from 'vue'
-import caves from '@/assets/images/cardImages/favourites/caves.jpg'
-import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
-import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
+import { onMounted, ref } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/store/auth/useAuthStore'
+import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 
 const { getRoles } = useAuthStore()
+const { getPublications } = usePublicationsStore()
 
-const publications = reactive([
-  {
-    id: 0,
-    icon: caves,
-    title: 'Наименование1',
-    location: 'Локация1'
-  },
-  {
-    id: 1,
-    icon: sochi,
-    title: 'Наименование2',
-    location: 'Локация2'
-  },
-  {
-    id: 2,
-    icon: geyser,
-    title: 'Наименование3',
-    location: 'Локация3'
-  },
-  {
-    id: 3,
-    icon: sochi,
-    title: 'Наименование4',
-    location: 'Локация4'
-  },
-  {
-    id: 4,
-    icon: sochi,
-    title: 'Наименование4',
-    location: 'Локация4'
+const publications = ref([])
+
+onMounted(async () => {
+  const publicationsData = await getPublications()
+  if (publicationsData.data) {
+    publications.value = publicationsData.data
+  } else {
+    publications.value = []
   }
-])
+})
 
 const createPublication = () => {
   const roles = getRoles()
   let pathName = null
-  if (roles.includes('ROLE_GUIDE')) {
+  if (!roles.includes('ROLE_GUIDE')) {
     pathName = 'createPublicationGuide'
   } else {
     pathName = 'createPublication'

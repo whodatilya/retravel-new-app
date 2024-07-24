@@ -1,13 +1,13 @@
 <template>
   <div class="favourite__wrapper br-10">
-    <img :src="favouriteData.icon" alt="" />
+    <img :src="favouriteData?.tourImages?.[0]?.data ?? emptyImage" alt="" />
     <div class="favourite__content">
       <div class="flex flex-row justify-between">
-        <div class="fs-16 font-semibold">{{ favouriteData.title }}</div>
+        <div class="fs-16 font-semibold">{{ favouriteData.name }}</div>
         <img :src="iconRating" alt="Рейтинг" />
       </div>
       <div class="fs-12 font-medium color-main-gray">
-        {{ favouriteData.location }}
+        {{ favouriteData.description }}
       </div>
     </div>
   </div>
@@ -15,12 +15,14 @@
 <script>
 import { defineComponent } from 'vue'
 import iconRating from '@/assets/images/cardImages/iconRating.svg'
+import emptyImage from '@/assets/images/emptyImage.svg'
 
 export default defineComponent({
   name: 'FavouriteCard',
   data() {
     return {
-      iconRating
+      iconRating,
+      emptyImage
     }
   },
   props: {

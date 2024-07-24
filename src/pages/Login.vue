@@ -10,12 +10,13 @@
           <div class="form__label" style="padding-bottom: 5px">Email</div>
           <input
             v-model="email"
-            class="form__input"
+            :class="!errorMessage ? 'form__input' : 'form__input_error'"
             type="email"
             placeholder="you@company.com"
             autocomplete="false"
             required
           />
+          <div v-if="errorMessage" class="form__error">Ошибка</div>
         </div>
         <div class="login__input-fields">
           <div class="form__label" style="padding-bottom: 5px">Пароль</div>
@@ -48,17 +49,19 @@ const { login } = useAuthStore()
 
 const email = ref('')
 const password = ref('')
+const errorMessage = ref('')
 
 const loginUser = async () => {
   const formData = {
     email: email.value,
     password: password.value
   }
+  errorMessage.value = ''
   await login(formData)
     .then(response => {
       router.push({ path: '/' })
     })
-    .catch(e => alert(`Не получается авторизироваться из-за ошибки - ${e}`))
+    .catch(e => errorMessage.value = e)
 }
 </script>
 

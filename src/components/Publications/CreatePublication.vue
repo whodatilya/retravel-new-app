@@ -8,6 +8,7 @@
         class="!w-full !h-[27rem]"
         drop-zone-text="Перетащите изображение или нажмите для загрузки"
         field-name="routeImages"
+        multiple
       />
       <div
         class="flex flex-row gap-2.5 justify-center new-button br-8 cursor-pointer"
@@ -40,7 +41,7 @@ const router = useRouter()
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['submit'])
 
-const { handleSubmit } = useForm()
+// const { handleSubmit } = useForm()
 
 const createRoute = () => {
   router.push({

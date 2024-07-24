@@ -10,8 +10,8 @@
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
     <main class="user_info__content flex !flex-row gap-2.5 flex-1">
-      <ViewPublication />
-      <PublicationInfo />
+      <ViewPublication :publication="publication" />
+      <PublicationInfo :publication="publication" />
     </main>
   </div>
 </template>
@@ -21,8 +21,22 @@ import ViewPublication from '@/components/Publications/ViewPublication.vue'
 import PublicationInfo from '@/components/Publications/RightBlocks/PublicationInfo.vue'
 import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
+import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+import { useRoute } from 'vue-router'
+import { onMounted, ref } from 'vue'
 
 const { selectComponent } = useComponentsStore()
+
+const { getPublicationById } = usePublicationsStore()
+
+const route = useRoute()
+let publication = ref(null)
+
+const publicationId = route.params.id
+
+onMounted(async () => {
+  publication.value = await getPublicationById(publicationId)
+})
 
 const goBack = () => {
   selectComponent('Main')

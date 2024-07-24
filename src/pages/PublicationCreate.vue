@@ -23,6 +23,8 @@ import EditPublicationRightBlock from '@/components/Publications/RightBlocks/Edi
 import { useForm } from 'vee-validate'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+import { useMapStore } from '@/store/map/useMapStore'
+import { storeToRefs } from 'pinia'
 
 const { handleSubmit } = useForm()
 
@@ -30,14 +32,62 @@ const { selectComponent } = useComponentsStore()
 
 const { createPublication } = usePublicationsStore()
 
+const { clearPointsStore } = useMapStore()
+
+const { storeRoutePoints } = storeToRefs(useMapStore())
+
 const goBack = () => {
   selectComponent('Main')
   router.go(-1)
 }
 
+const convertFileListToBase64Array = fileList => {
+  return new Promise((resolve, reject) => {
+    const result = []
+    const promises = []
+
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i]
+      const reader = new FileReader()
+
+      promises.push(
+        new Promise((resolve, reject) => {
+          reader.onload = event => {
+            result.push({
+              id: i,
+              data: event.target.result
+            })
+            resolve()
+          }
+
+          reader.onerror = error => {
+            reject(error)
+          }
+
+          reader.readAsDataURL(file)
+        })
+      )
+    }
+
+    Promise.all(promises)
+      .then(() => resolve(result))
+      .catch(reject)
+  })
+}
+
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    await createPublication(values)
+    const preparedRouteImages = await convertFileListToBase64Array(
+      values.routeImages?.[0]
+    )
+
+    const preparedValues = {
+      ...values,
+      routeImages: preparedRouteImages
+    }
+
+    await createPublication(preparedValues)
+    clearPointsStore()
   })()
 }
 </script>

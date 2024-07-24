@@ -52,11 +52,15 @@ const selectFile = () => {
 }
 
 const { value } = useField(() => props.fieldName, defaultValidator, {
-  initialValue: null
+  initialValue: props.multiple ? [] : null
 })
 
 const processFile = () => {
-  value.value = props.multiple ? myFiles.value.files : myFiles.value.files[0]
+  if (props.multiple) {
+    value.value.push(myFiles.value.files)
+  } else {
+    value.value = myFiles.value.files[0]
+  }
 }
 </script>
 

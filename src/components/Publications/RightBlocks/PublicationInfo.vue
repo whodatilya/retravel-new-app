@@ -1,33 +1,45 @@
 <template>
-  <div class="content-wrapper flex flex-col">
+  <div class="content-wrapper min-w-[40%] flex flex-col">
     <div class="flex flex-row justify-between">
       <div class="flex gap-8 pb-10">
         <img src="@/assets/images/iconUser.svg" alt="" />
         <div class="flex flex-col fs-18 font-medium">
-          <span>Имя</span>
-          <span>Фамилия</span>
+          <span>{{ publication?.user?.name }}</span>
+          <span>{{ publication?.user?.surname }}</span>
         </div>
       </div>
       <div class="flex flex-row items-center gap-1.5">
         <img src="@/assets/images/cardImages/iconStarBig.svg" alt="рейтинг" />
-        <span class="fs-18 font-medium">4.8</span>
+        <span class="fs-18 font-medium">{{
+          publication?.user?.avgRating
+        }}</span>
       </div>
     </div>
-    <span class="fs-16 font-semibold">Наименование</span>
-    <span class="fs-12 font-light color-main-gray pb-5">Локация</span>
+    <span class="fs-16 font-semibold">{{ publication?.name }}</span>
+    <span class="fs-12 font-light color-main-gray pb-5">{{
+      publication?.description
+    }}</span>
     <button class="button__edit fs-14 font-semibold">
       Редактировать публикацию
     </button>
     <div class="flex flex-col description-wrapper mt-4">
       <span class="fs-16 font-semibold">Описание</span>
       <div class="description-container mt-2">
-        тест тест тест тест тест тест тест тест тест тест тест тест
+        {{ publication?.name }}
       </div>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  publication: {
+    type: Object,
+    default: () => {}
+  }
+})
+</script>
 
 <style lang="sass" scoped>
 .content-wrapper

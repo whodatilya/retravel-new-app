@@ -4,17 +4,17 @@
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5">
           <div class="fs-18 font-semibold">Маршрут:</div>
-          <div class="flex flex-row gap-1.5">
+          <div v-if="publication?.avgRating" class="flex flex-row gap-1.5">
             <img
               src="@/assets/images/cardImages/iconStarBig.svg"
               alt="рейтинг"
             />
-            <span class="fs-18 font-medium">4.8</span>
+            <span class="fs-18 font-medium">{{ publication.avgRating }}</span>
           </div>
         </div>
         <div class="fs-18">
           <span class="color-main-gray mr-1.5">Дата</span>
-          <span class="font-semibold">24.01.2023</span>
+          <span class="font-semibold">{{ publication?.date }}</span>
         </div>
       </div>
       <YandexMap
@@ -58,6 +58,14 @@ const mapSettings = {
 const openMap = () => {
   router.push({ path: 'map' })
 }
+
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  publication: {
+    type: Object,
+    default: () => {}
+  }
+})
 </script>
 
 <style scoped lang="sass">

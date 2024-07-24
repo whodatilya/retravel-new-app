@@ -51,9 +51,9 @@
 <script setup>
 import { ref } from 'vue'
 import logo from '@/assets/images/logo.svg'
-// import iconChat from '@/assets/images/iconChat.svg'
 import iconExit from '@/assets/images/iconExit.svg'
 import iconUser from '@/assets/images/iconUser.svg'
+import iconTour from '@/assets/images/iconTour.svg'
 import iconFavourite from '@/assets/images/iconFavourite.svg'
 import iconFolder from '@/assets/images/iconFolder.svg'
 import iconHome from '@/assets/images/iconHome.svg'
@@ -81,11 +81,11 @@ const menuItems = [
     icon: 'iconFolder',
     componentName: 'Publications'
   },
-  // {
-  //   title: 'Чат',
-  //   icon: 'iconChat',
-  //   componentName: 'Chat'
-  // },
+  {
+    title: 'Туры',
+    icon: 'iconTour',
+    componentName: 'Tours'
+  },
   {
     title: 'Избранное',
     icon: 'iconFavourite',

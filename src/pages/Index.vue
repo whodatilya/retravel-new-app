@@ -21,6 +21,7 @@ import Sidebar from '@/components/Sidebar.vue'
 import Main from '@/components/Main.vue'
 import Favourites from '@/components/Favourites.vue'
 import Publications from '@/components/Publications.vue'
+import Tours from '@/components/Tours.vue'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 
 const { getSelectedComponent, selectComponent } = useComponentsStore()
@@ -32,7 +33,8 @@ export default defineComponent({
     // Settings,
     Favourites,
     Main,
-    Publications
+    Publications,
+    Tours
   },
   data() {
     return {
