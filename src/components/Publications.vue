@@ -1,9 +1,9 @@
 <template>
   <div class="component-container">
     <div class="flex flex-row justify-between px-12 pt-6 items-center">
-      <Search placeholder-value="Поиск публикаций..." />
+      <Search />
       <div
-        class="flex flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
+        class="flex flex-grow-0 flex-shrink-0 flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
         @click="createPublication"
       >
         <img src="@/assets/images/iconPlus.svg" alt="" />
@@ -46,7 +46,7 @@ onMounted(async () => {
 const createPublication = () => {
   const roles = getRoles()
   let pathName = null
-  if (!roles.includes('ROLE_GUIDE')) {
+  if (roles.includes('ROLE_GUIDE')) {
     pathName = 'createPublicationGuide'
   } else {
     pathName = 'createPublication'

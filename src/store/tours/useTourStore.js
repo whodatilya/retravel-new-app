@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia'
 import request from '@/store/api/requests'
 
-export const usePublicationsStore = defineStore('publications', () => {
-  const getPublications = async () => {
+export const useTourStore = defineStore('tours', () => {
+  const getTours = async () => {
     const response = await request({
-      url: '/api/route/',
+      url: '/api/tour/',
       method: 'GET'
     }).catch(error => {
       console.log(error)
@@ -12,9 +12,9 @@ export const usePublicationsStore = defineStore('publications', () => {
     return response.data
   }
 
-  const getPublicationById = async id => {
+  const getTourById = async id => {
     const response = await request({
-      url: `/api/route/${id}`,
+      url: `/api/tour/${id}`,
       method: 'GET'
     }).catch(error => {
       console.log(error)
@@ -22,7 +22,7 @@ export const usePublicationsStore = defineStore('publications', () => {
     return response.data
   }
 
-  const createPublication = async formData => {
+  const createTour = async formData => {
     const response = await request({
       url: '/api/route/',
       headers: {
@@ -37,8 +37,8 @@ export const usePublicationsStore = defineStore('publications', () => {
   }
 
   return {
-    createPublication,
-    getPublications,
-    getPublicationById
+    createTour,
+    getTours,
+    getTourById
   }
 })

@@ -34,7 +34,9 @@
           <div class="form__label" style="padding-bottom: 5px">Email</div>
           <input
             v-model="email"
-            class="form__input"
+            :class="
+              !errorMessage.serverError ? 'form__input' : 'form__input_error'
+            "
             type="email"
             placeholder="you@company.com"
             autocomplete="false"
@@ -64,6 +66,9 @@
             placeholder="********"
             required
           />
+          <div v-if="errorMessage.clientError" class="form__error">
+            {{ errorMessage.clientError }}
+          </div>
         </div>
         <div class="login__input-fields">
           <div class="form__label" style="padding-bottom: 5px">
@@ -76,6 +81,9 @@
             placeholder="********"
             required
           />
+          <div v-if="errorMessage.clientError" class="form__error">
+            {{ errorMessage.clientError }}
+          </div>
         </div>
         <div class="checkboxes">
           <div class="checkbox">
@@ -140,6 +148,10 @@ const email = ref('')
 const phoneNumber = ref('')
 const password = ref('')
 const repassword = ref('')
+const errorMessage = ref({
+  serverError: '',
+  clientError: ''
+})
 
 const { values } = useForm()
 
@@ -175,15 +187,16 @@ const registerUser = async () => {
     if (checked_guide.value && guideCertificate.value) {
       formData.documents[0] = guideCertificate.value
     }
+    errorMessage.value.serverError = ''
+    errorMessage.value.clientError = ''
     await register(formData)
       .then(response => {
         router.push({ path: '/login' })
       })
-      .catch(e => alert(`Не получается зарегистрироваться из-за ошибки - ${e}`))
+      .catch(e => (errorMessage.value = e))
   } else {
-    alert(
+    errorMessage.value.clientError =
       'Пароли не совпадают или не приняты условия политики конфиденциальности'
-    )
   }
 }
 watch(

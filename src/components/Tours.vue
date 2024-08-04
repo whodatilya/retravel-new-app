@@ -3,6 +3,7 @@
     <div class="flex flex-row justify-between px-12 pt-6 items-center">
       <Search placeholder-value="Поиск туров..." />
       <div
+        v-if="isGuide"
         class="flex flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
         @click="createPublication"
       >
@@ -24,58 +25,34 @@
 import 'vue3-carousel/dist/carousel.css'
 import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
-import { reactive } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import caves from '@/assets/images/cardImages/favourites/caves.jpg'
 import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
 import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
 import router from '@/router'
 import { useAuthStore } from '@/store/auth/useAuthStore'
+import { useTourStore } from '@/store/tours/useTourStore'
 
 const { getRoles } = useAuthStore()
 
-const tours = reactive([
-  {
-    id: 0,
-    icon: caves,
-    title: 'Наименование1',
-    location: 'Локация1'
-  },
-  {
-    id: 1,
-    icon: sochi,
-    title: 'Наименование2',
-    location: 'Локация2'
-  },
-  {
-    id: 2,
-    icon: geyser,
-    title: 'Наименование3',
-    location: 'Локация3'
-  },
-  {
-    id: 3,
-    icon: sochi,
-    title: 'Наименование4',
-    location: 'Локация4'
-  },
-  {
-    id: 4,
-    icon: sochi,
-    title: 'Наименование4',
-    location: 'Локация4'
+const { getTours } = useTourStore()
+
+const isGuide = computed(() => getRoles().includes('ROLE_GUIDE'))
+
+const tours = ref([])
+
+onMounted(async () => {
+  const toursData = await getTours()
+  if (toursData.data) {
+    tours.value = toursData.data
+  } else {
+    tours.value = []
   }
-])
+})
 
 const createPublication = () => {
-  const roles = getRoles()
-  let pathName = null
-  if (roles.includes('ROLE_GUIDE')) {
-    pathName = 'createPublicationGuide'
-  } else {
-    pathName = 'createPublication'
-  }
   router.push({
-    name: pathName
+    name: 'createPublicationGuide'
   })
 }
 

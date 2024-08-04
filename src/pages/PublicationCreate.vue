@@ -41,51 +41,14 @@ const goBack = () => {
   router.go(-1)
 }
 
-const convertFileListToBase64Array = fileList => {
-  return new Promise((resolve, reject) => {
-    const result = []
-    const promises = []
-
-    for (let i = 0; i < fileList.length; i++) {
-      const file = fileList[i]
-      const reader = new FileReader()
-
-      promises.push(
-        new Promise((resolve, reject) => {
-          reader.onload = event => {
-            result.push({
-              id: i,
-              data: event.target.result
-            })
-            resolve()
-          }
-
-          reader.onerror = error => {
-            reject(error)
-          }
-
-          reader.readAsDataURL(file)
-        })
-      )
-    }
-
-    Promise.all(promises)
-      .then(() => resolve(result))
-      .catch(reject)
-  })
-}
-
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    const preparedRouteImages = await convertFileListToBase64Array(
-      values.routeImages?.[0]
-    )
-
     const preparedValues = {
-      ...values,
-      routeImages: preparedRouteImages
+      name: values.name,
+      description: values.description,
+      routeImages: values.routeImages[0],
+      routeTravelPoints: storeRoutePoints.value
     }
-
     await createPublication(preparedValues)
     clearPointsStore()
   })()

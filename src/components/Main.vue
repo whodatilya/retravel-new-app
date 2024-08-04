@@ -1,12 +1,14 @@
 <template>
   <main class="main__wrapper mt-9 m-10 p-6">
-    <div class="flex flex-col justify-between color-main-black">
-      <div class="flex flex-row justify-between">
+    <div class="flex flex-row justify-between items-center color-main-black">
+      <div class="flex flex-col">
         <div class="font-bold fs-28">Добрый день!</div>
-        <search placeholder-value="Поиск по направлениям..." />
+        <div class="fs-12 w-[16rem]">
+          Добро пожаловать на туристическую платформу Re:Travel!
+        </div>
       </div>
-      <div class="fs-12 w-[16rem]">
-        Добро пожаловать на туристическую платформу Re:Travel!
+      <div>
+        <search />
       </div>
     </div>
     <div class="cards my-2.5">
