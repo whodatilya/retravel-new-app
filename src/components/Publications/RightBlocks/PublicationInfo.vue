@@ -19,7 +19,10 @@
     <span class="fs-12 font-light color-main-gray pb-5">{{
       publication?.description
     }}</span>
-    <button class="button__edit fs-14 font-semibold">
+    <button
+      v-if="isCurrentUserPublication"
+      class="button__edit fs-14 font-semibold"
+    >
       Редактировать публикацию
     </button>
     <div class="flex flex-col description-wrapper mt-4">
@@ -32,6 +35,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 // eslint-disable-next-line no-undef
 const props = defineProps({
   publication: {
@@ -39,6 +43,12 @@ const props = defineProps({
     default: () => {}
   }
 })
+
+const userId = localStorage.getItem('userId')
+
+const isCurrentUserPublication = computed(
+  () => +userId === props?.publication?.user?.id
+)
 </script>
 
 <style lang="sass" scoped>

@@ -28,9 +28,14 @@
       </YandexMap>
     </div>
     <div class="content-wrapper flex flex-1 flex-col">
-      <Carousel :items-to-show="2.5" :wrap-around="true">
-        <Slide v-for="slide in 10" :key="slide">
-          <div class="carousel__item">{{ slide }}</div>
+      <Carousel
+        :items-to-show="publication?.routeImages?.length > 3 ? 2.5 : 1"
+        :wrap-around="true"
+      >
+        <Slide v-for="slide in publication?.routeImages" :key="slide">
+          <div class="carousel__item">
+            <img :src="slide" alt="" />
+          </div>
         </Slide>
         <template #addons>
           <Navigation />
@@ -76,6 +81,7 @@ const props = defineProps({
   .carousel__item
     min-height: 200px
     width: 100%
+    max-height: 100%
     background-color: lightgreen
     color: white
     font-size: 20px

@@ -3,7 +3,7 @@
     <div class="flex flex-row justify-between px-12 pt-6 items-center">
       <Search placeholder-value="Поиск туров..." />
       <div
-        v-if="isGuide"
+        v-if="!isGuide"
         class="flex flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
         @click="createPublication"
       >

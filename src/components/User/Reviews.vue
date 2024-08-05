@@ -9,16 +9,44 @@
       <span class="font-semibold fs-24">Отзывы</span>
     </div>
     <div class="overflow-auto">
-      <template v-for="(item, index) in 10" :key="index">
+      <template v-for="(item, index) in reviews" :key="index">
         <Review :data="item" />
       </template>
     </div>
-    <button class="button__edit">Новый отзыв</button>
+    <button @click="toggleModal" class="button__edit">Новый отзыв</button>
+    <ReviewModal
+      v-if="isModalOpened"
+      @onClose="toggleModal"
+      @onSubmit="processReview"
+    />
   </div>
 </template>
 
 <script setup>
 import Review from '@/components/User/Review.vue'
+import { onMounted, ref } from 'vue'
+import { useReviewStore } from '@/store/reviews/useReviewStore'
+import ReviewModal from '@/components/Modals/ReviewModal.vue'
+
+const reviews = ref([])
+const isModalOpened = ref(false)
+
+const toggleModal = () => {
+  isModalOpened.value = !isModalOpened.value
+}
+
+const userId = localStorage.getItem('userId')
+
+const processReview = async formData => {
+  await createUserReview(formData)
+  toggleModal()
+}
+
+const { getReviewsByUserId, createUserReview } = useReviewStore()
+
+onMounted(async () => {
+  reviews.value = await getReviewsByUserId(+userId)
+})
 </script>
 
 <style lang="sass" scoped>

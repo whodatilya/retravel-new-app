@@ -44,15 +44,8 @@ onMounted(async () => {
 })
 
 const createPublication = () => {
-  const roles = getRoles()
-  let pathName = null
-  if (roles.includes('ROLE_GUIDE')) {
-    pathName = 'createPublicationGuide'
-  } else {
-    pathName = 'createPublication'
-  }
   router.push({
-    name: pathName
+    name: 'createPublication'
   })
 }
 

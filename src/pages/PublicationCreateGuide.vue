@@ -22,11 +22,17 @@ import EditPublicationRightBlock from '@/components/Publications/RightBlocks/Edi
 import CreatePublicationGuide from '@/components/Publications/CreatePublicationGuide.vue'
 import { useForm } from 'vee-validate'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
-import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+import { useTourStore } from '@/store/tours/useTourStore'
+import { useMapStore } from '@/store/map/useMapStore'
+import { storeToRefs } from 'pinia'
 
 const { selectComponent } = useComponentsStore()
 
-const { createPublicationGuide } = usePublicationsStore()
+const { clearPointsStore } = useMapStore()
+
+const { storeRoutePoints } = storeToRefs(useMapStore())
+
+const { createTour } = useTourStore()
 
 const goBack = () => {
   selectComponent('Main')
@@ -37,7 +43,19 @@ const { handleSubmit } = useForm()
 
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    await createPublicationGuide(values)
+    const preparedValues = {
+      name: values.name,
+      description: values.description,
+      participantsCount: values.participantsCount,
+      date: values.date,
+      schedule: values.schedule,
+      price: values.price,
+      tourImages: values.tourImages,
+      travelPoints: storeRoutePoints.value
+    }
+    console.log(preparedValues)
+    await createTour(preparedValues)
+    clearPointsStore()
   })()
 }
 </script>

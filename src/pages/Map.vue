@@ -194,7 +194,7 @@ const userPosition = ref([])
 const userId = localStorage.getItem('userId')
 
 const isCurrentUserPoint = user => {
-  return Number(userId) === user.id
+  return +userId === user.id
 }
 
 onMounted(async () => {
