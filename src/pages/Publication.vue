@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-[100vh]">
+  <div :class="isMobile ? 'h-auto' : 'h-[100vh]'" class="flex flex-col">
     <header class="user_info__header">
       <img
         @click="goBack"
