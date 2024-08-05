@@ -138,8 +138,6 @@ defineProps({
   }
 })
 
-const { handleSubmit } = useForm()
-
 const openMarker = ref(null)
 
 const createMarker = async values => {

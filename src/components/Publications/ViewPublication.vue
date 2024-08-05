@@ -127,7 +127,7 @@ const closeModal = () => {
   .carousel__item
     min-height: 200px
     width: 100%
-    max-height: 100%
+    max-height: 200px
     background-color: transparent
     color: white
     font-size: 20px

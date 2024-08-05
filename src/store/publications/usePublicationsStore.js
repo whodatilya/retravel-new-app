@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import request from '@/store/api/requests'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export const usePublicationsStore = defineStore('publications', () => {
   let mode = ref('view')
@@ -9,9 +9,17 @@ export const usePublicationsStore = defineStore('publications', () => {
     mode.value = modeToChange
   }
 
-  const getPublications = async () => {
+  const queryString = filters => {
+    const params = new URLSearchParams()
+    for (const key in filters) {
+      params.append(key, filters[key])
+    }
+    return params.toString()
+  }
+
+  const getPublications = async filters => {
     const response = await request({
-      url: '/api/route/',
+      url: `/api/route?${queryString(filters)}`,
       method: 'GET'
     }).catch(error => {
       console.log(error)

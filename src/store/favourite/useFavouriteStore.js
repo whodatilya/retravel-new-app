@@ -3,9 +3,17 @@ import { ref } from 'vue'
 import request from '@/store/api/requests'
 
 export const useFavouriteStore = defineStore('favourites', () => {
-  const getFavourites = async () => {
+  const queryString = filters => {
+    const params = new URLSearchParams()
+    for (const key in filters) {
+      params.append(key, filters[key])
+    }
+    return params.toString()
+  }
+
+  const getFavourites = async filters => {
     const response = await request({
-      url: '/api/favourite_routes/',
+      url: `/api/favourite_routes?${queryString(filters)}`,
       headers: {
         'Content-Type': 'application/json'
       },
