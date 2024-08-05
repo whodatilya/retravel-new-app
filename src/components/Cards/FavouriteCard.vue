@@ -46,6 +46,7 @@ export default defineComponent({
   &__wrapper
     display: flex
     flex-direction: column
+    max-height: 300px
     height: -moz-available
     height: -webkit-fill-available
     height: fill-available
