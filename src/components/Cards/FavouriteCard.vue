@@ -1,10 +1,13 @@
 <template>
   <div class="favourite__wrapper br-10">
-    <img :src="favouriteData?.tourImages?.[0]?.data ?? emptyImage" alt="" />
+    <img :src="favouriteData?.[imagePath]?.[0] ?? emptyImage" alt="" />
     <div class="favourite__content">
       <div class="flex flex-row justify-between">
         <div class="fs-16 font-semibold">{{ favouriteData.name }}</div>
-        <img :src="iconRating" alt="Рейтинг" />
+        <div v-if="favouriteData?.avgRating" class="flex flex-row gap-1.5">
+          <img src="@/assets/images/cardImages/iconStarBig.svg" alt="рейтинг" />
+          <span class="fs-13 font-medium">{{ favouriteData.avgRating }}</span>
+        </div>
       </div>
       <div class="fs-12 font-medium color-main-gray">
         {{ favouriteData.description }}
@@ -29,6 +32,10 @@ export default defineComponent({
     favouriteData: {
       type: Object,
       default: () => {}
+    },
+    imagePath: {
+      type: String,
+      default: 'routeImages'
     }
   }
 })

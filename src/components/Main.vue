@@ -44,19 +44,21 @@
       </div>
     </div>
   </main>
-  <div class="flex flex-col gap-4 ml-2 mt-9 max-w-[20%]">
-    <div class="fs-18 font-semibold color-main-black">
-      Карта достопримечательностей
-    </div>
-    <YandexMap
-      @click="openMap"
-      class="map-fix map-outline cursor-pointer"
-      height="17rem"
-      :settings="mapSettings"
-      width="100%"
-    >
-      <yandex-map-default-scheme-layer />
-    </YandexMap>
+  <div class="sidebar-content flex flex-col gap-4 ml-2 mt-9 max-w-[20%]">
+    <template v-if="currentWindowWidth > 768">
+      <div class="fs-18 font-semibold color-main-black">
+        Карта достопримечательностей
+      </div>
+      <YandexMap
+        @click="openMap"
+        class="map-fix map-outline cursor-pointer"
+        height="17rem"
+        :settings="mapSettings"
+        width="100%"
+      >
+        <yandex-map-default-scheme-layer />
+      </YandexMap>
+    </template>
     <div class="flex flex-col gap-4">
       <div class="fs-18 color-main-black font-semibold pt-10">
         Избранные локации
@@ -70,8 +72,9 @@
     </div>
   </div>
 </template>
+
 <script>
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
 import iconSearch from '@/assets/images/iconSearch.svg'
 import iconBanner from '@/assets/images/iconBanner.svg'
 import iconFilter from '@/assets/images/iconFilter.svg'
@@ -161,6 +164,11 @@ export default defineComponent({
     openMap() {
       this.$router.push({ path: 'map' })
     }
+  },
+  computed: {
+    currentWindowWidth() {
+      return window.innerWidth
+    }
   }
 })
 </script>
@@ -174,10 +182,14 @@ export default defineComponent({
     background: #DAE8DA
     border-radius: 25px
     border: 1px solid #4E944F80
+    //@media (max-width: 768px)
+    //  flex-direction: column
 .cards
   display: grid
   grid-template-columns: repeat(3, 1fr)
   grid-gap: 1.5rem
+  @media (max-width: 768px)
+    grid-template-columns: repeat(2, 1fr)
 .popular
   display: flex
   flex-direction: column

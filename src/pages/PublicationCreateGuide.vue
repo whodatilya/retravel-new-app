@@ -43,19 +43,35 @@ const { handleSubmit } = useForm()
 
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    const preparedValues = {
-      name: values.name,
-      description: values.description,
-      participantsCount: values.participantsCount,
-      date: values.date,
-      schedule: values.schedule,
-      price: values.price,
-      tourImages: values.tourImages,
-      travelPoints: storeRoutePoints.value
+    const preparedValues = new FormData()
+    preparedValues.append('name', values.name)
+    preparedValues.append('description', values.description)
+    preparedValues.append('participantsCount', values.participantsCount)
+    preparedValues.append('date', values.date)
+    preparedValues.append('price', values.price)
+
+    // Добавляем изображения
+    values.tourImages.forEach(image => {
+      preparedValues.append('tourImages[]', image)
+    })
+    preparedValues.append('schedule[]', values.schedule)
+
+    // Преобразуем массив объектов в строку, разделенную запятыми
+    const tourTravelPointsString = storeRoutePoints.value
+      .map(point => JSON.stringify(point))
+      .join(',')
+    preparedValues.append('travelPoints[]', tourTravelPointsString)
+
+    const response = await createTour(preparedValues)
+    if (response) {
+      await router.push({
+        name: 'tour',
+        params: {
+          id: response.id
+        }
+      })
+      clearPointsStore()
     }
-    console.log(preparedValues)
-    await createTour(preparedValues)
-    clearPointsStore()
   })()
 }
 </script>

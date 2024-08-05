@@ -1,6 +1,6 @@
 <template>
   <div class="component-container">
-    <Search class="mt-6 ml-12" placeholder-value="Поиск публикаций..." />
+    <Search class="mt-6 ml-12 w-fit" placeholder-value="Поиск" />
     <div class="main-container mt-3 mb-7 mx-7 br-20 p-6">
       <favourite-card
         v-for="favourite in favourites"
@@ -12,46 +12,28 @@
   </div>
 </template>
 <script lang="js" setup>
-import { reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import caves from '@/assets/images/cardImages/favourites/caves.jpg'
 import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
 import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
 import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
 import router from '@/router'
+import { useFavouriteStore } from '@/store/favourite/useFavouriteStore'
 
-const favourites = reactive([
-  {
-    id: 0,
-    icon: caves,
-    title: 'Наименование1',
-    location: 'Локация1'
-  },
-  {
-    id: 1,
-    icon: sochi,
-    title: 'Наименование2',
-    location: 'Локация2'
-  },
-  {
-    id: 2,
-    icon: geyser,
-    title: 'Наименование3',
-    location: 'Локация3'
-  },
-  {
-    id: 3,
-    icon: sochi,
-    title: 'Наименование4',
-    location: 'Локация4'
-  },
-  {
-    id: 4,
-    icon: sochi,
-    title: 'Наименование4',
-    location: 'Локация4'
+const { getFavourites } = useFavouriteStore()
+
+const favourites = ref([])
+
+onMounted(async () => {
+  const favouritesData = await getFavourites()
+  if (favouritesData) {
+    favourites.value = favouritesData
+  } else {
+    favourites.value = []
   }
-])
+})
+
 
 const openFavourite = id => {
   router.push({

@@ -5,12 +5,12 @@
       <div class="flex flex-row gap-7 justify-between">
         <div class="flex flex-col gap-4 basis-4/5">
           <RetravelTextField label-text="Название" field-name="name" />
-          <RetravelTextField label-text="Стоимость" field-name="price" />
-          <RetravelTextField
+          <RetravelNumberField label-text="Стоимость" field-name="price" />
+          <RetravelNumberField
             label-text="Количество человек"
             field-name="participantsCount"
           />
-          <RetravelTextField label-text="Дата" field-name="date" />
+          <RetravelDateField label-text="Дата" field-name="date" />
         </div>
         <div>
           <RetravelFileField
@@ -45,6 +45,8 @@ import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 import { ref } from 'vue'
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
+import RetravelDateField from '@/components/Fields/RetravelDateField.vue'
+import RetravelNumberField from '@/components/Fields/RetravelNumberField.vue'
 
 const router = useRouter()
 

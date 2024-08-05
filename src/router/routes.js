@@ -41,8 +41,8 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
-    path: '/publication/guide/create',
-    name: 'createPublicationGuide',
+    path: '/tour/guide/create',
+    name: 'createTourGuide',
     component: () => import('@/pages/PublicationCreateGuide.vue'),
     beforeEnter: ifAuthenticated
   },
@@ -50,6 +50,12 @@ const routes = [
     path: '/publication/:id',
     name: 'publication',
     component: () => import('@/pages/Publication.vue'),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/tour/:id',
+    name: 'tour',
+    component: () => import('@/pages/Tour.vue'),
     beforeEnter: ifAuthenticated
   },
   {

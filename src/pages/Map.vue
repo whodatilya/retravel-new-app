@@ -69,6 +69,9 @@
               </div>
               <div class="fs-14 font-semibold">Изображение:</div>
               <img :src="marker.travelPointImagesFront" alt="" />
+              <button class="button__add" @click="addPointToRoute(marker.id)">
+                Использовать
+              </button>
               <button
                 v-if="isCurrentUserPoint(marker.user)"
                 class="button__delete"
@@ -123,6 +126,8 @@ const {
 
 const isModalActive = ref(false)
 const routePoints = ref([])
+const usedRoutePoints = ref([])
+let countUsedRoutePoints = ref(0)
 const mode = ref('read')
 
 // eslint-disable-next-line no-undef
@@ -158,6 +163,14 @@ const createMarker = async values => {
   //Todo: доделать создание маркеров на основе приходящих с модалки данных
 }
 
+const addPointToRoute = id => {
+  usedRoutePoints.value.push({
+    travel_point_id: id,
+    number: countUsedRoutePoints.value
+  })
+  countUsedRoutePoints.value++
+}
+
 const toggleModal = () => {
   isModalActive.value = !isModalActive.value
 }
@@ -177,7 +190,8 @@ const goBack = () => {
 }
 
 const backToForm = () => {
-  setRoutePoints(routePoints.value)
+  setRoutePoints(usedRoutePoints.value)
+  countUsedRoutePoints.value = 0
   router.go(-1)
 }
 
@@ -354,5 +368,10 @@ const toggleDescription = marker => {
     border-radius: 10px
     padding: 10px 18px
     background: #FF7272
+    color: white
+  &__add
+    border-radius: 10px
+    padding: 10px 18px
+    background: #4E944F
     color: white
 </style>

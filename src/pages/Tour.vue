@@ -10,14 +10,19 @@
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
     <main class="user_info__content flex !flex-row gap-2.5 flex-1">
-      <ViewPublication v-if="mode === 'view'" :publication="publication" />
-      <CreatePublication
-        v-else-if="mode === 'edit'"
-        @submit="onSubmitForm"
-        @cancel="onCancelForm"
-        label-text="Редактировать публикацию"
+      <ViewPublication
+        image-path="tourImages"
+        is-tour
+        v-if="mode === 'view'"
+        :publication="tour"
       />
-      <PublicationInfo v-if="mode === 'view'" :publication="publication" />
+      <!--      <CreatePublication-->
+      <!--        v-else-if="mode === 'edit'"-->
+      <!--        @submit="onSubmitForm"-->
+      <!--        @cancel="onCancelForm"-->
+      <!--        label-text="Редактировать публикацию"-->
+      <!--      />-->
+      <TourInfo v-if="mode === 'view'" :tour="tour" />
       <EditPublicationRightBlock v-else-if="mode === 'edit'" />
     </main>
   </div>
@@ -25,7 +30,6 @@
 
 <script setup>
 import ViewPublication from '@/components/Publications/ViewPublication.vue'
-import PublicationInfo from '@/components/Publications/RightBlocks/PublicationInfo.vue'
 import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
@@ -36,12 +40,13 @@ import { storeToRefs } from 'pinia'
 import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
 import { useForm } from 'vee-validate'
 import { useMapStore } from '@/store/map/useMapStore'
+import TourInfo from '@/components/Tours/RightBlocks/TourInfo.vue'
+import { useTourStore } from '@/store/tours/useTourStore'
 
 const { selectComponent } = useComponentsStore()
 const { handleSubmit, setValues } = useForm()
 
-const { getPublicationById, updatePublication, deletePublication } =
-  usePublicationsStore()
+const { getTourById } = useTourStore()
 
 const { clearPointsStore } = useMapStore()
 
@@ -50,24 +55,24 @@ const { storeRoutePoints } = storeToRefs(useMapStore())
 const { mode } = storeToRefs(usePublicationsStore())
 
 const route = useRoute()
-let publication = ref(null)
+let tour = ref(null)
 
-const publicationId = route.params.id
+const tourId = route.params.id
 
-const onCancelForm = () => {
-  deletePublication(publicationId)
-  router.go(-1)
-}
+// const onCancelForm = () => {
+//   deletePublication(publicationId)
+//   router.go(-1)
+// }
 
 onMounted(async () => {
-  publication.value = await getPublicationById(publicationId)
+  tour.value = await getTourById(tourId)
 })
 
 watch(
   () => mode.value,
   async newMode => {
     if (newMode === 'edit') {
-      setValues(await getPublicationById(publicationId))
+      setValues(await getTourById(tourId))
     }
   }
 )
@@ -85,8 +90,9 @@ const onSubmitForm = () => {
       routeImages: values.routeImages[0],
       routeTravelPoints: storeRoutePoints.value
     }
-    await updatePublication(publicationId, preparedValues)
-    clearPointsStore()
+    console.log(preparedValues)
+    // await updatePublication(publicationId, preparedValues)
+    // clearPointsStore()
   })()
 }
 </script>
@@ -107,7 +113,6 @@ const onSubmitForm = () => {
   &__content
     padding: 1.5rem
     background: #DAE8DA
-    height: calc(100vh - 100px)
     position: relative
     display: flex
     flex-direction: column

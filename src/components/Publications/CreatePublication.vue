@@ -2,7 +2,7 @@
   <div class="flex flex-col flex-1 gap-2.5 w-[60%]">
     <div class="content-wrapper flex flex-col flex-auto gap-6 h-full">
       <div class="flex flex-row">
-        <div class="fs-18 font-semibold">Новая публикация</div>
+        <div class="fs-18 font-semibold">{{ labelText }}</div>
       </div>
       <RetravelFileField
         class="!w-full !h-[27rem]"
@@ -19,7 +19,7 @@
       <RetravelTextField label-text="Название" field-name="name" />
       <RetravelTextareaField label-text="Описание" field-name="description" />
       <div class="flex flex-row justify-between">
-        <button class="button__delete">Удалить</button>
+        <button @click="emit('cancel')" class="button__delete">Удалить</button>
         <button class="button__save" @click="emit('submit')">
           Опубликовать
         </button>
@@ -39,7 +39,15 @@ import { useForm } from 'vee-validate'
 const router = useRouter()
 
 // eslint-disable-next-line no-undef
-const emit = defineEmits(['submit'])
+const emit = defineEmits(['submit', 'cancel'])
+
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  labelText: {
+    type: String,
+    default: 'Новая публикация'
+  }
+})
 
 // const { handleSubmit } = useForm()
 

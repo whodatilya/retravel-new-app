@@ -21,6 +21,7 @@
     }}</span>
     <button
       v-if="isCurrentUserPublication"
+      @click="changeMode('edit')"
       class="button__edit fs-14 font-semibold"
     >
       Редактировать публикацию
@@ -36,6 +37,8 @@
 
 <script setup>
 import { computed } from 'vue'
+import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+import { storeToRefs } from 'pinia'
 // eslint-disable-next-line no-undef
 const props = defineProps({
   publication: {
@@ -43,6 +46,8 @@ const props = defineProps({
     default: () => {}
   }
 })
+
+const { changeMode } = usePublicationsStore()
 
 const userId = localStorage.getItem('userId')
 

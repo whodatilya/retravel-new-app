@@ -43,14 +43,29 @@ const goBack = () => {
 
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    const preparedValues = {
-      name: values.name,
-      description: values.description,
-      routeImages: values.routeImages[0],
-      routeTravelPoints: storeRoutePoints.value
+    const preparedValues = new FormData()
+    preparedValues.append('name', values.name)
+    preparedValues.append('description', values.description)
+
+    // Добавляем каждый файл в FormData
+    values.routeImages.forEach(image => {
+      preparedValues.append('routeImages[]', image)
+    })
+
+    const routeTravelPointsString = storeRoutePoints.value
+      .map(point => JSON.stringify(point))
+      .join(',')
+    preparedValues.append('routeTravelPoints[]', routeTravelPointsString)
+    const response = await createPublication(preparedValues)
+    if (response) {
+      clearPointsStore()
+      await router.push({
+        name: 'publication',
+        params: {
+          id: response.id
+        }
+      })
     }
-    await createPublication(preparedValues)
-    clearPointsStore()
   })()
 }
 </script>

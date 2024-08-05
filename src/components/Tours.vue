@@ -3,7 +3,7 @@
     <div class="flex flex-row justify-between px-12 pt-6 items-center">
       <Search placeholder-value="Поиск туров..." />
       <div
-        v-if="!isGuide"
+        v-if="isGuide"
         class="flex flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
         @click="createPublication"
       >
@@ -13,8 +13,9 @@
     </div>
     <div class="main-container mt-3 mb-7 mx-7 br-20 p-6">
       <favourite-card
+        image-path="tourImages"
         v-for="tour in tours"
-        @click="openPublication(tour.id)"
+        @click="openTour(tour.id)"
         :favourite-data="tour"
         :key="tour.id"
       />
@@ -52,13 +53,14 @@ onMounted(async () => {
 
 const createPublication = () => {
   router.push({
-    name: 'createPublicationGuide'
+    name: 'createTourGuide'
   })
 }
 
-const openPublication = id => {
+const openTour = id => {
+  console.log(id)
   router.push({
-    name: 'publication',
+    name: 'tour',
     params: {
       id: id
     }

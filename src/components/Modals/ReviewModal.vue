@@ -2,7 +2,7 @@
   <div class="marker__modal_shadow">
     <div class="marker__modal_outer">
       <div class="marker__modal_inner br-12">
-        <img width="48" src="@/assets/images/iconMarker.svg" alt="" />
+        <img width="48" src="@/assets/images/iconStar.svg" alt="" />
         <span>Новый отзыв</span>
         <RetravelDropdownField
           :options="[
@@ -32,10 +32,7 @@
 </template>
 
 <script setup>
-import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
-import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
-import { ref } from 'vue'
 import { useForm } from 'vee-validate'
 import RetravelDropdownField from '@/components/Fields/RetravelDropdownField.vue'
 

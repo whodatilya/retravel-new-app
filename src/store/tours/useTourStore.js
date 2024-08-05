@@ -24,7 +24,7 @@ export const useTourStore = defineStore('tours', () => {
 
   const createTour = async formData => {
     const response = await request({
-      url: '/api/route/',
+      url: '/api/tour/',
       headers: {
         'Content-Type': 'multipart/form-data'
       },
