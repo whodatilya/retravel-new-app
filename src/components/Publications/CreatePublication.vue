@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 gap-2.5 w-[60%]">
+  <div :class="{ 'w-[60%]': !isMobile }" class="flex flex-col flex-1 gap-2.5">
     <div class="content-wrapper flex flex-col flex-auto gap-6 h-full">
       <div class="flex flex-row">
         <div class="fs-18 font-semibold">{{ labelText }}</div>
@@ -35,6 +35,7 @@ import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
 import { useForm } from 'vee-validate'
+import { computed } from 'vue'
 
 const router = useRouter()
 
@@ -48,6 +49,8 @@ const props = defineProps({
     default: 'Новая публикация'
   }
 })
+
+const isMobile = computed(() => window.innerWidth < 768)
 
 // const { handleSubmit } = useForm()
 
@@ -109,9 +112,13 @@ const openMap = () => {
     padding: 10px 18px
     background: #FF7272
     color: white
+    @media (max-width: 768px)
+      padding: 10px 12px
   &__save
     border-radius: 10px
     padding: 10px 18px
     background: #4E944F
     color: white
+    @media (max-width: 768px)
+      padding: 10px 12px
 </style>

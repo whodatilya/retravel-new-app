@@ -1,17 +1,33 @@
 <template>
   <div class="component-container">
-    <div class="flex flex-row justify-between px-12 pt-6 items-center">
-      <Search placeholder-value="Поиск туров..." />
-      <div
-        v-if="isGuide"
-        class="flex flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
-        @click="createPublication"
-      >
-        <img src="@/assets/images/iconPlus.svg" alt="" />
-        <span class="fs-14 font-semibold">Создать новый тур</span>
+    <template v-if="isMobile">
+      <div class="flex flex-row items-center justify-between">
+        <div class="p-6 fs-16 font-semibold">Туры</div>
+        <div
+          style="border-radius: 50%; width: 45px; height: 45px"
+          class="flex new-button mr-6 cursor-pointer"
+          @click="createTour"
+        >
+          <img src="@/assets/images/iconPlus.svg" alt="" />
+        </div>
       </div>
-    </div>
-    <div class="main-container mt-3 mb-7 mx-7 br-20 p-6">
+    </template>
+    <template v-else>
+      <div class="flex flex-row justify-between px-12 pt-6 items-center">
+        <Search />
+        <div
+          class="flex flex-grow-0 flex-shrink-0 flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
+          @click="createTour"
+        >
+          <img src="@/assets/images/iconPlus.svg" alt="" />
+          <span class="fs-14 font-semibold">Новый тур</span>
+        </div>
+      </div>
+    </template>
+    <div
+      :class="{ 'p-6': !isMobile }"
+      class="main-container mt-3 mb-7 mx-7 br-20"
+    >
       <favourite-card
         image-path="tourImages"
         v-for="tour in tours"
@@ -40,6 +56,8 @@ const { getTours } = useTourStore()
 
 const isGuide = computed(() => getRoles().includes('ROLE_GUIDE'))
 
+const isMobile = computed(() => window.innerWidth < 768)
+
 const tours = ref([])
 
 onMounted(async () => {
@@ -51,14 +69,13 @@ onMounted(async () => {
   }
 })
 
-const createPublication = () => {
+const createTour = () => {
   router.push({
     name: 'createTourGuide'
   })
 }
 
 const openTour = id => {
-  console.log(id)
   router.push({
     name: 'tour',
     params: {
@@ -76,6 +93,10 @@ const openTour = id => {
   grid-gap: 1rem
   background: white
   box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.05)
+  @media (max-width: 768px)
+    grid-template-columns: repeat(1, 1fr)
+    grid-template-rows: repeat(1, 1fr)
+    box-shadow: none
 .content-wrapper
   border-radius: 20px
   background: white

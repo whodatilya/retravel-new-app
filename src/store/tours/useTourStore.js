@@ -36,9 +36,24 @@ export const useTourStore = defineStore('tours', () => {
     return response.data
   }
 
+  const updateTour = async (id, formData) => {
+    const response = await request({
+      url: `/api/tour/${id}`,
+      headers: {
+        'Content-Type': 'application/merge-patch+json'
+      },
+      method: 'PATCH',
+      data: formData
+    }).catch(error => {
+      console.log('Error!!!', error)
+    })
+    return response.data
+  }
+
   return {
     createTour,
     getTours,
+    updateTour,
     getTourById
   }
 })

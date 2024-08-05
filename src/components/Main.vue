@@ -1,6 +1,9 @@
 <template>
-  <main class="main__wrapper mt-9 m-10 p-6">
-    <div class="flex flex-row justify-between items-center color-main-black">
+  <main class="main__wrapper">
+    <div
+      v-if="currentWindowWidth > 768"
+      class="flex flex-row justify-between items-center color-main-black"
+    >
       <div class="flex flex-col">
         <div class="font-bold fs-28">Добрый день!</div>
         <div class="fs-12 w-[16rem]">
@@ -45,21 +48,22 @@
       </div>
     </div>
   </main>
-  <div class="sidebar-content flex flex-col gap-4 ml-2 mt-9 max-w-[20%]">
-    <template v-if="currentWindowWidth > 768">
-      <div class="fs-18 font-semibold color-main-black">
-        Карта достопримечательностей
-      </div>
-      <YandexMap
-        @click="openMap"
-        class="map-fix map-outline cursor-pointer"
-        height="17rem"
-        :settings="mapSettings"
-        width="100%"
-      >
-        <yandex-map-default-scheme-layer />
-      </YandexMap>
-    </template>
+  <div
+    v-if="currentWindowWidth > 768"
+    class="sidebar-content flex flex-col gap-4 ml-2 mt-9 max-w-[20%]"
+  >
+    <div class="fs-18 font-semibold color-main-black">
+      Карта достопримечательностей
+    </div>
+    <YandexMap
+      @click="openMap"
+      class="map-fix map-outline cursor-pointer"
+      height="17rem"
+      :settings="mapSettings"
+      width="100%"
+    >
+      <yandex-map-default-scheme-layer />
+    </YandexMap>
     <div v-if="favourites.length" class="flex flex-col gap-4">
       <div class="fs-18 color-main-black font-semibold pt-10">
         Избранные локации
@@ -85,12 +89,17 @@ import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import router from '@/router'
 import { useFavouriteStore } from '@/store/favourite/useFavouriteStore'
+import { useMapStore } from '@/store/map/useMapStore'
 
 const { getPublications } = usePublicationsStore()
 
 const popularCards = ref([])
 
 const { getFavourites } = useFavouriteStore()
+
+const placeCards = ref([])
+
+const { getTravelPoints } = useMapStore()
 
 const favourites = ref([])
 
@@ -105,6 +114,19 @@ onMounted(async () => {
     err => console.error(`Ошибка(${err.code}): ${err.message}`),
     { maximumAge: 60000, timeout: 3000, enableHighAccuracy: true } // Для точности необходимо быстроту!
   )
+
+  const placeCardsData = await getTravelPoints({
+    itemsPerPage: 3
+  })
+
+  if (placeCardsData.data) {
+    placeCards.value = placeCardsData.data.slice(
+      0,
+      currentWindowWidth.value > 768 ? 3 : 2
+    )
+  } else {
+    placeCards.value = []
+  }
   const popularData = await getPublications({
     itemsPerPage: 4,
     sort: 'avgRating'
@@ -125,7 +147,6 @@ onMounted(async () => {
     favourites.value = []
   }
 })
-const placeCards = ref([])
 
 const mapSettings = {
   location: {
@@ -166,11 +187,18 @@ const currentWindowWidth = computed(() => window.innerWidth)
     display: flex
     flex-direction: column
     flex-basis: 45%
+    margin-top: 2.25rem
+    margin: 2.5rem
+    padding: 1.5rem
     background: #DAE8DA
     border-radius: 25px
     border: 1px solid #4E944F80
-    //@media (max-width: 768px)
-    //  flex-direction: column
+    @media (max-width: 768px)
+      background: transparent
+      border-radius: unset
+      flex-basis: unset
+      border: none
+      margin: 0.5rem
 .cards
   display: grid
   grid-template-columns: repeat(3, 1fr)

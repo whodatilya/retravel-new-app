@@ -9,7 +9,10 @@
       />
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="user_info__content flex !flex-row gap-2.5 flex-1">
+    <main
+      :class="isMobile ? '!flex-col' : '!flex-row'"
+      class="user_info__content flex gap-2.5 flex-1"
+    >
       <ViewPublication v-if="mode === 'view'" :publication="publication" />
       <CreatePublication
         v-else-if="mode === 'edit'"
@@ -30,7 +33,7 @@ import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import { useRoute } from 'vue-router'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import CreatePublication from '@/components/Publications/CreatePublication.vue'
 import { storeToRefs } from 'pinia'
 import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
@@ -42,6 +45,8 @@ const { handleSubmit, setValues } = useForm()
 
 const { getPublicationById, updatePublication, deletePublication } =
   usePublicationsStore()
+
+const isMobile = computed(() => window.innerWidth < 768)
 
 const { clearPointsStore } = useMapStore()
 
@@ -79,12 +84,19 @@ const goBack = () => {
 
 const onSubmitForm = () => {
   handleSubmit(async values => {
-    const preparedValues = {
-      name: values.name,
-      description: values.description,
-      routeImages: values.routeImages[0],
-      routeTravelPoints: storeRoutePoints.value
-    }
+    const preparedValues = new FormData()
+    preparedValues.append('name', values.name)
+    preparedValues.append('description', values.description)
+
+    // Добавляем каждый файл в FormData
+    values.routeImages.forEach(image => {
+      preparedValues.append('routeImages[]', image)
+    })
+
+    const routeTravelPointsString = storeRoutePoints.value
+      .map(point => JSON.stringify(point))
+      .join(',')
+    preparedValues.append('routeTravelPoints[]', routeTravelPointsString)
     await updatePublication(publicationId, preparedValues)
     clearPointsStore()
   })()
@@ -111,5 +123,8 @@ const onSubmitForm = () => {
     position: relative
     display: flex
     flex-direction: column
+    @media (max-width: 768px)
+      background: transparent
+      height: unset
     //justify-content: center
 </style>

@@ -10,19 +10,25 @@
       />
       <div
         v-if="create"
-        class="cancel-button br-8 cursor-pointer"
+        :class="isMobile ? 'fs-13' : 'fs-18'"
+        class="cancel-button br-8 font-medium cursor-pointer"
         @click="backToForm"
       >
-        <div class="fs-18 font-medium">Завершить</div>
+        Завершить
       </div>
       <div
         v-if="create && mode === 'read'"
-        class="new-button br-8 cursor-pointer"
+        :class="isMobile ? 'fs-13' : 'fs-18'"
+        class="new-button br-8 cursor-pointer font-medium"
         @click="createNewPointMode"
       >
-        <div class="fs-18 font-medium">Добавить новую точку</div>
+        Добавить
       </div>
-      <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
+      <img
+        class="icon logo_item"
+        src="@/assets/images/logo_unfilled.svg"
+        alt=""
+      />
     </header>
     <main class="map__content map-fix flex-1">
       <YandexMap style="padding: 1rem" :settings="mapSettings" width="100%">
@@ -86,7 +92,7 @@
           :settings="{ onClick: mode === 'create' ? onCreatePoint : () => {} }"
         />
       </YandexMap>
-      <div class="map__search ml-8 p-5 br-20 max-w-[350px]">
+      <div v-if="!isMobile" class="map__search ml-8 p-5 br-20 max-w-[350px]">
         <Search placeholder-value="Поиск по направлениям..." />
       </div>
     </main>
@@ -115,6 +121,10 @@ import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 import { useForm } from 'vee-validate'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { useMapStore } from '@/store/map/useMapStore'
+
+const isMobile = computed(
+  () => typeof window !== 'undefined' && window.innerWidth < 768
+)
 
 const { selectComponent } = useComponentsStore()
 const {
@@ -152,13 +162,19 @@ const createMarker = async values => {
   }
   toggleModal()
   mode.value = 'read'
-  await createTravelPoint({
-    ...routePoints.value[routePoints.value.length - 1],
-    name: values?.name,
-    description: values?.description,
-    travelPointImages: values?.travelPointImages ?? null
-  })
-  //Todo: доделать создание маркеров на основе приходящих с модалки данных
+  const formData = new FormData()
+  formData.append('name', values?.name)
+  formData.append('description', values?.description)
+  formData.append('travelPointImages[]', values?.travelPointImages ?? null)
+  formData.append(
+    'latitude',
+    routePoints.value[routePoints.value.length - 1].latitude
+  )
+  formData.append(
+    'longitude',
+    routePoints.value[routePoints.value.length - 1].longitude
+  )
+  await createTravelPoint(formData)
 }
 
 const addPointToRoute = id => {
@@ -271,10 +287,12 @@ const toggleDescription = marker => {
     background: white
     padding: 0.75rem
     justify-content: space-between
-
     .icon
       &:hover
         cursor: pointer
+.logo_item
+  @media (max-width: 768px)
+    width: 100px
 
   &__content
     background: #DAE8DA

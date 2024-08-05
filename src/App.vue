@@ -14,4 +14,6 @@ export default {
   height: 100vh
   font-family: Lato,sans-serif
   line-height: normal
+  @media (max-width: 768px)
+    background: linear-gradient(to bottom, #dbf1d9, #ffffff)
 </style>

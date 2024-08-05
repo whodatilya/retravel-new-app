@@ -1,8 +1,11 @@
 <template>
-  <div class="flex flex-col flex-1 gap-2.5 w-[60%]">
+  <div :class="{ 'w-[60%]': !isMobile }" class="flex flex-col flex-1 gap-2.5">
     <div class="content-wrapper flex flex-col flex-auto gap-6 h-full">
-      <span class="fs-18 font-semibold">Новая публикация</span>
-      <div class="flex flex-row gap-7 justify-between">
+      <span class="fs-18 font-semibold">Новый тур</span>
+      <div
+        :class="isMobile ? 'flex-col' : 'flex-row'"
+        class="flex flex-row gap-7 justify-between"
+      >
         <div class="flex flex-col gap-4 basis-4/5">
           <RetravelTextField label-text="Название" field-name="name" />
           <RetravelNumberField label-text="Стоимость" field-name="price" />
@@ -14,7 +17,8 @@
         </div>
         <div>
           <RetravelFileField
-            class="!w-auto !h-full"
+            :class="isMobile ? 'h-full' : '!h-full'"
+            class="!w-auto"
             field-name="tourImages"
             multiple
           />
@@ -42,7 +46,7 @@
 import { useRouter } from 'vue-router'
 import 'vue3-carousel/dist/carousel.css'
 import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
 import RetravelDateField from '@/components/Fields/RetravelDateField.vue'
@@ -52,6 +56,8 @@ const router = useRouter()
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['submit'])
+
+const isMobile = computed(() => window.innerWidth < 768)
 
 const createRoute = () => {
   router.push({
@@ -108,9 +114,13 @@ const createRoute = () => {
     padding: 10px 18px
     background: #FF7272
     color: white
+    @media (max-width: 768px)
+      padding: 10px 12px
   &__save
     border-radius: 10px
     padding: 10px 18px
     background: #4E944F
     color: white
+    @media (max-width: 768px)
+      padding: 10px 12px
 </style>

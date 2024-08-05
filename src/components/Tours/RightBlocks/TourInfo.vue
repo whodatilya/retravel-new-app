@@ -4,7 +4,7 @@
       <div class="flex flex-row gap-5">
         <div><img src="@/assets/images/iconUser.svg" alt="" /></div>
         <div>
-          <div class="flex flex-col gap-2 fs-18 font-medium">
+          <div class="flex flex-col gap-2 fs-16 font-medium">
             <div class="flex flex-row gap-2">
               <span>{{ tour?.user?.name }}</span>
               <span>{{ tour?.user?.surname }}</span>
@@ -18,9 +18,7 @@
         <span class="fs-18 font-medium" v-if="tour?.avgRating">{{
           tour?.avgRating
         }}</span>
-        <span class="fs-14 font-light color-main-gray" v-else
-          >Пока нет оценок</span
-        >
+        <span class="fs-14 font-light color-main-gray" v-else>нет оценок</span>
       </div>
     </div>
     <div class="flex flex-col gap-2 pb-5">

@@ -9,7 +9,10 @@
       />
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="user__content flex !flex-row gap-2.5 flex-1 overflow-y-auto">
+    <main
+      :class="isMobile ? '!flex-col' : '!flex-row'"
+      class="user__content flex gap-2.5 flex-1 overflow-y-auto"
+    >
       <ViewUser />
       <Reviews />
     </main>
@@ -21,6 +24,7 @@ import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import ViewUser from '@/components/User/ViewUser.vue'
 import Reviews from '@/components/User/Reviews.vue'
+import { computed } from 'vue'
 
 const { selectComponent } = useComponentsStore()
 
@@ -28,6 +32,8 @@ const goBack = () => {
   selectComponent('Main')
   router.go(-1)
 }
+
+const isMobile = computed(() => window.innerWidth < 768)
 </script>
 
 <style lang="sass" scoped>

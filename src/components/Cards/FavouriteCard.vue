@@ -58,7 +58,8 @@ export default defineComponent({
   &__content
     display: flex
     flex-direction: column
-    padding: 0.75rem
+    gap: 0.5rem
+    padding: 0.7rem
     justify-content: center
     height: 30%
 </style>

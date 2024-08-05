@@ -9,9 +9,17 @@ export const useMapStore = defineStore('map', () => {
     storeRoutePoints.value = points
   }
 
-  const getTravelPoints = async () => {
+  const queryString = filters => {
+    const params = new URLSearchParams()
+    for (const key in filters) {
+      params.append(key, filters[key])
+    }
+    return params.toString()
+  }
+
+  const getTravelPoints = async filters => {
     const response = await request({
-      url: '/api/travel-point/',
+      url: `/api/travel-point?${queryString(filters)}`,
       headers: {
         'Content-Type': 'application/json'
       },

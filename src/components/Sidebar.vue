@@ -1,6 +1,9 @@
 <template>
   <nav class="flex flex-col h-[100vh] justify-between sticky sticky-sidebar">
-    <div class="flex flex-col gap-2">
+    <div
+      class="flex flex-col gap-2"
+      :class="{ 'pt-4': currentWindowWidth < 768 }"
+    >
       <img :src="logo" alt="Логотип" class="mb-4" />
       <div
         class="flex gap-6 br-10 menu__text p-1.5"
@@ -49,21 +52,18 @@
   </nav>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import logo from '@/assets/images/logo.svg'
 import iconExit from '@/assets/images/iconExit.svg'
 import iconUser from '@/assets/images/iconUser.svg'
-import iconTour from '@/assets/images/iconTour.svg'
-import iconFavourite from '@/assets/images/iconFavourite.svg'
-import iconFolder from '@/assets/images/iconFolder.svg'
-import iconHome from '@/assets/images/iconHome.svg'
-import iconMap from '@/assets/images/iconMap.svg'
 import { useAuthStore } from '@/store/auth/useAuthStore'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['selectedComponent'])
 
 const { logout } = useAuthStore()
+
+const currentWindowWidth = computed(() => window.innerWidth)
 
 const menuItems = [
   {

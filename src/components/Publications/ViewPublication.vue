@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col flex-1 gap-2.5 w-[60%]">
+  <div :class="{ 'w-[60%]': !isMobile }" class="flex flex-col flex-1 gap-2.5">
     <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[450px]">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5">
@@ -62,7 +62,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import { useRouter } from 'vue-router'
@@ -81,6 +81,8 @@ const mapSettings = {
     zIndex: 1
   }
 }
+
+const isMobile = computed(() => window.innerWidth < 768)
 
 const openMap = () => {
   router.push({ name: 'map' })

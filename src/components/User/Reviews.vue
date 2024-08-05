@@ -1,5 +1,8 @@
 <template>
-  <div class="min-w-[500px] content-wrapper flex flex-col gap-5">
+  <div
+    :class="{ 'min-w-[500px]': !isMobile }"
+    class="content-wrapper flex flex-col gap-5"
+  >
     <div class="flex flex-row justify-between pb-[20px]">
       <span class="font-semibold fs-24">Отзывы</span>
     </div>
@@ -19,12 +22,13 @@
 
 <script setup>
 import Review from '@/components/User/Review.vue'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useReviewStore } from '@/store/reviews/useReviewStore'
 import ReviewModal from '@/components/Modals/ReviewModal.vue'
 
 const reviews = ref([])
 const isModalOpened = ref(false)
+const isMobile = computed(() => window.innerWidth < 768)
 
 const toggleModal = () => {
   isModalOpened.value = !isModalOpened.value

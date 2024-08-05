@@ -113,10 +113,14 @@ const processFile = () => {
     padding: 10px 18px
     background: #FF7272
     color: white
+    @media (max-width: 768px)
+      padding: 10px 12px
   &__save
     width: 135px
     border-radius: 10px
     padding: 10px 18px
     background: #4E944F
     color: white
+    @media (max-width: 768px)
+      padding: 10px 12px
 </style>

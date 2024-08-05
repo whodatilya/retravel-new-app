@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col flex-1 gap-5 w-[60%]">
+  <div
+    :class="{ 'w-[60%]': !isMobile, 'pb-5': isMobile }"
+    class="flex flex-col flex-1 gap-5"
+  >
     <div class="flex flex-col gap-4 justify-center items-center">
       <div class="flex flex-row justify-center">
         <img
@@ -15,7 +18,10 @@
     <div
       class="content-wrapper flex flex-col justify-center flex-auto gap-6 h-full wide-inputs"
     >
-      <div class="flex flex-row [&>*]:w-full gap-8">
+      <div
+        :class="isMobile ? 'flex-col' : 'flex-row'"
+        class="flex [&>*]:w-full gap-8"
+      >
         <RetravelTextField
           :additional-style="{ height: '48px' }"
           field-name="name"
@@ -60,7 +66,7 @@ import RetravelPhoneNumberField from '@/components/Fields/RetravelPhoneNumberFie
 import RetravelPasswordField from '@/components/Fields/RetravelPasswordField.vue'
 import { useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth/useAuthStore'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const { changeUserData } = useAuthStore()
 const { getUser } = useAuthStore()
@@ -68,6 +74,8 @@ const { getUser } = useAuthStore()
 const userId = localStorage.getItem('userId')
 
 const { handleSubmit, setValues } = useForm()
+
+const isMobile = computed(() => window.innerWidth < 768)
 
 onMounted(async () => {
   const user = await getUser(userId)

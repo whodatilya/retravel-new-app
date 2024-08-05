@@ -9,7 +9,10 @@
       />
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="publication__content flex !flex-row gap-2.5 flex-1">
+    <main
+      :class="isMobile ? '!flex-col' : '!flex-row'"
+      class="publication__content flex !flex-row gap-2.5 flex-1"
+    >
       <CreatePublicationGuide @submit="onSubmitForm" />
       <EditPublicationRightBlock />
     </main>
@@ -25,10 +28,13 @@ import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { useTourStore } from '@/store/tours/useTourStore'
 import { useMapStore } from '@/store/map/useMapStore'
 import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
 const { selectComponent } = useComponentsStore()
 
 const { clearPointsStore } = useMapStore()
+
+const isMobile = computed(() => window.innerWidth < 768)
 
 const { storeRoutePoints } = storeToRefs(useMapStore())
 

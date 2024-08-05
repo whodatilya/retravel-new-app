@@ -9,11 +9,15 @@
       />
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main class="user_info__content flex !flex-row gap-2.5 flex-1">
+    <main
+      :class="isMobile ? '!flex-col' : '!flex-row'"
+      class="user_info__content flex gap-2.5 flex-1"
+    >
       <ViewPublication
         image-path="tourImages"
         is-tour
         v-if="mode === 'view'"
+        @submit="onSubmitForm"
         :publication="tour"
       />
       <!--      <CreatePublication-->
@@ -34,7 +38,7 @@ import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import { useRoute } from 'vue-router'
-import { onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import CreatePublication from '@/components/Publications/CreatePublication.vue'
 import { storeToRefs } from 'pinia'
 import EditPublicationRightBlock from '@/components/Publications/RightBlocks/EditPublicationRightBlock.vue'
@@ -46,7 +50,9 @@ import { useTourStore } from '@/store/tours/useTourStore'
 const { selectComponent } = useComponentsStore()
 const { handleSubmit, setValues } = useForm()
 
-const { getTourById } = useTourStore()
+const isMobile = computed(() => window.innerWidth < 768)
+
+const { getTourById, updateTour } = useTourStore()
 
 const { clearPointsStore } = useMapStore()
 
@@ -90,9 +96,8 @@ const onSubmitForm = () => {
       routeImages: values.routeImages[0],
       routeTravelPoints: storeRoutePoints.value
     }
-    console.log(preparedValues)
-    // await updatePublication(publicationId, preparedValues)
-    // clearPointsStore()
+    await updateTour(tourId, preparedValues)
+    clearPointsStore()
   })()
 }
 </script>
@@ -116,5 +121,8 @@ const onSubmitForm = () => {
     position: relative
     display: flex
     flex-direction: column
+    @media (max-width: 768px)
+      background: transparent
+      height: unset
     //justify-content: center
 </style>
