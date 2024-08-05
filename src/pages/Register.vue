@@ -249,6 +249,8 @@ watch(
       flex-direction: row
       flex-basis: 50%
       gap: 10px
+      width: -moz-available
+      width: -webkit-fill-available
       width: fill-available
       justify-content: space-between
       @media (max-width: 576px)
@@ -278,6 +280,8 @@ watch(
     width: 100%
 .input-width-fix
   @media (max-width: 576px)
+    width: -moz-available
+    width: -webkit-fill-available
     width: fill-available
 .form
   &__input

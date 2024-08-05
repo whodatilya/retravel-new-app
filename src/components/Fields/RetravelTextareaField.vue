@@ -1,5 +1,12 @@
 <template>
-  <div class="flex flex-col gap-[6px]" style="height: -webkit-fill-available">
+  <div
+    class="flex flex-col gap-[6px]"
+    style="
+      height: -moz-available;
+      height: -webkit-fill-available;
+      height: fill-available;
+    "
+  >
     <span class="color-main-gray font-semibold fs-12">{{ labelText }}</span>
     <textarea
       :style="additionalStyle"

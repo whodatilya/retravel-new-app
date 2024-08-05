@@ -46,7 +46,11 @@ export default defineComponent({
   &__wrapper
     display: flex
     flex-direction: column
+    height: -moz-available
+    height: -webkit-fill-available
     height: fill-available
+    width: -moz-available
+    width: -webkit-fill-available
     width: fill-available
     background: white
     box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.05)
