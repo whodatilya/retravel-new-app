@@ -16,5 +16,5 @@ export default {
   line-height: normal
   @media (max-width: 768px)
     background: linear-gradient(to bottom left, #e3f2e1, #ffffff)
-    height: calc(max-content + 20px)
+    height: max-content
 </style>
