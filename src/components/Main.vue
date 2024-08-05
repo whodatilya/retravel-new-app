@@ -95,6 +95,16 @@ const { getFavourites } = useFavouriteStore()
 const favourites = ref([])
 
 onMounted(async () => {
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      localStorage.setItem(
+        'userPosition',
+        JSON.stringify([pos.coords.latitude, pos.coords.longitude])
+      )
+    },
+    err => console.error(`Ошибка(${err.code}): ${err.message}`),
+    { maximumAge: 60000, timeout: 3000, enableHighAccuracy: true } // Для точности необходимо быстроту!
+  )
   const popularData = await getPublications({
     itemsPerPage: 4,
     sort: 'avgRating'

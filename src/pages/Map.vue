@@ -24,7 +24,7 @@
       </div>
       <img class="icon" src="@/assets/images/logo_unfilled.svg" alt="" />
     </header>
-    <main v-if="userPosition.length" class="map__content map-fix flex-1">
+    <main class="map__content map-fix flex-1">
       <YandexMap style="padding: 1rem" :settings="mapSettings" width="100%">
         <YandexMapDefaultFeaturesLayer />
         <YandexMapDefaultSchemeLayer />
@@ -109,7 +109,7 @@ import {
   YandexMapZoomControl
 } from 'vue-yandex-maps'
 import Search from '@/components/Elements/Search.vue'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 import { useForm } from 'vee-validate'
@@ -231,9 +231,13 @@ onMounted(async () => {
   }))
 })
 
+const userCoordinates = computed(() =>
+  JSON.parse(localStorage.getItem('userPosition'))
+)
+
 const mapSettings = {
   location: {
-    center: [49.154205, 55.790713],
+    center: [userCoordinates.value[1], userCoordinates.value[0]],
     zoom: 10,
     zIndex: 1
   }

@@ -1,11 +1,6 @@
 <template>
-  <div class="content-wrapper flex flex-col gap-5">
+  <div class="min-w-[500px] content-wrapper flex flex-col gap-5">
     <div class="flex flex-row justify-between pb-[20px]">
-      <img
-        class="w-[100px]"
-        src="@/assets/images/cardImages/iconRating.svg"
-        alt=""
-      />
       <span class="font-semibold fs-24">Отзывы</span>
     </div>
     <div class="overflow-auto">
