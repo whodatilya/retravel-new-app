@@ -108,8 +108,8 @@ export default defineComponent({
   display: flex
   flex-direction: row
   justify-content: space-between
-  padding: 1rem
-  background-color: #4E944F
+  padding: 1rem 2rem
+  background: linear-gradient(to bottom left, #e3f2e1, #ffffff)
 
 .burger-menu
   display: none
@@ -121,7 +121,7 @@ export default defineComponent({
 .burger-menu-line
   width: 25px
   height: 3px
-  background-color: #fff
+  background-color: #7D7D7D
   margin: 4px 0
 
 .sidebar

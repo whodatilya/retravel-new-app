@@ -214,13 +214,16 @@ const currentWindowWidth = computed(() => window.innerWidth)
   position: relative
   width: 100%
   img
-    width: fill-available
+    width: 100%
+    height: auto
   .text
     position: absolute
-    top: 39px
+    top: 50%
     right: 20px
+    transform: translateY(-50%)
     display: flex
     flex-direction: column
     gap: 0.25rem
     width: 222px
+    text-align: right
 </style>
