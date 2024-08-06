@@ -4,6 +4,7 @@ import router from './router'
 import { createPinia } from 'pinia'
 import { createYmaps } from 'vue-yandex-maps'
 import '@/styles/tailwind.css'
+import '@hennge/vue3-pagination/dist/vue3-pagination.css'
 
 const pinia = createPinia()
 

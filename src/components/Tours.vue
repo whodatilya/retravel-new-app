@@ -36,19 +36,27 @@
         :key="tour.id"
       />
     </div>
+    <template v-if="pageNumber > 1">
+      <v-pagination
+        v-model="page"
+        :pages="pageNumber"
+        :range-size="1"
+        active-color="#DCEDFF"
+        @update:modelValue="updateHandler"
+        class="pagination-container-fix"
+      />
+    </template>
   </div>
 </template>
 <script setup>
 import 'vue3-carousel/dist/carousel.css'
 import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
-import { computed, onMounted, reactive, ref } from 'vue'
-import caves from '@/assets/images/cardImages/favourites/caves.jpg'
-import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
-import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
+import { computed, onMounted, ref } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/store/auth/useAuthStore'
 import { useTourStore } from '@/store/tours/useTourStore'
+import VPagination from '@hennge/vue3-pagination'
 
 const { getRoles } = useAuthStore()
 
@@ -56,12 +64,43 @@ const { getTours } = useTourStore()
 
 const isGuide = computed(() => getRoles().includes('ROLE_GUIDE'))
 
+let page = ref(1)
+const itemsPerPage = 8
+
+const paginatedTours = ref(null)
+
+const pageNumber = computed(() => {
+  if (paginatedTours?.value <= itemsPerPage) {
+    return 1
+  }
+  return paginatedTours?.value % itemsPerPage === 0
+    ? paginatedTours?.value / itemsPerPage
+    : paginatedTours?.value / itemsPerPage + 1
+})
+
 const isMobile = computed(() => window.innerWidth < 768)
 
 const tours = ref([])
 
+const updateHandler = async newPageNumber => {
+  const tempData = await getTours({
+    itemsPerPage: 8,
+    page: newPageNumber
+  })
+  tours.value = tempData.data
+}
+
 onMounted(async () => {
-  const toursData = await getTours()
+  const paginatedToursData = await getTours()
+  if (paginatedToursData.data) {
+    paginatedTours.value = paginatedToursData.data.length
+  } else {
+    paginatedTours.value = 0
+  }
+  const toursData = await getTours({
+    itemsPerPage: 8,
+    page: 1
+  })
   if (toursData.data) {
     tours.value = toursData.data
   } else {

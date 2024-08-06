@@ -17,32 +17,71 @@
         :key="favourite.id"
       />
     </div>
+    <template v-if="pageNumber > 1">
+      <v-pagination
+        v-model="page"
+        :pages="pageNumber"
+        :range-size="1"
+        active-color="#DCEDFF"
+        @update:modelValue="updateHandler"
+        class="pagination-container-fix"
+      />
+    </template>
   </div>
 </template>
 <script lang="js" setup>
-import { computed, onMounted, reactive, ref } from 'vue'
-import caves from '@/assets/images/cardImages/favourites/caves.jpg'
-import sochi from '@/assets/images/cardImages/favourites/sochi.jpg'
-import geyser from '@/assets/images/cardImages/favourites/geyser.jpg'
+import { computed, onMounted, ref } from 'vue'
 import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
 import router from '@/router'
 import { useFavouriteStore } from '@/store/favourite/useFavouriteStore'
+import VPagination from '@hennge/vue3-pagination'
 
 const { getFavourites } = useFavouriteStore()
 
 const favourites = ref([])
+const paginatedFavourites= ref(null)
+
+const pageNumber = computed(() => {
+  if (paginatedFavourites?.value <= itemsPerPage) {
+    return 1
+  }
+  return paginatedFavourites?.value % itemsPerPage === 0
+    ? paginatedFavourites?.value / itemsPerPage
+    : paginatedFavourites?.value / itemsPerPage + 1
+})
+
+let page = ref(1)
+const itemsPerPage = 8
+
+const updateHandler = async newPageNumber => {
+  const tempData = await getFavourites({
+    itemsPerPage: 8,
+    page: newPageNumber
+  })
+  favourites.value = tempData.data
+}
 
 const isMobile = computed(() => window.innerWidth < 768)
 
 onMounted(async () => {
-  const favouritesData = await getFavourites()
+  const paginatedToursData = await getFavourites()
+  if (paginatedToursData.data) {
+    paginatedFavourites.value = paginatedToursData.data.length
+  } else {
+    paginatedFavourites.value = 0
+  }
+  const favouritesData = await getFavourites({
+    itemsPerPage: 8,
+    page: 1
+  })
   if (favouritesData) {
     favourites.value = favouritesData
   } else {
     favourites.value = []
   }
 })
+
 
 
 const openFavourite = id => {

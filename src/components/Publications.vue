@@ -35,14 +35,16 @@
         :key="publication.id"
       />
     </div>
-    <v-pagination
-      v-model="page"
-      :pages="publications?.length / itemsPerPage"
-      :range-size="1"
-      active-color="#DCEDFF"
-      @update:modelValue="updateHandler"
-      class="pagination-container"
-    />
+    <template v-if="pageNumber > 1">
+      <v-pagination
+        v-model="page"
+        :pages="pageNumber"
+        :range-size="1"
+        active-color="#DCEDFF"
+        @update:modelValue="updateHandler"
+        class="pagination-container-fix"
+      />
+    </template>
   </div>
 </template>
 
@@ -52,26 +54,48 @@ import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
 import { computed, onMounted, ref } from 'vue'
 import router from '@/router'
-import { useAuthStore } from '@/store/auth/useAuthStore'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import VPagination from '@hennge/vue3-pagination'
 
-const { getRoles } = useAuthStore()
 const { getPublications } = usePublicationsStore()
 
 let page = ref(1)
 const itemsPerPage = 8
 
-const updateHandler = newPageNumber => {
-  console.log(newPageNumber)
+const updateHandler = async newPageNumber => {
+  const tempData = await getPublications({
+    itemsPerPage: 8,
+    page: newPageNumber
+  })
+  publications.value = tempData.data
 }
 
 const publications = ref([])
+const paginatedPublications = ref(null)
+
+const pageNumber = computed(() => {
+  if (paginatedPublications?.value <= itemsPerPage) {
+    return 1
+  }
+  return paginatedPublications?.value % itemsPerPage === 0
+    ? paginatedPublications?.value / itemsPerPage
+    : paginatedPublications?.value / itemsPerPage + 1
+})
 
 const isMobile = computed(() => window.innerWidth < 768)
 
 onMounted(async () => {
-  const publicationsData = await getPublications()
+  const paginatedPublicationsData = await getPublications()
+  if (paginatedPublicationsData.data) {
+    paginatedPublications.value = paginatedPublicationsData.data.length
+  } else {
+    paginatedPublications.value = 0
+  }
+
+  const publicationsData = await getPublications({
+    itemsPerPage: 8,
+    page: 1
+  })
   if (publicationsData.data) {
     publications.value = publicationsData.data
   } else {
@@ -108,11 +132,6 @@ const openPublication = id => {
     grid-template-columns: repeat(1, 1fr)
     grid-template-rows: repeat(1, 1fr)
     box-shadow: none
-
-.pagination-container
-  display: flex
-  justify-content: center
-  margin-top: 20px
 
 .content-wrapper
   border-radius: 20px
