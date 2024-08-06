@@ -35,8 +35,17 @@
         :key="publication.id"
       />
     </div>
+    <v-pagination
+      v-model="page"
+      :pages="publications?.length / itemsPerPage"
+      :range-size="1"
+      active-color="#DCEDFF"
+      @update:modelValue="updateHandler"
+      class="pagination-container"
+    />
   </div>
 </template>
+
 <script setup>
 import 'vue3-carousel/dist/carousel.css'
 import Search from '@/components/Elements/Search.vue'
@@ -45,9 +54,17 @@ import { computed, onMounted, ref } from 'vue'
 import router from '@/router'
 import { useAuthStore } from '@/store/auth/useAuthStore'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+import VPagination from '@hennge/vue3-pagination'
 
 const { getRoles } = useAuthStore()
 const { getPublications } = usePublicationsStore()
+
+let page = ref(1)
+const itemsPerPage = 8
+
+const updateHandler = newPageNumber => {
+  console.log(newPageNumber)
+}
 
 const publications = ref([])
 
@@ -77,6 +94,7 @@ const openPublication = id => {
   })
 }
 </script>
+
 <style scoped lang="sass">
 .main-container
   display: grid
@@ -90,6 +108,12 @@ const openPublication = id => {
     grid-template-columns: repeat(1, 1fr)
     grid-template-rows: repeat(1, 1fr)
     box-shadow: none
+
+.pagination-container
+  display: flex
+  justify-content: center
+  margin-top: 20px
+
 .content-wrapper
   border-radius: 20px
   background: white

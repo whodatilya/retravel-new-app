@@ -93,7 +93,7 @@
         />
       </YandexMap>
       <div v-if="!isMobile" class="map__search ml-8 p-5 br-20 max-w-[350px]">
-        <Search placeholder-value="Поиск по направлениям..." />
+        <search placeholder-value="Поиск по направлениям..." />
       </div>
     </main>
     <NewMarkerModal
@@ -114,17 +114,14 @@ import {
   YandexMapMarker,
   YandexMapZoomControl
 } from 'vue-yandex-maps'
-import Search from '@/components/Elements/Search.vue'
+import search from '@/components/Elements/Search.vue'
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
-import { useForm } from 'vee-validate'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { useMapStore } from '@/store/map/useMapStore'
 
-const isMobile = computed(
-  () => typeof window !== 'undefined' && window.innerWidth < 768
-)
+const isMobile = computed(() => window.innerWidth < 768)
 
 const { selectComponent } = useComponentsStore()
 const {
@@ -253,7 +250,9 @@ const userCoordinates = computed(() =>
 
 const mapSettings = {
   location: {
-    center: [userCoordinates.value[1], userCoordinates.value[0]],
+    center: userCoordinates.value
+      ? [userCoordinates.value[1], userCoordinates.value[0]]
+      : [49.154205, 55.790713],
     zoom: 10,
     zIndex: 1
   }
@@ -290,17 +289,6 @@ const toggleDescription = marker => {
     .icon
       &:hover
         cursor: pointer
-.logo_item
-  @media (max-width: 768px)
-    width: 100px
-
-  &__content
-    background: #DAE8DA
-    position: relative
-    display: flex
-    flex-direction: column
-    justify-content: center
-
   &__search
     display: flex
     flex-direction: column
@@ -309,11 +297,22 @@ const toggleDescription = marker => {
     border: 1px solid #D0D0D0
     height: 90%
 
+  &__content
+    background: #DAE8DA
+    position: relative
+    display: flex
+    flex-direction: column
+    justify-content: center
+
+.logo_item
+  @media (max-width: 768px)
+    width: 100px
+
+
 .cancel-button
   background: #FF7272
   color: white
   padding: 8px 12px
-
   &:hover
     background: #c75858
 
@@ -321,7 +320,6 @@ const toggleDescription = marker => {
   background: #4E944F
   padding: 8px 12px
   color: white
-
   &:hover
     background: rgba(78, 148, 79, 0.85)
 
@@ -370,7 +368,6 @@ const toggleDescription = marker => {
   -webkit-line-clamp: 2
   overflow: hidden
   text-overflow: ellipsis
-
   &.expanded
     -webkit-line-clamp: unset
     max-height: unset
