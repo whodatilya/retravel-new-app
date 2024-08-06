@@ -5,7 +5,8 @@
         <div class="fs-18 font-semibold">{{ labelText }}</div>
       </div>
       <RetravelFileField
-        class="!w-full !h-[27rem]"
+        class="!w-full"
+        :class="isMobile ? 'h-full' : '!h-full'"
         drop-zone-text="Перетащите изображение или нажмите для загрузки"
         field-name="routeImages"
         multiple
