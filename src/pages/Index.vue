@@ -70,6 +70,9 @@ export default defineComponent({
     },
     currentWindowSize() {
       return window.innerWidth
+    },
+    currentUserId() {
+      return JSON.parse(localStorage.getItem('userId'))
     }
   },
   methods: {
@@ -94,7 +97,7 @@ export default defineComponent({
         this.$router.push({
           name: 'user',
           params: {
-            id: 1
+            id: this.currentUserId
           }
         })
       }

@@ -41,6 +41,17 @@ export const useAuthStore = defineStore('authnetication', () => {
     return response.data
   }
 
+  const changeProfilePhoto = async file => {
+    return await request({
+      method: 'POST',
+      url: '/api/user/profile-photo',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      data: file
+    }).catch(error => alert('Error!' + error))
+  }
+
   const getUser = async userId => {
     const response = await request({
       method: 'GET',
@@ -65,6 +76,7 @@ export const useAuthStore = defineStore('authnetication', () => {
     login,
     logout,
     changeUserData,
+    changeProfilePhoto,
     getRoles,
     getUser
   }

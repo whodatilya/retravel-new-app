@@ -6,13 +6,14 @@
     <div class="flex flex-col gap-4 justify-center items-center">
       <div class="flex flex-row justify-center">
         <img
-          src="@/assets/images/iconUserBig.svg"
-          style="width: 145px"
+          :src="profilePhotoUrl || require('@/assets/images/iconUserBig.svg')"
+          style="width: 145px; height: 145px; border-radius: 50%"
           alt=""
         />
       </div>
+      <input ref="myFiles" accept="image/*" @change="processFile" type="file" />
       <div class="p-2 white-background br-8 flex w-fit flex-row justify-center">
-        Имя Фамилия
+        {{ user?.name }} {{ user?.surname }}
       </div>
     </div>
     <div
@@ -64,25 +65,44 @@
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelPhoneNumberField from '@/components/Fields/RetravelPhoneNumberField.vue'
 import RetravelPasswordField from '@/components/Fields/RetravelPasswordField.vue'
-import { useForm } from 'vee-validate'
+import { useField, useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth/useAuthStore'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { defaultValidator } from '@/shared/validators/defaultValidator'
 
-const { changeUserData } = useAuthStore()
-const { getUser } = useAuthStore()
+const myFiles = ref(null)
+const profilePhotoUrl = ref(null)
+
+const { changeUserData, getUser, changeProfilePhoto } = useAuthStore()
 
 const userId = localStorage.getItem('userId')
 
 const { handleSubmit, setValues } = useForm()
+const user = ref(null)
 
 const isMobile = computed(() => window.innerWidth < 768)
 
 onMounted(async () => {
-  const user = await getUser(userId)
-  if (user) {
-    setValues(user)
+  user.value = await getUser(userId)
+  profilePhotoUrl.value = user.value?.profilePhoto
+  if (user.value) {
+    setValues(user.value)
   }
 })
+
+const { value } = useField(() => 'profilePhoto', defaultValidator, {
+  initialValue: null
+})
+
+const processFile = async () => {
+  value.value = myFiles.value.files[0]
+  const formData = new FormData()
+  formData.append('profilePhoto', value.value)
+  const response = await changeProfilePhoto(formData)
+
+  // Создаем URL для отображения загруженного изображения
+  profilePhotoUrl.value = URL.createObjectURL(value.value)
+}
 
 const submitUserData = () => {
   handleSubmit(async values => {

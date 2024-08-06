@@ -10,13 +10,17 @@
         :class="{ 'menu__text-active': selectedComponent === 'Settings' }"
         @click="switchPage('Settings')"
       >
-        <img :src="iconUser" alt="Пользователь" />
+        <img
+          :src="user?.profilePhoto || iconUser"
+          style="width: 45px; height: 45px; border-radius: 50%"
+          alt=""
+        />
         <div class="flex flex-col justify-center user-text">
           <div class="menu__text user-text__active fs-18 font-semibold">
-            Имя Фамилия
+            {{ user?.name }} {{ user?.surname }}
           </div>
           <div class="menu__text user-text__active fs-14 font-medium">
-            Пользователь
+            {{ role }}
           </div>
         </div>
       </div>
@@ -52,7 +56,7 @@
   </nav>
 </template>
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import logo from '@/assets/images/logo.svg'
 import iconExit from '@/assets/images/iconExit.svg'
 import iconUser from '@/assets/images/iconUser.svg'
@@ -61,7 +65,9 @@ import { useAuthStore } from '@/store/auth/useAuthStore'
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['selectedComponent'])
 
-const { logout } = useAuthStore()
+const { logout, getUser } = useAuthStore()
+
+const user = ref(null)
 
 const currentWindowWidth = computed(() => window.innerWidth)
 
@@ -100,6 +106,20 @@ const switchPage = componentName => {
 const quit = () => {
   logout()
 }
+
+onMounted(async () => {
+  const userId = localStorage.getItem('userId')
+  user.value = await getUser(userId)
+})
+
+const role = computed(() => {
+  const roles = localStorage.getItem('roles')
+  if (roles.includes('ROLE_GUIDE')) {
+    return 'Гид'
+  } else {
+    return 'Пользователь'
+  }
+})
 </script>
 <style scoped lang="sass">
 .sticky-sidebar
