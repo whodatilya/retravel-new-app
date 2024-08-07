@@ -47,7 +47,10 @@
             }"
           >
             <div class="marker">
-              {{ marker.name }}
+              <div class="flex flex-row items-center gap-1">
+                <img src="@/assets/images/iconMapPin.svg" alt="" />
+                <div>{{ marker.name }}</div>
+              </div>
             </div>
           </YandexMapMarker>
         </YandexMap>
@@ -223,14 +226,18 @@ const closeModal = () => {
     &:hover
       cursor: pointer
 .marker
-  background: red
+  background: white
   display: flex
   max-width: 500px
   align-items: center
+  font-size: 14px
+  font-weight: 300
   justify-content: center
-  border-radius: 10px
+  border: 1px solid #D0D0D0
+  border-radius: 0 10px 10px 10px
   cursor: pointer
-  color: #fff
-  padding: 8px 12px
+  color: black
+  width: max-content
+  padding: 5px 7px
   white-space: nowrap
 </style>
