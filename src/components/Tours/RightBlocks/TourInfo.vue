@@ -14,7 +14,7 @@
         </div>
         <div>
           <div class="flex flex-col gap-2 fs-16 font-medium">
-            <div class="flex flex-row gap-2">
+            <div class="flex flex-row gap-1">
               <span>{{ tour?.user?.name }}</span>
               <span>{{ tour?.user?.surname }}</span>
             </div>
