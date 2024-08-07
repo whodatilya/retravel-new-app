@@ -1,20 +1,32 @@
 <template>
   <div class="content-wrapper basis-5/12 flex flex-col gap-5">
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-row justify-between items-center relative">
       <div class="fs-18 font-semibold">Мои публикации</div>
-      <div class="filter-button flex flex-row p-1.5 br-8 gap-0.5">
+      <div
+        class="filter-button flex flex-row p-1.5 br-8 gap-0.5"
+        @click="toggleDropdown"
+      >
         <img src="@/assets/images/iconFilter.svg" alt="" />
         <div class="color-main-gray fs-12">Фильтр</div>
       </div>
+      <div v-if="isDropdownVisible" class="dropdown-menu">
+        <div @click="sortPublications('rating')">По рейтингу</div>
+        <div @click="sortPublications('createdAt', 'DESC')">
+          По дате создания (убыв.)
+        </div>
+        <div @click="sortPublications('createdAt', 'ASC')">
+          По дате создания (возр.)
+        </div>
+      </div>
     </div>
-    <template v-for="publication in myPublications" :key="publication.id">
+    <template v-for="publication in sortedPublications" :key="publication.id">
       <popular-card :card-data="publication" :is-tiny="true" />
     </template>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import PopularCard from '@/components/Cards/PopularCard.vue'
 import karelia from '@/assets/images/cardImages/popular/image1.svg'
 import altay from '@/assets/images/cardImages/popular/image2.svg'
@@ -43,6 +55,32 @@ const myPublications = reactive([
     rating: 2
   }
 ])
+
+const isDropdownVisible = ref(false)
+const sortOrder = ref('rating')
+
+const toggleDropdown = () => {
+  isDropdownVisible.value = !isDropdownVisible.value
+}
+
+const sortPublications = (order, sortDirection = 'DESC') => {
+  sortOrder.value = {
+    sortBy: order,
+    sortDirection: sortDirection
+  }
+  isDropdownVisible.value = false
+}
+
+const sortedPublications = computed(() => {
+  if (sortOrder.value === 'rating') {
+    return myPublications.slice().sort((a, b) => b.rating - a.rating)
+  } else if (sortOrder.value === 'alphabetDesc') {
+    return myPublications.slice().sort((a, b) => b.title.localeCompare(a.title))
+  } else if (sortOrder.value === 'alphabetAsc') {
+    return myPublications.slice().sort((a, b) => a.title.localeCompare(b.title))
+  }
+  return myPublications
+})
 </script>
 
 <style lang="sass" scoped>
@@ -50,6 +88,7 @@ const myPublications = reactive([
   border-radius: 20px
   background: white
   padding: 1.5rem
+  position: relative
   .button__edit
     color: white
     background: #4E944F
@@ -64,4 +103,22 @@ const myPublications = reactive([
       background: rgba(250, 250, 250, 0.70)
     &-wrapper
       flex: 1 0 auto
+.filter-button
+  cursor: pointer
+
+.dropdown-menu
+  position: absolute
+  top: 100%
+  right: 0
+  background: white
+  border: 1px solid #d0d0d0
+  border-radius: 8px
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+  margin-top: 0.5rem
+  width: max-content
+  div
+    padding: 0.5rem 1rem
+    cursor: pointer
+    &:hover
+      background: #f0f0f0
 </style>

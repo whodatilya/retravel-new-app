@@ -18,13 +18,25 @@
       <place-card v-for="card in placeCards" :key="card.id" :card-data="card" />
     </div>
     <div class="popular br-20 my-2.5">
-      <div class="flex flex-row justify-between items-center">
+      <div class="flex flex-row justify-between items-center relative">
         <div class="fs-18 font-semibold color-main-black">
           Популярные маршруты
         </div>
-        <div class="filter-button flex flex-row p-1.5 br-8 gap-0.5">
+        <div
+          class="filter-button flex flex-row p-1.5 br-8 gap-0.5"
+          @click="toggleDropdown"
+        >
           <img src="@/assets/images/iconFilter.svg" alt="" />
           <div class="color-main-gray fs-12">Фильтр</div>
+        </div>
+        <div v-if="isDropdownVisible" class="dropdown-menu">
+          <div @click="sortPublications('rating')">По рейтингу</div>
+          <div @click="sortPublications('createdAt', 'DESC')">
+            По дате создания (убыв.)
+          </div>
+          <div @click="sortPublications('createdAt', 'ASC')">
+            По дате создания (возр.)
+          </div>
         </div>
       </div>
       <div class="color-main-gray fs-12">
@@ -80,7 +92,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 
 import PlaceCard from '@/components/Cards/PlaceCard.vue'
 import PopularCard from '@/components/Cards/PopularCard.vue'
@@ -102,6 +114,36 @@ const placeCards = ref([])
 const { getTravelPoints } = useMapStore()
 
 const favourites = ref([])
+
+const isDropdownVisible = ref(false)
+const sortOrder = ref('rating')
+
+const toggleDropdown = () => {
+  isDropdownVisible.value = !isDropdownVisible.value
+}
+
+const sortPublications = (order, sortDirection = 'DESC') => {
+  sortOrder.value = {
+    sortBy: order,
+    sortDirection: sortDirection
+  }
+  isDropdownVisible.value = false
+}
+
+watch(
+  () => sortOrder.value,
+  async newValue => {
+    const popularCardsData = await getPublications({
+      ...newValue,
+      itemsPerPage: 4
+    })
+    if (popularCardsData.data) {
+      popularCards.value = popularCardsData.data
+    } else {
+      popularCards.value = []
+    }
+  }
+)
 
 onMounted(async () => {
   navigator.geolocation.getCurrentPosition(
@@ -226,4 +268,25 @@ const currentWindowWidth = computed(() => window.innerWidth)
     gap: 0.25rem
     width: 222px
     text-align: right
+
+.filter-button
+  cursor: pointer
+
+.dropdown-menu
+  position: absolute
+  top: 100%
+  right: 0
+  background: white
+  border: 1px solid #d0d0d0
+  border-radius: 8px
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+  margin-top: 0.5rem
+  width: max-content
+
+  div
+    padding: 0.5rem 1rem
+    cursor: pointer
+
+    &:hover
+      background: #f0f0f0
 </style>

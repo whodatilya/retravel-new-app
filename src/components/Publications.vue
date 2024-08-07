@@ -14,13 +14,35 @@
     </template>
     <template v-else>
       <div class="flex flex-row justify-between px-12 pt-6 items-center">
-        <Search />
-        <div
-          class="flex flex-grow-0 flex-shrink-0 flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
-          @click="createPublication"
-        >
-          <img src="@/assets/images/iconPlus.svg" alt="" />
-          <span class="fs-14 font-semibold">Новая публикация</span>
+        <div>
+          <Search />
+        </div>
+        <div class="flex flex-row gap-4">
+          <div
+            class="flex flex-grow-0 flex-shrink-0 flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
+            @click="createPublication"
+          >
+            <img src="@/assets/images/iconPlus.svg" alt="" />
+            <span class="fs-14 font-semibold">Новая публикация</span>
+          </div>
+          <div class="flex flex-row relative">
+            <div
+              class="filter-button flex flex-row p-1.5 br-8 gap-0.5 items-center"
+              @click="toggleDropdown"
+            >
+              <img src="@/assets/images/iconFilter.svg" alt="" />
+              <div class="color-main-gray fs-12">Фильтр</div>
+            </div>
+            <div v-if="isDropdownVisible" class="dropdown-menu">
+              <div @click="sortPublications('rating')">По рейтингу</div>
+              <div @click="sortPublications('createdAt', 'DESC')">
+                По дате создания (убыв.)
+              </div>
+              <div @click="sortPublications('createdAt', 'ASC')">
+                По дате создания (возр.)
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </template>
@@ -52,7 +74,7 @@
 import 'vue3-carousel/dist/carousel.css'
 import Search from '@/components/Elements/Search.vue'
 import FavouriteCard from '@/components/Cards/FavouriteCard.vue'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import router from '@/router'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import VPagination from '@hennge/vue3-pagination'
@@ -61,6 +83,37 @@ const { getPublications } = usePublicationsStore()
 
 let page = ref(1)
 const itemsPerPage = 8
+
+const isDropdownVisible = ref(false)
+const sortOrder = ref('rating')
+
+const toggleDropdown = () => {
+  isDropdownVisible.value = !isDropdownVisible.value
+}
+
+const sortPublications = (order, sortDirection = 'DESC') => {
+  sortOrder.value = {
+    sortBy: order,
+    sortDirection: sortDirection
+  }
+  isDropdownVisible.value = false
+}
+
+watch(
+  () => sortOrder.value,
+  async newValue => {
+    const popularCardsData = await getPublications({
+      ...newValue,
+      itemsPerPage: 8,
+      page: page.value
+    })
+    if (popularCardsData.data) {
+      publications.value = popularCardsData.data
+    } else {
+      publications.value = []
+    }
+  }
+)
 
 const updateHandler = async newPageNumber => {
   const tempData = await getPublications({
@@ -158,4 +211,24 @@ const openPublication = id => {
     color: white
   &:hover
     background: rgba(78, 148, 79, 0.85)
+.filter-button
+  cursor: pointer
+
+.dropdown-menu
+  position: absolute
+  top: 100%
+  right: 0
+  background: white
+  border: 1px solid #d0d0d0
+  border-radius: 8px
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+  margin-top: 0.5rem
+  width: max-content
+
+  div
+    padding: 0.5rem 1rem
+    cursor: pointer
+
+    &:hover
+      background: #f0f0f0
 </style>

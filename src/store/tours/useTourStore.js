@@ -2,9 +2,17 @@ import { defineStore } from 'pinia'
 import request from '@/store/api/requests'
 
 export const useTourStore = defineStore('tours', () => {
-  const getTours = async () => {
+  const queryString = filters => {
+    const params = new URLSearchParams()
+    for (const key in filters) {
+      params.append(key, filters[key])
+    }
+    return params.toString()
+  }
+
+  const getTours = async filters => {
     const response = await request({
-      url: '/api/tour/',
+      url: `/api/tour?${queryString(filters)}`,
       method: 'GET'
     }).catch(error => {
       console.log(error)
