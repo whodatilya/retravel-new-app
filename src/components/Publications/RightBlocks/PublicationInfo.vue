@@ -30,7 +30,7 @@
         <span class="fs-14 font-light color-main-gray" v-else>нет оценок</span>
       </div>
     </div>
-    <span class="fs-16 font-semibold pb-5">{{ publication?.name }}</span>
+    <span class="fs-16 font-medium pb-5">{{ publication?.name }}</span>
     <!--    <span class="fs-12 font-light color-main-gray pb-5">{{-->
     <!--      publication?.description-->
     <!--    }}</span>-->
@@ -42,8 +42,8 @@
       Редактировать публикацию
     </button>
     <div class="flex flex-col description-wrapper mt-4">
-      <span class="fs-16 font-semibold">Описание</span>
-      <div class="description-container mt-2">
+      <span class="fs-16 font-medium">Описание</span>
+      <div class="description-container font-normal mt-2">
         {{ publication?.description }}
       </div>
     </div>

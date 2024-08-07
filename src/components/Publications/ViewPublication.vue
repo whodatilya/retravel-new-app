@@ -3,7 +3,7 @@
     <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[50%]">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5">
-          <div class="fs-18 font-semibold">Маршрут:</div>
+          <div class="fs-18 font-medium">Маршрут:</div>
           <div v-if="publication?.avgRating" class="flex flex-row gap-1.5">
             <img
               src="@/assets/images/cardImages/iconStarBig.svg"
@@ -20,12 +20,42 @@
             }}</span>
           </div>
           <div v-if="!isTour" @click="addRouteToFavourites">
-            <img
-              :class="isInFavourites ? 'favourite_active' : ''"
-              class="favourite"
-              src="@/assets/images/iconPin.svg"
-              alt="Избранное"
-            />
+            <template v-if="isInFavourites">
+              <svg
+                width="17"
+                height="25"
+                viewBox="0 0 17 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.7918 4.71081V23.5626L9.03658 19.269C8.70923 19.061 8.29109 19.061 7.96375 19.269L1.2085 23.5626L1.2085 4.71081C1.2085 2.56936 2.84079 0.833374 4.85433 0.833374L12.146 0.833374C14.1595 0.833374 15.7918 2.56936 15.7918 4.71081Z"
+                  fill="#4E944F"
+                  stroke="#4E944F"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </template>
+            <template v-else>
+              <svg
+                width="17"
+                height="25"
+                viewBox="0 0 17 25"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M15.7918 4.71081V23.5626L9.03658 19.269C8.70923 19.061 8.29109 19.061 7.96375 19.269L1.2085 23.5626L1.2085 4.71081C1.2085 2.56936 2.84079 0.833374 4.85433 0.833374L12.146 0.833374C14.1595 0.833374 15.7918 2.56936 15.7918 4.71081Z"
+                  fill="none"
+                  stroke="#4E944F"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </template>
           </div>
         </div>
       </div>
@@ -57,10 +87,7 @@
       </template>
     </div>
     <div class="content-wrapper flex flex-1 flex-col">
-      <Carousel
-        :items-to-show="publication?.[imagePath]?.length > 2 ? 2.5 : 1"
-        :wrap-around="true"
-      >
+      <Carousel :items-to-show="1.5" :wrap-around="true">
         <Slide v-for="slide in publication?.[imagePath]" :key="slide">
           <div class="carousel__item" @click="openModal(slide)">
             <img :src="slide" alt="" class="carousel__image" />
@@ -95,7 +122,24 @@ import { useFavouriteStore } from '@/store/favourite/useFavouriteStore'
 
 const router = useRouter()
 
+const isPinActive = ref(false)
+
 const { addToFavourites } = useFavouriteStore()
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  publication: {
+    type: Object,
+    default: () => {}
+  },
+  isTour: {
+    type: Boolean,
+    default: false
+  },
+  imagePath: {
+    type: String,
+    default: 'routeImages'
+  }
+})
 
 const isMobile = computed(() => window.innerWidth < 768)
 
@@ -117,7 +161,7 @@ const openMap = () => {
 const addRouteToFavourites = async () => {
   await addToFavourites({ routeId: props.publication.id })
   let favourites = JSON.parse(localStorage.getItem('favourites')) || []
-  if (!favourites.includes(props.publication.id)) {
+  if (!favourites.includes(props?.publication?.id)) {
     favourites.push(props.publication.id)
     localStorage.setItem('favourites', JSON.stringify(favourites))
   }
@@ -126,22 +170,6 @@ const addRouteToFavourites = async () => {
 const isInFavourites = computed(() => {
   let favourites = JSON.parse(localStorage.getItem('favourites')) || []
   return favourites.includes(props?.publication?.id)
-})
-
-// eslint-disable-next-line no-undef
-const props = defineProps({
-  publication: {
-    type: Object,
-    default: () => {}
-  },
-  isTour: {
-    type: Boolean,
-    default: false
-  },
-  imagePath: {
-    type: String,
-    default: 'routeImages'
-  }
 })
 
 const coordinatesCenter = computed(() => {

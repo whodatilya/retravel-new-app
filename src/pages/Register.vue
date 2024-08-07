@@ -87,12 +87,7 @@
         </div>
         <div class="checkboxes">
           <div class="checkbox">
-            <input
-              type="checkbox"
-              v-model="checked_policy"
-              required
-              style="margin-right: 5px"
-            />
+            <input type="checkbox" v-model="checked_policy" required />
             <div>
               Принимаю условия
               <a href="https://retravel.tech/privacy"
@@ -101,11 +96,7 @@
             </div>
           </div>
           <div class="checkbox">
-            <input
-              type="checkbox"
-              v-model="checked_guide"
-              style="margin-right: 5px"
-            />
+            <input type="checkbox" v-model="checked_guide" />
             <div>
               Я гид (необходим
               <a href="https://www.gosuslugi.ru/543222/2/info"
@@ -259,6 +250,7 @@ watch(
   display: flex
   width: 100%
   flex-wrap: wrap
+  gap: 0.5rem
   flex-direction: column
   .checkbox
     display: flex
@@ -266,6 +258,7 @@ watch(
     color: #7D7D7D
     font-family: Inter, sans-serif
     font-size: 14px
+    gap: 6px
     font-style: normal
     font-weight: 500
     line-height: 24px

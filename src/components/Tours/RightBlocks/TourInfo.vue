@@ -32,8 +32,8 @@
     </div>
     <div class="flex flex-col gap-2 pb-5">
       <div class="flex flex-row justify-between">
-        <span class="fs-16 font-semibold">{{ tour?.name }}</span>
-        <span class="fs-16 font-semibold">{{ tour?.price }}</span>
+        <span class="fs-16 font-medium">{{ tour?.name }}</span>
+        <span class="fs-16 font-medium">{{ tour?.price }}</span>
       </div>
       <div class="flex flex-row justify-between">
         <span class="fs-12 font-light color-main-gray">Локация</span>
@@ -64,7 +64,7 @@
       class="flex flex-col mt-4"
     >
       <div class="flex flex-row justify-between">
-        <span class="fs-16 font-semibold">Описание</span>
+        <span class="fs-16 font-medium">Описание</span>
         <img
           @click="changeFieldStatus('description')"
           class="cursor-pointer"
@@ -74,7 +74,7 @@
       </div>
       <div
         v-if="fieldsStore.description.value"
-        class="description-container mt-2"
+        class="description-container font-normal mt-2"
       >
         {{ tour?.description }}
       </div>
@@ -84,7 +84,7 @@
       class="flex flex-col mt-4"
     >
       <div class="flex flex-row justify-between">
-        <span class="fs-16 font-semibold">Расписание</span>
+        <span class="fs-16 font-medium">Расписание</span>
         <img
           @click="changeFieldStatus('schedule')"
           class="cursor-pointer"
@@ -112,7 +112,7 @@
       class="flex flex-col mt-4"
     >
       <div class="flex flex-row justify-between">
-        <span class="fs-16 font-semibold">Участники</span>
+        <span class="fs-16 font-medium">Участники</span>
         <div class="fs-14 color-main-gray">
           {{ tour?.participants?.length }} / {{ tour?.participantsCount }}
         </div>
