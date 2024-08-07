@@ -24,7 +24,7 @@ export const useReviewStore = defineStore('reviews', () => {
 
   const createUserReview = async formData => {
     const response = await request({
-      url: '/api/review/user/',
+      url: '/api/review/user',
       headers: {
         'Content-Type': 'application/ld+json'
       },

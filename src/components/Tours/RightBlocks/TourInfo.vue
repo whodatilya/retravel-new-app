@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper min-w-[40%] flex flex-col">
     <div class="flex flex-row justify-between pb-5">
-      <div class="flex flex-row gap-5">
+      <div class="flex flex-row gap-5 cursor-pointer" @click="showUser">
         <div>
           <img
             :src="
@@ -125,6 +125,7 @@ import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import iconLess from '@/assets/images/iconLess.svg'
 import iconMore from '@/assets/images/iconMore.svg'
 import moment from 'moment/moment'
+import router from '@/router'
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -139,6 +140,15 @@ const fieldsStore = reactive({
   schedule: { value: false },
   participants: { value: true }
 })
+
+const showUser = () => {
+  router.push({
+    name: 'other-user',
+    params: {
+      id: props?.tour?.user?.id
+    }
+  })
+}
 
 const getFieldStatus = fieldName => {
   return fieldsStore[fieldName].value ? iconLess : iconMore

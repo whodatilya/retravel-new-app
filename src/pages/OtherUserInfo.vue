@@ -13,8 +13,8 @@
       :class="isMobile ? '!flex-col' : '!flex-row'"
       class="user__content flex gap-2.5 flex-1 overflow-y-auto"
     >
-      <ViewUser />
-      <Reviews is-current-user />
+      <ViewOtherUser :user-id="userId" />
+      <Reviews :user-id="userId" />
     </main>
   </div>
 </template>
@@ -22,9 +22,14 @@
 <script setup>
 import router from '@/router'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
-import ViewUser from '@/components/User/ViewUser.vue'
 import Reviews from '@/components/User/Reviews.vue'
 import { computed } from 'vue'
+import ViewOtherUser from '@/components/User/ViewOtherUser.vue'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const userId = computed(() => route.params.id)
 
 const { selectComponent } = useComponentsStore()
 

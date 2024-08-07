@@ -38,6 +38,15 @@ const routes = [
     beforeEnter: ifAuthenticated
   },
   {
+    path: '/other-user/:id',
+    name: 'other-user',
+    component: () => import('@/pages/OtherUserInfo.vue'),
+    props: route => ({
+      id: route?.query?.id ?? false
+    }),
+    beforeEnter: ifAuthenticated
+  },
+  {
     path: '/publication/create',
     name: 'createPublication',
     component: () => import('@/pages/PublicationCreate.vue'),

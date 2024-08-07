@@ -11,7 +11,13 @@
         <Review :data="item" />
       </template>
     </div>
-    <button @click="toggleModal" class="button__edit">Новый отзыв</button>
+    <button
+      v-if="!isCurrentUser && localUserId != userId"
+      @click="toggleModal"
+      class="button__edit"
+    >
+      Новый отзыв
+    </button>
     <ReviewModal
       v-if="isModalOpened"
       @onClose="toggleModal"
@@ -34,17 +40,33 @@ const toggleModal = () => {
   isModalOpened.value = !isModalOpened.value
 }
 
-const userId = localStorage.getItem('userId')
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  isCurrentUser: {
+    type: Boolean,
+    default: false
+  },
+  userId: {
+    type: String
+  }
+})
+const localUserId = localStorage.getItem('userId')
 
 const processReview = async formData => {
-  await createUserReview(formData)
+  await createUserReview({
+    ...formData,
+    userId: props.isCurrentUser ? localUserId : props.userId
+  })
+  reviews.value = await getReviewsByUserId(+props.userId ?? localUserId)
   toggleModal()
 }
 
 const { getReviewsByUserId, createUserReview } = useReviewStore()
 
 onMounted(async () => {
-  reviews.value = await getReviewsByUserId(+userId)
+  reviews.value = await getReviewsByUserId(
+    +props.isCurrentUser ? localUserId : props.userId
+  )
 })
 </script>
 

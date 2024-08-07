@@ -14,7 +14,7 @@
           ]"
           field-name="rating"
         />
-        <RetravelTextareaField label-text="Описание" field-name="description" />
+        <RetravelTextareaField label-text="Описание" field-name="text" />
         <div class="flex flex-row justify-between gap-3">
           <button @click="closeModal" class="basis-[50%] button button__cancel">
             Отмена

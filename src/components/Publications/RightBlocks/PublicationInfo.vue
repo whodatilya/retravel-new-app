@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrapper min-w-[40%] flex flex-col">
     <div class="flex flex-row justify-between pb-5">
-      <div class="flex flex-row gap-5">
+      <div class="flex flex-row gap-5 cursor-pointer" @click="showUser">
         <div>
           <img
             :src="
@@ -53,8 +53,7 @@
 <script setup>
 import { computed } from 'vue'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
-import { storeToRefs } from 'pinia'
-import iconUser from '@/assets/images/iconUser.svg'
+import router from '@/router'
 // eslint-disable-next-line no-undef
 const props = defineProps({
   publication: {
@@ -70,6 +69,15 @@ const userId = localStorage.getItem('userId')
 const isCurrentUserPublication = computed(
   () => +userId === props?.publication?.user?.id
 )
+
+const showUser = () => {
+  router.push({
+    name: 'other-user',
+    params: {
+      id: props?.publication?.user?.id
+    }
+  })
+}
 
 const role = computed(() => {
   if (props.publication?.user?.roles?.includes('ROLE_GUIDE')) {
