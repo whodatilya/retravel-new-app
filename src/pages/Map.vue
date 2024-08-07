@@ -103,7 +103,10 @@
           }"
         />
       </YandexMap>
-      <div v-if="!isMobile" class="map__search ml-8 p-5 br-20 max-w-[350px]">
+      <div
+        v-if="!isMobile && !routeUsedIds.length"
+        class="map__search ml-8 p-5 br-20 max-w-[350px]"
+      >
         <search placeholder-value="Поиск по направлениям..." />
       </div>
     </main>
