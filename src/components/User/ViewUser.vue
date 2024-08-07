@@ -106,7 +106,13 @@ const processFile = async () => {
 
 const submitUserData = () => {
   handleSubmit(async values => {
-    await changeUserData(userId, values)
+    const response = await changeUserData(userId, values)
+    if (response) {
+      user.value = await getUser(userId)
+      if (user.value) {
+        setValues(user.value)
+      }
+    }
   })()
 }
 </script>
