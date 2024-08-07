@@ -21,6 +21,7 @@
           </div>
           <div v-if="!isTour" @click="addRouteToFavourites">
             <img
+              :class="isInFavourites ? 'favourite_active' : ''"
               class="favourite"
               src="@/assets/images/iconPin.svg"
               alt="Избранное"
@@ -112,7 +113,17 @@ const openMap = () => {
 
 const addRouteToFavourites = async () => {
   await addToFavourites({ routeId: props.publication.id })
+  let favourites = JSON.parse(localStorage.getItem('favourites')) || []
+  if (!favourites.includes(props.publication.id)) {
+    favourites.push(props.publication.id)
+    localStorage.setItem('favourites', JSON.stringify(favourites))
+  }
 }
+
+const isInFavourites = computed(() => {
+  let favourites = JSON.parse(localStorage.getItem('favourites')) || []
+  return favourites.includes(props?.publication?.id)
+})
 
 // eslint-disable-next-line no-undef
 const props = defineProps({

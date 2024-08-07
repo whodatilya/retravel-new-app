@@ -19,8 +19,13 @@
         </div>
       </div>
     </div>
-    <template v-for="publication in sortedPublications" :key="publication.id">
-      <popular-card :card-data="publication" :is-tiny="true" />
+    <template v-if="sortedPublications.length">
+      <template v-for="publication in sortedPublications" :key="publication.id">
+        <popular-card :card-data="publication" :is-tiny="true" />
+      </template>
+    </template>
+    <template v-else>
+      <div class="no-publications">Пока ни одной публикации</div>
     </template>
   </div>
 </template>
@@ -72,14 +77,7 @@ const sortPublications = (order, sortDirection = 'DESC') => {
 }
 
 const sortedPublications = computed(() => {
-  if (sortOrder.value === 'rating') {
-    return myPublications.slice().sort((a, b) => b.rating - a.rating)
-  } else if (sortOrder.value === 'alphabetDesc') {
-    return myPublications.slice().sort((a, b) => b.title.localeCompare(a.title))
-  } else if (sortOrder.value === 'alphabetAsc') {
-    return myPublications.slice().sort((a, b) => a.title.localeCompare(b.title))
-  }
-  return myPublications
+  return []
 })
 </script>
 
@@ -121,4 +119,7 @@ const sortedPublications = computed(() => {
     cursor: pointer
     &:hover
       background: #f0f0f0
+.no-publications
+  color: #333
+  text-align: center
 </style>

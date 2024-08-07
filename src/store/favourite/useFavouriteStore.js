@@ -26,7 +26,7 @@ export const useFavouriteStore = defineStore('favourites', () => {
 
   const addToFavourites = async point => {
     const response = await request({
-      url: '/api/favourite_routes/',
+      url: '/api/favourite_routes',
       headers: {
         'Content-Type': 'application/json'
       },

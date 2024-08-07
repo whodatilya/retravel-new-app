@@ -11,8 +11,10 @@
       class="main-container mt-3 mb-7 mx-7 br-20"
     >
       <favourite-card
+        is-favourite
         v-for="favourite in favourites"
         @click="openFavourite(favourite.id)"
+        @delete="deleteFavouriteById($event)"
         :favourite-data="favourite"
         :key="favourite.id"
       />
@@ -37,7 +39,7 @@ import router from '@/router'
 import { useFavouriteStore } from '@/store/favourite/useFavouriteStore'
 import VPagination from '@hennge/vue3-pagination'
 
-const { getFavourites } = useFavouriteStore()
+const { getFavourites, deleteFavourites } = useFavouriteStore()
 
 const favourites = ref([])
 const paginatedFavourites= ref(null)
@@ -61,6 +63,27 @@ const updateHandler = async newPageNumber => {
   })
   favourites.value = tempData.data
 }
+
+const deleteFavouriteById = async id => {
+  await deleteFavourites(id)
+
+  // Обновить localStorage
+  let localFavourites = JSON.parse(localStorage.getItem('favourites')) || []
+  localFavourites = localFavourites.filter(favId => favId !== id)
+  localStorage.setItem('favourites', JSON.stringify(localFavourites))
+
+  // Обновить данные избранного
+  const favouritesData = await getFavourites({
+    itemsPerPage: 8,
+    page: 1
+  })
+  if (favouritesData) {
+    favourites.value = favouritesData
+  } else {
+    favourites.value = []
+  }
+}
+
 
 const isMobile = computed(() => window.innerWidth < 768)
 

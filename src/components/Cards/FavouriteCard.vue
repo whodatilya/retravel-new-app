@@ -1,6 +1,16 @@
 <template>
-  <div class="favourite__wrapper br-10">
+  <div class="favourite__wrapper br-10 relative">
     <img :src="favouriteData?.[imagePath]?.[0] ?? emptyImage" alt="" />
+    <div
+      v-if="isFavourite"
+      class="absolute"
+      style="right: 0.75rem; top: 0.75rem; z-index: 10000000"
+      @click.stop="$emit('delete', favouriteData?.id)"
+    >
+      <div class="close w-[25px] h-[25px] br-8">
+        <img src="@/assets/images/iconClose.svg" alt="" />
+      </div>
+    </div>
     <div class="favourite__content">
       <div class="flex flex-row justify-between">
         <div class="fs-16 font-semibold">{{ favouriteData.name }}</div>
@@ -32,6 +42,10 @@ export default defineComponent({
     favouriteData: {
       type: Object,
       default: () => {}
+    },
+    isFavourite: {
+      type: Boolean,
+      default: false
     },
     imagePath: {
       type: String,
@@ -67,4 +81,10 @@ export default defineComponent({
     padding: 0.7rem
     justify-content: center
     height: 30%
+.close
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  background: #FFFFFF
 </style>
