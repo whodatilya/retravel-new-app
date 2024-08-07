@@ -33,7 +33,7 @@
         <YandexMap
           @click="openMap"
           class="map-fix cursor-pointer"
-          height="-webkit-fill-available"
+          :height="isMobile ? '355px' : '-webkit-fill-available'"
           :settings="mapSettings"
           width="100%"
         >
