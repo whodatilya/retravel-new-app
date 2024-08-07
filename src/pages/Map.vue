@@ -17,7 +17,7 @@
         Завершить
       </div>
       <div
-        v-if="mode === 'read' || !routeUsedIds"
+        v-if="mode === 'read' && !routeUsedIds.length"
         :class="isMobile ? 'fs-13' : 'fs-18'"
         class="new-button br-8 cursor-pointer font-medium"
         @click="createNewPointMode"
