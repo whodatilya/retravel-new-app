@@ -44,6 +44,20 @@ export const useTourStore = defineStore('tours', () => {
     return response.data
   }
 
+  const addTourParticipant = async formData => {
+    const response = await request({
+      url: '/api/tour-participants/',
+      headers: {
+        'Content-Type': 'application/merge-patch+json'
+      },
+      method: 'POST',
+      data: formData
+    }).catch(error => {
+      console.log('Error!!!', error)
+    })
+    return response.data
+  }
+
   const updateTour = async (id, formData) => {
     const response = await request({
       url: `/api/tour/${id}`,
@@ -61,6 +75,7 @@ export const useTourStore = defineStore('tours', () => {
   return {
     createTour,
     getTours,
+    addTourParticipant,
     updateTour,
     getTourById
   }

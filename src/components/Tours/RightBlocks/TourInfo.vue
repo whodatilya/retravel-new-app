@@ -40,7 +40,18 @@
         <span class="fs-12 font-light color-main-gray">За одного человека</span>
       </div>
     </div>
-    <button class="button__edit fs-14 font-semibold">Хочу пойти!</button>
+    <button
+      class="button__edit fs-14 font-semibold"
+      v-if="tour?.participants?.length <= tour?.participantsCount"
+      @click="toggleModal"
+    >
+      Хочу пойти!
+    </button>
+    <ConfirmationModal
+      :show="isModalOpened"
+      @submit="createTourParticipant"
+      @close="isModalOpened = false"
+    />
     <button
       v-if="isCurrentUserPublication"
       @click="changeMode('edit')"
@@ -102,30 +113,54 @@
     >
       <div class="flex flex-row justify-between">
         <span class="fs-16 font-semibold">Участники</span>
-        <img
-          @click="changeFieldStatus('participants')"
-          class="cursor-pointer"
-          :src="getFieldStatus('participants')"
-          alt=""
-        />
+        <div class="fs-14 color-main-gray">
+          {{ tour?.participants?.length }} / {{ tour?.participantsCount }}
+        </div>
       </div>
       <div
         v-if="fieldsStore.participants.value"
         class="description-container mt-2"
       >
-        Участники
+        <template
+          v-for="(participant, index) in tour?.participants"
+          :key="index"
+        >
+          <div class="flex flex-row justify-between">
+            <div class="flex flex-row gap-5 cursor-pointer" @click="showUser">
+              <img
+                :src="
+                  participant?.profilePhoto ||
+                  require('@/assets/images/iconUser.svg')
+                "
+                style="width: 42px; height: 42px; border-radius: 50%"
+                alt=""
+              />
+              <div class="flex flex-row gap-1 items-center">
+                <span>{{ tour?.user?.name }}</span>
+                <span>{{ tour?.user?.surname }}</span>
+              </div>
+            </div>
+            <img
+              class="cursor-pointer"
+              src="@/assets/images/iconClose.svg"
+              alt=""
+            />
+          </div>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import iconLess from '@/assets/images/iconLess.svg'
 import iconMore from '@/assets/images/iconMore.svg'
 import moment from 'moment/moment'
 import router from '@/router'
+import ConfirmationModal from '@/components/Modals/ConfirmationModal.vue'
+import { useTourStore } from '@/store/tours/useTourStore'
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -134,6 +169,8 @@ const props = defineProps({
     default: () => {}
   }
 })
+
+const { addTourParticipant } = useTourStore()
 
 const fieldsStore = reactive({
   description: { value: true },
@@ -148,6 +185,12 @@ const showUser = () => {
       id: props?.tour?.user?.id
     }
   })
+}
+
+const isModalOpened = ref(false)
+
+const toggleModal = () => {
+  isModalOpened.value = !isModalOpened.value
 }
 
 const getFieldStatus = fieldName => {
@@ -177,6 +220,15 @@ const userId = localStorage.getItem('userId')
 const isCurrentUserPublication = computed(
   () => +userId === props?.publication?.user?.id
 )
+
+const createTourParticipant = async () => {
+  toggleModal()
+  await addTourParticipant({
+    tourId: props?.tour?.id,
+    userId: userId
+  })
+  location.reload()
+}
 </script>
 
 <style lang="sass" scoped>
@@ -194,6 +246,9 @@ const isCurrentUserPublication = computed(
       padding: 0.75rem
       height: 100%
       border-radius: 8px
+      display: flex
+      flex-direction: column
+      gap: 0.75rem
       border: 1px solid rgba(208, 208, 208, 0.50)
       background: rgba(250, 250, 250, 0.70)
     &-wrapper
