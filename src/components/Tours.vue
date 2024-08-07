@@ -19,6 +19,7 @@
         </div>
         <div class="flex flex-row gap-4">
           <div
+            v-if="isGuide"
             class="flex flex-grow-0 flex-shrink-0 flex-row gap-2.5 items-center new-button br-8 cursor-pointer"
             @click="createTour"
           >
