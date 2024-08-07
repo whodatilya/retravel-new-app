@@ -25,6 +25,7 @@
         Добавить
       </div>
       <img
+        @click="goMain"
         class="icon logo_item"
         src="@/assets/images/logo_unfilled.svg"
         alt=""
@@ -330,6 +331,11 @@ const backToMap = () => {
 const goBack = () => {
   selectComponent('Main')
   router.go(-1)
+}
+
+const goMain = () => {
+  selectComponent('Main')
+  router.push({ name: 'index' })
 }
 
 const backToForm = () => {

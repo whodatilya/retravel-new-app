@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="{ 'min-w-[500px]': !isMobile }"
+    :class="{ 'min-w-[400px]': !isMobile }"
     class="content-wrapper flex flex-col gap-5"
   >
     <div class="flex flex-row justify-between pb-[20px]">
