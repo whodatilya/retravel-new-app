@@ -14,8 +14,10 @@
       :accept="fileFormat"
       @change="processFile"
     />
-    <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
-    <div class="w-[238px]">{{ preparedDropZoneText }}</div>
+    <template v-if="!previews.length">
+      <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
+      <div class="w-[238px]">{{ preparedDropZoneText }}</div>
+    </template>
     <div v-if="previews.length" class="previews">
       <img
         v-for="(preview, index) in previews"

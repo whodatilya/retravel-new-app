@@ -57,42 +57,49 @@
               class="popup"
               @click.stop="openMarker = null"
             >
-              <div class="fs-14 font-semibold">Наименование:</div>
-              <span class="fs-14 font-normal">{{ marker.name }}</span>
-              <div class="fs-14 font-semibold">Описание:</div>
-              <div class="description-wrapper">
-                <span
-                  :class="[
-                    'fs-14 description-content',
-                    { expanded: marker.expanded }
-                  ]"
-                >
-                  {{ marker.description }}
-                </span>
+              <div class="relative">
+                <span style="line-height: 30px" class="fs-14 font-semibold">{{
+                  marker.name
+                }}</span>
+                <div class="description-wrapper">
+                  <div
+                    class=""
+                    :class="[
+                      'fs-14 description-content',
+                      { expanded: marker.expanded }
+                    ]"
+                  >
+                    {{ marker.description }}
+                  </div>
+                  <button
+                    v-if="!marker.expanded"
+                    class="button__more"
+                    @click.stop="toggleDescription(marker)"
+                  >
+                    далее...
+                  </button>
+                </div>
+                <img
+                  class="br-8 mt-3"
+                  :src="marker.travelPointImagesFront"
+                  alt=""
+                />
                 <button
-                  v-if="!marker.expanded"
-                  class="button__more"
-                  @click.stop="toggleDescription(marker)"
+                  v-if="!isMap && !routeUsedIds.length"
+                  class="button__add"
+                  @click="addPointToRoute(marker.id)"
                 >
-                  далее...
+                  Использовать
                 </button>
+                <img
+                  v-if="isCurrentUserPoint(marker?.user)"
+                  class="cursor-pointer"
+                  style="position: absolute; right: 0; top: 0"
+                  src="@/assets/images/iconTrash.svg"
+                  alt=""
+                  @click="deleteMarker(marker.id, index)"
+                />
               </div>
-              <div class="fs-14 font-semibold">Изображение:</div>
-              <img :src="marker.travelPointImagesFront" alt="" />
-              <button
-                v-if="!isMap && !routeUsedIds.length"
-                class="button__add"
-                @click="addPointToRoute(marker.id)"
-              >
-                Использовать
-              </button>
-              <button
-                v-if="isCurrentUserPoint(marker?.user)"
-                class="button__delete"
-                @click="deleteMarker(marker.id, index)"
-              >
-                Удалить
-              </button>
             </div>
           </div>
         </YandexMapMarker>
@@ -519,6 +526,7 @@ const toggleDescription = marker => {
 
 .popup
   position: absolute
+  border: 1px solid #b5b5b5
   bottom: calc(100% + 10px)
   display: flex
   flex-direction: column
@@ -532,7 +540,7 @@ const toggleDescription = marker => {
 
 .description-wrapper
   position: relative
-  max-height: 4em
+  max-height: fit-content
   overflow: hidden
 
 .description-content
@@ -542,6 +550,7 @@ const toggleDescription = marker => {
   overflow: hidden
   text-overflow: ellipsis
   &.expanded
+    white-space: break-spaces
     -webkit-line-clamp: unset
     max-height: unset
     overflow: visible
@@ -549,9 +558,8 @@ const toggleDescription = marker => {
 .button__more
   background: none
   border: none
-  color: blue
+  color: #888888
   cursor: pointer
-  text-decoration: underline
 
 .button
   &__delete

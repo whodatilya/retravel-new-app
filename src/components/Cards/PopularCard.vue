@@ -1,16 +1,20 @@
 <template>
   <div
     class="card flex flex-row justify-between"
-    :class="{ 'tiny_card br-20 p-2': isTiny, 'my-2': !isTiny }"
+    :class="{ 'tiny_card br-20 p-3': isTiny, 'my-2': !isTiny }"
   >
-    <div class="flex gap-3">
+    <div class="flex gap-4">
       <img
+        :class="{ 'br-8': isTiny }"
         :src="cardData?.routeImages?.[0]"
         style="width: 5rem; height: 4rem"
         alt="Иконка популярного"
       />
-      <div class="flex flex-col justify-center">
-        <div class="color-main-black fs-16 font-semibold">
+      <div class="flex flex-col gap-1 justify-center">
+        <div
+          :class="isTiny ? 'fs-15' : 'fs-16'"
+          class="color-main-black font-semibold"
+        >
           {{ cardData?.name }}
         </div>
         <div class="flex flex-row gap-1 color-main-gray fs-12">

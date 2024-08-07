@@ -2,23 +2,23 @@
   <main class="main__wrapper">
     <div
       v-if="currentWindowWidth > 768"
-      class="flex flex-row justify-between items-center color-main-black"
+      class="flex flex-row justify-between items-center pb-1 color-main-black"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col gap-2">
         <div class="font-bold fs-28">Добрый день!</div>
-        <div class="fs-12 w-[16rem]">
+        <div class="fs-14 w-[16rem]">
           Добро пожаловать на туристическую платформу Re:Travel!
         </div>
       </div>
-      <div>
-        <search />
+      <div class="w-1/2 flex">
+        <search class="w-full mb-[30px]" />
       </div>
     </div>
     <div class="cards my-2.5">
       <place-card v-for="card in placeCards" :key="card.id" :card-data="card" />
     </div>
     <div class="popular br-20 my-2.5">
-      <div class="flex flex-row justify-between items-center relative">
+      <div class="flex flex-row justify-between items-center pb-2 relative">
         <div class="fs-18 font-semibold color-main-black">
           Популярные маршруты
         </div>
@@ -39,9 +39,8 @@
           </div>
         </div>
       </div>
-      <div class="color-main-gray fs-12">
-        <!--        Сделать pluralize-->
-        Найдено {{ popularCards.length }} направлений
+      <div class="flex flex-row justify-center">
+        <hr class="pb-1 w-full" />
       </div>
       <popular-card
         v-for="card in popularCards"
@@ -85,7 +84,7 @@
         :key="card.id"
         @click="openFavourite(card.id)"
         :card-data="card"
-        :is-tiny="true"
+        is-tiny
       />
     </div>
   </div>
@@ -183,8 +182,9 @@ onMounted(async () => {
     itemsPerPage: 3,
     sort: 'avgRating'
   })
-  if (favouriteData.data) {
-    favourites.value = favouriteData.data
+  console.log(favouriteData)
+  if (favouriteData) {
+    favourites.value = favouriteData
   } else {
     favourites.value = []
   }

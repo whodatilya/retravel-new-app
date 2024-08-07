@@ -57,6 +57,7 @@ import { useAuthStore } from '@/store/auth/useAuthStore'
 import { computed, onMounted, ref, watch } from 'vue'
 import PopularCard from '@/components/Cards/PopularCard.vue'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
+import router from '@/router'
 
 const profilePhotoUrl = ref(null)
 
@@ -85,6 +86,15 @@ onMounted(async () => {
     setValues(user.value)
   }
 })
+
+const openCard = id => {
+  router.push({
+    name: 'publication',
+    params: {
+      id: id
+    }
+  })
+}
 
 const isDropdownVisible = ref(false)
 const sortOrder = ref('rating')
@@ -139,7 +149,7 @@ watch(
   padding: 1.5rem
   .carousel__item
     min-height: 200px
-    width: 100%
+    width: 80%
     background-color: lightgreen
     color: white
     font-size: 20px

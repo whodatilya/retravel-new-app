@@ -6,7 +6,7 @@
     >
       <img :src="logo" alt="Логотип" class="mb-4" />
       <div
-        class="flex gap-6 br-10 menu__text p-1.5"
+        class="flex gap-6 br-10 menu__text p-1.5 mb-3"
         :class="{ 'menu__text-active': selectedComponent === 'Settings' }"
         @click="switchPage('Settings')"
       >

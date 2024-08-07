@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="flex flex-row fs-18">
-          <div>
+          <div v-if="isTour">
             <span class="color-main-gray mr-1.5">Дата</span>
             <span class="font-semibold">{{
               publication?.createdAt ?? publication?.date
@@ -63,7 +63,7 @@
       >
         <Slide v-for="slide in publication?.[imagePath]" :key="slide">
           <div class="carousel__item" @click="openModal(slide)">
-            <img :src="slide" alt="" />
+            <img :src="slide" alt="" class="carousel__image" />
           </div>
         </Slide>
         <template #addons>
@@ -193,15 +193,22 @@ const closeModal = () => {
   padding: 1.5rem
   .carousel__item
     min-height: 200px
-    width: 100%
+    width: 80%
     max-height: 299px
     background-color: transparent
     color: white
+    border-radius: 8px
     font-size: 20px
     border-radius: 8px
     display: flex
     justify-content: center
     align-items: center
+  .carousel__image
+    max-width: 300px
+    max-height: 300px
+    border-radius: 8px
+    width: auto
+    height: auto
   .carousel__slide
     padding: 4px
   .button__edit

@@ -56,7 +56,7 @@ const processFile = () => {
   padding: 1.5rem
   .carousel__item
     min-height: 200px
-    width: 100%
+    width: 80%
     background-color: lightgreen
     color: white
     font-size: 20px
