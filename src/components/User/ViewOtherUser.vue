@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="popular-cards-container">
+      <div class="overflow-auto popular-cards-container">
         <popular-card
           v-for="card in popularCards"
           :key="card.id"
@@ -171,6 +171,5 @@ watch(
     &:hover
       background: #f0f0f0
 .popular-cards-container
-  max-height: 400px
-  overflow-y: auto
+  max-height: 300px
 </style>
