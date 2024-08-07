@@ -28,15 +28,29 @@
           </div>
         </div>
       </div>
-      <YandexMap
-        @click="openMap"
-        class="map-fix cursor-pointer"
-        height="-webkit-fill-available"
-        :settings="mapSettings"
-        width="100%"
-      >
-        <yandex-map-default-scheme-layer />
-      </YandexMap>
+      <template v-if="publication?.travelPoints">
+        <YandexMap
+          @click="openMap"
+          class="map-fix cursor-pointer"
+          height="-webkit-fill-available"
+          :settings="mapSettings"
+          width="100%"
+        >
+          <YandexMapDefaultFeaturesLayer />
+          <yandex-map-default-scheme-layer />
+          <YandexMapMarker
+            v-for="marker in publication?.travelPoints"
+            :key="marker.id"
+            :settings="{
+              coordinates: [marker.longitude, marker.latitude, 0]
+            }"
+          >
+            <div class="marker">
+              {{ marker.name }}
+            </div>
+          </YandexMapMarker>
+        </YandexMap>
+      </template>
     </div>
     <div class="content-wrapper flex flex-1 flex-col">
       <Carousel
@@ -63,7 +77,12 @@
 
 <script setup>
 import { computed, ref } from 'vue'
-import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps'
+import {
+  YandexMap,
+  YandexMapDefaultFeaturesLayer,
+  YandexMapDefaultSchemeLayer,
+  YandexMapMarker
+} from 'vue-yandex-maps'
 import { Carousel, Slide, Navigation } from 'vue3-carousel'
 import { useRouter } from 'vue-router'
 import 'vue3-carousel/dist/carousel.css'
@@ -74,18 +93,21 @@ const router = useRouter()
 
 const { addToFavourites } = useFavouriteStore()
 
-const mapSettings = {
-  location: {
-    center: [49.154205, 55.790713],
-    zoom: 10,
-    zIndex: 1
-  }
-}
-
 const isMobile = computed(() => window.innerWidth < 768)
 
 const openMap = () => {
-  router.push({ name: 'map' })
+  const preparedData = props.publication.travelPoints.map(travelPoint => {
+    return {
+      id: travelPoint.id,
+      number: travelPoint.number
+    }
+  })
+  router.push({
+    name: 'view-route',
+    query: {
+      outerRouteIds: JSON.stringify(preparedData)
+    }
+  })
 }
 
 const addRouteToFavourites = async () => {
@@ -107,6 +129,35 @@ const props = defineProps({
     default: 'routeImages'
   }
 })
+
+const coordinatesCenter = computed(() => {
+  const travelPoints = props.publication?.travelPoints
+  if (!travelPoints || travelPoints.length === 0) {
+    return [0, 0] // Возвращаем [0, 0] если нет точек
+  }
+
+  const totalLatitude = travelPoints.reduce(
+    (sum, point) => sum + point.latitude,
+    0
+  )
+  const totalLongitude = travelPoints.reduce(
+    (sum, point) => sum + point.longitude,
+    0
+  )
+
+  const averageLatitude = totalLatitude / travelPoints.length
+  const averageLongitude = totalLongitude / travelPoints.length
+
+  return [averageLatitude, averageLongitude]
+})
+
+const mapSettings = computed(() => ({
+  location: {
+    center: [49.154205, 55.790713],
+    zoom: 10,
+    zIndex: 1
+  }
+}))
 
 const isModalOpen = ref(false)
 const selectedImage = ref('')
@@ -160,4 +211,15 @@ const closeModal = () => {
     filter: brightness(2) invert(1)
     &:hover
       cursor: pointer
+.marker
+  background: red
+  display: flex
+  max-width: 500px
+  align-items: center
+  justify-content: center
+  border-radius: 10px
+  cursor: pointer
+  color: #fff
+  padding: 8px 12px
+  white-space: nowrap
 </style>

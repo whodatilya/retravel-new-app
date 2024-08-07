@@ -17,9 +17,22 @@ export const useMapStore = defineStore('map', () => {
     return params.toString()
   }
 
-  const getTravelPoints = async filters => {
+  const getTravelPoints = async (filters = null) => {
     const response = await request({
       url: `/api/travel-point?${queryString(filters)}`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'GET'
+    }).catch(error => {
+      console.log('Error!!!', error)
+    })
+    return response.data
+  }
+
+  const getTravelPointById = async id => {
+    const response = await request({
+      url: `/api/travel-point/${id}`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -62,6 +75,7 @@ export const useMapStore = defineStore('map', () => {
   return {
     storeRoutePoints,
     setRoutePoints,
+    getTravelPointById,
     clearPointsStore,
     getTravelPoints,
     createTravelPoint,

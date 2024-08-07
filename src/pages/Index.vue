@@ -92,7 +92,12 @@ export default defineComponent({
   watch: {
     getSelectedComponentName(val) {
       if (val === 'Map') {
-        this.$router.push({ name: 'map' })
+        this.$router.push({
+          name: 'map',
+          query: {
+            isMap: true
+          }
+        })
       } else if (val === 'Settings') {
         this.$router.push({
           name: 'user',

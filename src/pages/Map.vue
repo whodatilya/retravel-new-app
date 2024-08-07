@@ -17,7 +17,7 @@
         Завершить
       </div>
       <div
-        v-if="mode === 'read'"
+        v-if="mode === 'read' || !routeUsedIds"
         :class="isMobile ? 'fs-13' : 'fs-18'"
         class="new-button br-8 cursor-pointer font-medium"
         @click="createNewPointMode"
@@ -38,7 +38,7 @@
           <yandex-map-zoom-control />
         </yandex-map-controls>
         <YandexMapMarker
-          v-for="(marker, index) in routePoints"
+          v-for="(marker, index) in sortedRoutePoints"
           :key="marker.id"
           :settings="{
             coordinates: [marker.longitude, marker.latitude, 0],
@@ -75,7 +75,11 @@
               </div>
               <div class="fs-14 font-semibold">Изображение:</div>
               <img :src="marker.travelPointImagesFront" alt="" />
-              <button class="button__add" @click="addPointToRoute(marker.id)">
+              <button
+                v-if="!isMap"
+                class="button__add"
+                @click="addPointToRoute(marker.id)"
+              >
                 Использовать
               </button>
               <button
@@ -90,6 +94,13 @@
         </YandexMapMarker>
         <YandexMapListener
           :settings="{ onClick: mode === 'create' ? onCreatePoint : () => {} }"
+        />
+        <yandex-map-feature
+          v-if="route"
+          :settings="{
+            ...route,
+            style: lineStyle
+          }"
         />
       </YandexMap>
       <div v-if="!isMobile" class="map__search ml-8 p-5 br-20 max-w-[350px]">
@@ -106,20 +117,31 @@
 
 <script setup>
 import {
+  getLocationFromBounds,
+  VueYandexMaps,
   YandexMap,
   YandexMapControls,
   YandexMapDefaultFeaturesLayer,
   YandexMapDefaultSchemeLayer,
+  YandexMapFeature,
   YandexMapListener,
   YandexMapMarker,
   YandexMapZoomControl
 } from 'vue-yandex-maps'
 import search from '@/components/Elements/Search.vue'
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import {
+  computed,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  shallowRef,
+  watch
+} from 'vue'
 import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
 import { useMapStore } from '@/store/map/useMapStore'
+import { useRoute } from 'vue-router'
 
 const isMobile = computed(() => window.innerWidth < 768)
 
@@ -128,8 +150,29 @@ const {
   setRoutePoints,
   getTravelPoints,
   createTravelPoint,
+  getTravelPointById,
   deleteTravelPoint
 } = useMapStore()
+
+const lineStyle = {
+  fillRule: 'nonzero',
+  fill: '#333',
+  fillOpacity: 0.9,
+  stroke: [
+    {
+      width: 6,
+      color: '#007afce6'
+    },
+    {
+      width: 10,
+      color: '#fff'
+    }
+  ]
+}
+
+const map = shallowRef(null)
+
+const route = ref(null)
 
 const isModalActive = ref(false)
 const routePoints = ref([])
@@ -138,12 +181,26 @@ let countUsedRoutePoints = ref(0)
 const mode = ref('read')
 
 // eslint-disable-next-line no-undef
-defineProps({
+const props = defineProps({
+  isMap: {
+    type: Boolean,
+    default: false
+  },
   create: {
     type: Boolean,
     default: false
+  },
+  outerRouteIds: {
+    type: String,
+    default: ''
   }
 })
+
+let routeUsedIds = []
+const routeUseRoute = useRoute()
+if (routeUseRoute.query.outerRouteIds) {
+  routeUsedIds = JSON.parse(routeUseRoute.query.outerRouteIds)
+}
 
 const openMarker = ref(null)
 
@@ -174,6 +231,51 @@ const createMarker = async values => {
   await createTravelPoint(formData)
 }
 
+async function fetchRoute(points) {
+  // Request a route from the Router API with the specified parameters.
+  // eslint-disable-next-line no-undef
+  const routes = await ymaps3.route({
+    points: points.map(point => [point.longitude, point.latitude]), // Array of points LngLat[]
+    type: 'walking', // Type of the route
+    bounds: true // Flag indicating whether to include route boundaries in the response
+  })
+
+  // Check if a route was found
+  if (!routes[0]) return
+
+  // Convert the received route to a RouteFeature object.
+  const firstRoute = routes[0].toRoute()
+
+  // Check if a route has coordinates
+  if (firstRoute.geometry.coordinates.length === 0) return
+
+  return firstRoute
+}
+
+const routeHandler = async newRoute => {
+  // If the route is not found, then we alert a message and clear the route line
+  if (!newRoute) {
+    alert('Route not found')
+    route.value = null
+    return
+  }
+
+  route.value = newRoute
+  if (newRoute.properties.bounds) {
+    const newLocation = await getLocationFromBounds({
+      bounds: newRoute.properties.bounds,
+      map: map.value
+    })
+
+    // Чтобы маршрут всегда помещался на экран
+    location.value = {
+      center: newLocation.center,
+      zoom: Math.floor(newLocation.zoom) - 1,
+      duration: 300
+    }
+  }
+}
+
 const addPointToRoute = id => {
   usedRoutePoints.value.push({
     travel_point_id: id,
@@ -181,6 +283,29 @@ const addPointToRoute = id => {
   })
   countUsedRoutePoints.value++
 }
+
+watch(
+  VueYandexMaps.loadStatus,
+  async status => {
+    if (status !== 'loaded') return
+  },
+  {
+    immediate: true
+  }
+)
+
+watch(
+  () => routePoints.value,
+  async newValue => {
+    if (newValue.length && !props.isMap) {
+      const fetchedRoute = await fetchRoute(routePoints.value)
+      await routeHandler(fetchedRoute)
+    }
+  },
+  {
+    immediate: true
+  }
+)
 
 const toggleModal = () => {
   isModalActive.value = !isModalActive.value
@@ -230,23 +355,52 @@ onMounted(async () => {
     err => console.error(`Ошибка(${err.code}): ${err.message}`),
     { maximumAge: 60000, timeout: 3000, enableHighAccuracy: true } // Для точности необходимо быстроту!
   )
+
   const response = await getTravelPoints()
-  routePoints.value = response.data.map(point => ({
+  if (routeUsedIds.length) {
+    const responseRoute = await Promise.all(
+      routeUsedIds.map(async route => {
+        return await getTravelPointById(route.id)
+      })
+    )
+    if (responseRoute.length) {
+      routePoints.value = responseRoute.map((point, index) =>
+        formatResponsePoints(point, routeUsedIds[index].number)
+      )
+    }
+  } else {
+    routePoints.value = response.data.map((point, index) =>
+      formatResponsePoints(point, index + 1)
+    )
+  }
+})
+
+const formatResponsePoints = (point, number) => {
+  return {
     id: point.id,
     latitude: parseFloat(point.latitude),
     longitude: parseFloat(point.longitude),
     name: point.name,
     description: point.description,
-    travelPointImagesFront: point.travelPointImages[0],
+    travelPointImagesFront:
+      point.travelPointImages && point.travelPointImages[0]
+        ? point.travelPointImages[0]
+        : null,
     travelPointImages: point.travelPointImages,
     expanded: false, // Добавляем флаг для расширения описания
-    user: point.user
-  }))
-})
+    user: point.user,
+    number: number // Добавляем порядковый номер
+  }
+}
 
 const userCoordinates = computed(() =>
   JSON.parse(localStorage.getItem('userPosition'))
 )
+
+const sortedRoutePoints = computed(() => {
+  // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+  return routePoints.value.sort((a, b) => a.number - b.number)
+})
 
 const mapSettings = {
   location: {
@@ -307,7 +461,6 @@ const toggleDescription = marker => {
 .logo_item
   @media (max-width: 768px)
     width: 100px
-
 
 .cancel-button
   background: #FF7272

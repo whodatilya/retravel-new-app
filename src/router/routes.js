@@ -26,6 +26,9 @@ const routes = [
     path: '/map',
     name: 'map',
     component: () => import('@/pages/Map.vue'),
+    props: route => ({
+      isMap: route?.query?.isMap ?? false
+    }),
     beforeEnter: ifAuthenticated
   },
   {
@@ -64,6 +67,15 @@ const routes = [
     component: () => import('@/pages/Map.vue'),
     props: route => ({
       create: route?.query?.create ?? undefined
+    }),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/view-route',
+    name: 'view-route',
+    component: () => import('@/pages/Map.vue'),
+    props: route => ({
+      outerRoute: route.query.outerRouteIds ?? undefined
     }),
     beforeEnter: ifAuthenticated
   },

@@ -15,10 +15,10 @@
         }}</span>
       </div>
     </div>
-    <span class="fs-16 font-semibold">{{ publication?.name }}</span>
-    <span class="fs-12 font-light color-main-gray pb-5">{{
-      publication?.description
-    }}</span>
+    <span class="fs-16 font-semibold pb-5">{{ publication?.name }}</span>
+    <!--    <span class="fs-12 font-light color-main-gray pb-5">{{-->
+    <!--      publication?.description-->
+    <!--    }}</span>-->
     <button
       v-if="isCurrentUserPublication"
       @click="changeMode('edit')"
@@ -29,7 +29,7 @@
     <div class="flex flex-col description-wrapper mt-4">
       <span class="fs-16 font-semibold">Описание</span>
       <div class="description-container mt-2">
-        {{ publication?.name }}
+        {{ publication?.description }}
       </div>
     </div>
   </div>
