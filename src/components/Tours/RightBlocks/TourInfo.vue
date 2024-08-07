@@ -24,8 +24,8 @@
       </div>
       <div class="flex flex-row items-center gap-1.5">
         <img src="@/assets/images/cardImages/iconStarBig.svg" alt="рейтинг" />
-        <span class="fs-18 font-medium" v-if="tour?.avgRating">{{
-          tour?.avgRating
+        <span class="fs-18 font-medium" v-if="tour?.user?.avgRating">{{
+          (tour?.user?.avgRating).toFixed(1)
         }}</span>
         <span class="fs-14 font-light color-main-gray" v-else>нет оценок</span>
       </div>
