@@ -1,6 +1,6 @@
 <template>
   <div :class="{ 'w-[60%]': !isMobile }" class="flex flex-col flex-1 gap-2.5">
-    <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[450px]">
+    <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[50%]">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5">
           <div class="fs-18 font-semibold">Маршрут:</div>
@@ -60,7 +60,7 @@
       >
         <Slide v-for="slide in publication?.[imagePath]" :key="slide">
           <div class="carousel__item" @click="openModal(slide)">
-            <img :src="slide" alt="" width="35%" />
+            <img :src="slide" alt="" />
           </div>
         </Slide>
         <template #addons>
@@ -191,7 +191,7 @@ const closeModal = () => {
   .carousel__item
     min-height: 200px
     width: 100%
-    max-height: 200px
+    max-height: 299px
     background-color: transparent
     color: white
     font-size: 20px

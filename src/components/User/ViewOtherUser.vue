@@ -19,7 +19,7 @@
       class="content-wrapper flex flex-col flex-auto gap-6 h-full wide-inputs"
     >
       <div class="flex flex-row justify-between items-center">
-        <div>Публикации:</div>
+        <div class="font-semibold">Публикации:</div>
         <div class="flex flex-row relative">
           <div
             class="filter-button flex flex-row p-1.5 br-8 gap-0.5 items-center"
@@ -52,13 +52,9 @@
 </template>
 
 <script setup>
-import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
-import RetravelPhoneNumberField from '@/components/Fields/RetravelPhoneNumberField.vue'
-import RetravelPasswordField from '@/components/Fields/RetravelPasswordField.vue'
-import { useField, useForm } from 'vee-validate'
+import { useForm } from 'vee-validate'
 import { useAuthStore } from '@/store/auth/useAuthStore'
-import { computed, onMounted, ref } from 'vue'
-import { defaultValidator } from '@/shared/validators/defaultValidator'
+import { computed, onMounted, ref, watch } from 'vue'
 import PopularCard from '@/components/Cards/PopularCard.vue'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 
@@ -115,6 +111,23 @@ const sortPublications = (order, sortDirection = 'DESC') => {
   }
   isDropdownVisible.value = false
 }
+
+watch(
+  () => sortOrder.value,
+  async newValue => {
+    const popularCardsData = await getPublications({
+      ...newValue
+    })
+
+    if (popularCardsData.data) {
+      popularCards.value = popularCardsData.data.filter(
+        item => item.user.id === +props.userId
+      )
+    } else {
+      popularCards.value = []
+    }
+  }
+)
 </script>
 
 <style scoped lang="sass">

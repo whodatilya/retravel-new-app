@@ -50,10 +50,12 @@ const isMobile = computed(() => window.innerWidth < 768)
       &:hover
         cursor: pointer
   &__content
-    padding: 1.5rem
+    padding: 1.5rem 6rem
     background: #DAE8DA
     position: relative
     display: flex
     flex-direction: column
+    @media (max-width: 768px)
+      padding: 1.5rem
     //justify-content: center
 </style>
