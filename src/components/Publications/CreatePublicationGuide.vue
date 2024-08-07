@@ -66,7 +66,8 @@ const createRoute = () => {
   router.push({
     name: 'createRoute',
     query: {
-      create: true
+      create: true,
+      isTour: true
     }
   })
 }

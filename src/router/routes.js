@@ -66,7 +66,8 @@ const routes = [
     name: 'createRoute',
     component: () => import('@/pages/Map.vue'),
     props: route => ({
-      create: route?.query?.create ?? undefined
+      create: route?.query?.create ?? undefined,
+      isTour: route?.query?.isTour ?? undefined
     }),
     beforeEnter: ifAuthenticated
   },

@@ -189,6 +189,10 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  isTour: {
+    type: Boolean,
+    default: false
+  },
   create: {
     type: Boolean,
     default: false
@@ -300,7 +304,7 @@ watch(
 watch(
   () => routePoints.value,
   async newValue => {
-    if (newValue.length && !props.isMap) {
+    if (newValue.length && !props.isMap && !props.isTour) {
       const fetchedRoute = await fetchRoute(routePoints.value)
       await routeHandler(fetchedRoute)
     }
