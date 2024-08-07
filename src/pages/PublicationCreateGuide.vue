@@ -49,6 +49,16 @@ const { handleSubmit } = useForm()
 
 const onSubmitForm = () => {
   handleSubmit(async values => {
+    const numberOfSchedules = values.numberOfSchedules
+    const schedules = []
+    for (let i = 0; i < numberOfSchedules; i++) {
+      schedules.push({
+        date: values[`date_${i}`],
+        location: values[`location_${i}`],
+        activity: values[`activity_${i}`]
+      })
+    }
+
     const preparedValues = new FormData()
     preparedValues.append('name', values.name)
     preparedValues.append('description', values.description)
@@ -60,7 +70,10 @@ const onSubmitForm = () => {
     values.tourImages.forEach(image => {
       preparedValues.append('tourImages[]', image)
     })
-    preparedValues.append('schedule[]', values.schedule)
+    const preparedScheduleString = schedules
+      .map(schedule => JSON.stringify(schedule))
+      .join(',')
+    preparedValues.append('schedule[]', preparedScheduleString)
 
     // Преобразуем массив объектов в строку, разделенную запятыми
     const tourTravelPointsString = storeRoutePoints.value

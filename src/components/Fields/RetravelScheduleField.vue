@@ -1,13 +1,25 @@
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-2">
     <div
       v-for="(schedule, index) in schedules"
       :key="index"
       class="flex flex-col gap-2"
     >
-      <RetravelDateField label-text="Дата" v-model="schedule.date" />
-      <RetravelTextField label-text="Локация" v-model="schedule.location" />
-      <RetravelTextField label-text="Активность" v-model="schedule.activity" />
+      <RetravelDateField
+        label-text="Дата"
+        :field-name="'date_' + index"
+        v-model="schedule.date"
+      />
+      <RetravelTextField
+        label-text="Локация"
+        :field-name="'location_' + index"
+        v-model="schedule.location"
+      />
+      <RetravelTextField
+        label-text="Активность"
+        :field-name="'activity_' + index"
+        v-model="schedule.activity"
+      />
       <button class="button__delete" @click="removeSchedule(index)">
         Удалить
       </button>
@@ -22,6 +34,7 @@
 import { ref, watch } from 'vue'
 import RetravelDateField from '@/components/Fields/RetravelDateField.vue'
 import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
+import { useField } from 'vee-validate'
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -33,12 +46,18 @@ const props = defineProps({
 
 const schedules = ref([{ date: '', location: '', activity: '' }])
 
+const { value } = useField('numberOfSchedules', undefined, {
+  initialValue: schedules.value.length
+})
+
 const addSchedule = () => {
   schedules.value.push({ date: '', location: '', activity: '' })
+  value.value++
 }
 
 const removeSchedule = index => {
   schedules.value.splice(index, 1)
+  value.value--
 }
 
 watch(

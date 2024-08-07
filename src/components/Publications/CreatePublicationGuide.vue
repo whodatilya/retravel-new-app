@@ -31,7 +31,9 @@
         <span class="fs-14 font-semibold">Проложить маршрут</span>
       </div>
       <RetravelTextareaField label-text="Описание" field-name="description" />
-      <RetravelTextareaField label-text="Расписание" field-name="schedule" />
+      <span class="color-main-gray font-semibold fs-12">Расписание</span>
+      <hr />
+      <RetravelScheduleField field-name="schedule" />
       <div class="flex flex-row justify-between">
         <button class="button__delete">Удалить</button>
         <button class="button__save" @click="emit('submit')">
@@ -51,6 +53,7 @@ import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
 import RetravelDateField from '@/components/Fields/RetravelDateField.vue'
 import RetravelNumberField from '@/components/Fields/RetravelNumberField.vue'
+import RetravelScheduleField from '@/components/Fields/RetravelScheduleField.vue'
 
 const router = useRouter()
 

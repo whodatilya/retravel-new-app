@@ -75,12 +75,15 @@
       <div v-if="fieldsStore.schedule.value" class="description-container mt-2">
         <template v-for="(activity, index) in parsedSchedule" :key="index">
           <div class="flex flex-col gap-2">
-            <div class="flex flex-row gap-2">
-              <div>{{ activity?.date }}</div>
-              <div>{{ activity?.location }}</div>
+            <div class="flex flex-row gap-2 items-center">
+              <div class="font-semibold fs-14">
+                {{ moment(activity?.date).format('DD.MM.YYYY') }}:
+              </div>
+              <div class="fs-14 color-main-green">{{ activity?.location }}</div>
             </div>
-            <div>{{ activity?.activity }}</div>
+            <div class="fs-14">{{ activity?.activity }}</div>
           </div>
+          <br />
         </template>
       </div>
     </div>
@@ -112,7 +115,7 @@ import { computed, reactive } from 'vue'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import iconLess from '@/assets/images/iconLess.svg'
 import iconMore from '@/assets/images/iconMore.svg'
-import { storeToRefs } from 'pinia'
+import moment from 'moment/moment'
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -139,7 +142,15 @@ const changeFieldStatus = fieldName => {
 const { changeMode } = usePublicationsStore()
 
 const parsedSchedule = computed(() => {
-  return props.tour.schedule.map(activity => JSON.parse(activity))
+  if (props.tour.schedule) {
+    // Используем регулярное выражение для поиска всех объектов в строке
+    const regex = /\{[^}]+\}/g
+    const matches = props.tour.schedule[0].match(regex)
+    if (matches) {
+      return matches.map(item => JSON.parse(item))
+    }
+  }
+  return []
 })
 
 const userId = localStorage.getItem('userId')
