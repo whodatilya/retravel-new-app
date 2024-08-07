@@ -1,18 +1,33 @@
 <template>
   <div class="content-wrapper min-w-[40%] flex flex-col">
-    <div class="flex flex-row justify-between">
-      <div class="flex gap-8 pb-10">
-        <img src="@/assets/images/iconUser.svg" alt="" />
-        <div class="flex flex-col fs-18 font-medium">
-          <span>{{ publication?.user?.name }}</span>
-          <span>{{ publication?.user?.surname }}</span>
+    <div class="flex flex-row justify-between pb-5">
+      <div class="flex flex-row gap-5">
+        <div>
+          <img
+            :src="
+              publication?.user?.profilePhoto ||
+              require('@/assets/images/iconUser.svg')
+            "
+            style="width: 45px; height: 45px; border-radius: 50%"
+            alt=""
+          />
+        </div>
+        <div>
+          <div class="flex flex-col gap-2 fs-16 font-medium">
+            <div class="flex flex-row gap-2">
+              <span>{{ publication?.user?.name }}</span>
+              <span>{{ publication?.user?.surname }}</span>
+            </div>
+            <div class="fs-14 font-light color-main-gray">{{ role }}</div>
+          </div>
         </div>
       </div>
       <div class="flex flex-row items-center gap-1.5">
         <img src="@/assets/images/cardImages/iconStarBig.svg" alt="рейтинг" />
-        <span class="fs-18 font-medium">{{
-          publication?.user?.avgRating
+        <span class="fs-18 font-medium" v-if="publication?.avgRating">{{
+          publication?.avgRating
         }}</span>
+        <span class="fs-14 font-light color-main-gray" v-else>нет оценок</span>
       </div>
     </div>
     <span class="fs-16 font-semibold pb-5">{{ publication?.name }}</span>
@@ -39,6 +54,7 @@
 import { computed } from 'vue'
 import { usePublicationsStore } from '@/store/publications/usePublicationsStore'
 import { storeToRefs } from 'pinia'
+import iconUser from '@/assets/images/iconUser.svg'
 // eslint-disable-next-line no-undef
 const props = defineProps({
   publication: {
@@ -54,6 +70,14 @@ const userId = localStorage.getItem('userId')
 const isCurrentUserPublication = computed(
   () => +userId === props?.publication?.user?.id
 )
+
+const role = computed(() => {
+  if (props.publication?.user?.roles?.includes('ROLE_GUIDE')) {
+    return 'Гид'
+  } else {
+    return 'Пользователь'
+  }
+})
 </script>
 
 <style lang="sass" scoped>

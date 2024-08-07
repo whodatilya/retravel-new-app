@@ -76,7 +76,7 @@
               <div class="fs-14 font-semibold">Изображение:</div>
               <img :src="marker.travelPointImagesFront" alt="" />
               <button
-                v-if="!isMap"
+                v-if="!isMap && !routeUsedIds.length"
                 class="button__add"
                 @click="addPointToRoute(marker.id)"
               >

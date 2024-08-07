@@ -2,7 +2,16 @@
   <div class="content-wrapper min-w-[40%] flex flex-col">
     <div class="flex flex-row justify-between pb-5">
       <div class="flex flex-row gap-5">
-        <div><img src="@/assets/images/iconUser.svg" alt="" /></div>
+        <div>
+          <img
+            :src="
+              tour?.user?.profilePhoto ||
+              require('@/assets/images/iconUser.svg')
+            "
+            style="width: 45px; height: 45px; border-radius: 50%"
+            alt=""
+          />
+        </div>
         <div>
           <div class="flex flex-col gap-2 fs-16 font-medium">
             <div class="flex flex-row gap-2">
