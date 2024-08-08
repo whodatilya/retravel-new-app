@@ -19,9 +19,11 @@
               publication?.createdAt ?? publication?.date
             }}</span>
           </div>
-          <div v-if="!isTour" @click="addRouteToFavourites">
+          <div v-if="!isTour">
             <template v-if="isInFavourites">
               <svg
+                class="cursor-pointer"
+                @click="deleteFromFavourites"
                 width="17"
                 height="25"
                 viewBox="0 0 17 25"
@@ -40,6 +42,8 @@
             </template>
             <template v-else>
               <svg
+                class="cursor-pointer"
+                @click="addRouteToFavourites"
                 width="17"
                 height="25"
                 viewBox="0 0 17 25"
@@ -107,7 +111,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import {
   YandexMap,
   YandexMapDefaultFeaturesLayer,
@@ -124,7 +128,7 @@ const router = useRouter()
 
 const isPinActive = ref(false)
 
-const { addToFavourites } = useFavouriteStore()
+const { getFavourites, addToFavourites, deleteFavourites } = useFavouriteStore()
 // eslint-disable-next-line no-undef
 const props = defineProps({
   publication: {
@@ -158,19 +162,30 @@ const openMap = () => {
   })
 }
 
-const addRouteToFavourites = async () => {
-  await addToFavourites({ routeId: props.publication.id })
-  let favourites = JSON.parse(localStorage.getItem('favourites')) || []
-  if (!favourites.includes(props?.publication?.id)) {
-    favourites.push(props.publication.id)
-    localStorage.setItem('favourites', JSON.stringify(favourites))
-  }
+const deleteFromFavourites = async () => {
+  await deleteFavourites(props?.publication?.id)
+  isInFavourites.value = false
 }
 
-const isInFavourites = computed(() => {
-  let favourites = JSON.parse(localStorage.getItem('favourites')) || []
-  return favourites.includes(props?.publication?.id)
+const addRouteToFavourites = async () => {
+  await addToFavourites({ routeId: props.publication.id })
+  isInFavourites.value = true
+}
+
+const isInFavourites = ref(false)
+
+onMounted(async () => {
+  const response = await getFavourites()
+  if (response) {
+    console.log(response?.data?.includes(props?.publication?.id))
+    isInFavourites.value = response?.data?.includes(props?.publication?.id)
+  }
 })
+
+// const isInFavourites = computed(() => {
+//   let favourites = JSON.parse(localStorage.getItem('favourites')) || []
+//   return favourites.includes(props?.publication?.id)
+// })
 
 const coordinatesCenter = computed(() => {
   const travelPoints = props.publication?.travelPoints
