@@ -19,7 +19,7 @@
       <div
         v-if="mode === 'read' && !routeUsedIds.length"
         :class="isMobile ? 'fs-13' : 'fs-18'"
-        class="new-button br-8 cursor-pointer font-medium"
+        class="new-button br-8 cursor-pointer font-medium add-button"
         @click="createNewPointMode"
       >
         Добавить
@@ -79,18 +79,22 @@
                     далее...
                   </button>
                 </div>
-                <img
-                  class="br-8 mt-3"
-                  :src="marker.travelPointImagesFront"
-                  alt=""
-                />
-                <button
-                  v-if="!isMap && !routeUsedIds.length"
-                  class="button__add"
-                  @click="addPointToRoute(marker.id)"
-                >
-                  Использовать
-                </button>
+                <div>
+                  <img
+                    class="br-8 mt-3 relative"
+                    :src="marker.travelPointImagesFront"
+                    alt=""
+                  />
+                  <button
+                    v-if="!isMap && !routeUsedIds.length"
+                    class="button__add absolute"
+                    style="bottom: 10px; left: 50%; transform: translateX(-50%)"
+                    @click="addPointToRoute(marker.id)"
+                  >
+                    Использовать
+                  </button>
+                </div>
+
                 <img
                   v-if="isCurrentUserPoint(marker?.user)"
                   class="cursor-pointer"
@@ -315,7 +319,7 @@ watch(
 watch(
   () => routePoints.value,
   async newValue => {
-    if (newValue.length && !props.isMap && !props.isTour) {
+    if (newValue.length && !props.isMap && !props.isTour && !props.create) {
       const fetchedRoute = await fetchRoute(routePoints.value)
       await routeHandler(fetchedRoute)
     }
@@ -495,9 +499,22 @@ const toggleDescription = marker => {
 .new-button
   background: #4E944F
   padding: 8px 12px
+  display: flex
+  flex-direction: row
+  align-items: center
+  justify-content: center
   color: white
   &:hover
     background: rgba(78, 148, 79, 0.85)
+  @media (max-width: 768px)
+    width: 120px
+    height: 40px
+
+.add-button
+  position: absolute
+  top: 6rem
+  right: 3rem
+  z-index: 1000
 
 .marker-popup
   background: #fff

@@ -7,6 +7,7 @@
         <RetravelTextField label-text="Наименование" field-name="name" />
         <RetravelTextareaField label-text="Описание" field-name="description" />
         <RetravelFileField
+          style="width: 100%"
           field-name="travelPointImages"
           drop-zone-text="Перетащите файл или нажмите для загрузки"
         />
@@ -82,4 +83,6 @@ const submitModal = () => {
     gap: 1.25rem
     background: white
     width: 500px
+    @media (max-width: 768px)
+      width: 90vw
 </style>
