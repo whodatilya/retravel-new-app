@@ -136,8 +136,8 @@
                 alt=""
               />
               <div class="flex flex-row gap-1 items-center">
-                <span>{{ tour?.user?.name }}</span>
-                <span>{{ tour?.user?.surname }}</span>
+                <span>{{ participant?.name }}</span>
+                <span>{{ participant?.surname }}</span>
               </div>
             </div>
             <img
