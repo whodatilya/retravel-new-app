@@ -47,7 +47,7 @@
             zIndex: openMarker === index ? 1 : 0
           }"
         >
-          <div class="marker">
+          <div class="marker" :class="{ marker_used: isUsed(marker.id) }">
             <div class="flex flex-row items-center gap-1">
               <img src="@/assets/images/iconMapPin.svg" alt="" />
               <div>{{ marker.name }}</div>
@@ -251,6 +251,10 @@ const createMarker = async values => {
     routePoints.value[routePoints.value.length - 1].longitude
   )
   await createTravelPoint(formData)
+}
+
+const isUsed = markerId => {
+  return usedRoutePoints.value.some(item => item.travel_point_id === markerId)
 }
 
 async function fetchRoute(points) {
@@ -540,6 +544,8 @@ const toggleDescription = marker => {
   width: max-content
   padding: 5px 7px
   white-space: nowrap
+  &_used
+    background: lightgreen
 
 .popup
   position: absolute
