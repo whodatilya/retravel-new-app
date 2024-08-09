@@ -36,9 +36,39 @@ export const useReviewStore = defineStore('reviews', () => {
     return response.data
   }
 
+  const createRouteReview = async formData => {
+    const response = await request({
+      url: '/api/review/route',
+      headers: {
+        'Content-Type': 'application/ld+json'
+      },
+      method: 'POST',
+      data: formData
+    }).catch(error => {
+      console.log('Error!!!', error)
+    })
+    return response.data
+  }
+
+  const createTourReview = async formData => {
+    const response = await request({
+      url: '/api/review/tour',
+      headers: {
+        'Content-Type': 'application/ld+json'
+      },
+      method: 'POST',
+      data: formData
+    }).catch(error => {
+      console.log('Error!!!', error)
+    })
+    return response.data
+  }
+
   return {
     getReviewsByUserId,
     getReviewsByTourId,
-    createUserReview
+    createUserReview,
+    createRouteReview,
+    createTourReview
   }
 })

@@ -182,7 +182,6 @@ onMounted(async () => {
     itemsPerPage: 3,
     sort: 'avgRating'
   })
-  console.log(favouriteData)
   if (favouriteData) {
     favourites.value = favouriteData
   } else {

@@ -2,14 +2,26 @@
   <div :class="{ 'w-[60%]': !isMobile }" class="flex flex-col flex-1 gap-2.5">
     <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[50%]">
       <div class="flex flex-row justify-between">
-        <div class="flex flex-row gap-2.5">
+        <div class="flex flex-row gap-2.5 items-center">
           <div class="fs-18 font-medium">Маршрут:</div>
-          <div v-if="publication?.avgRating" class="flex flex-row gap-1.5">
+          <div class="flex flex-row gap-1.5 relative">
             <img
               src="@/assets/images/cardImages/iconStarBig.svg"
               alt="рейтинг"
+              @mouseover="isPopupVisible = true"
             />
-            <span class="fs-18 font-medium">{{ publication.avgRating }}</span>
+            <span class="fs-18 font-medium">{{ publication?.avgRating }}</span>
+            <div
+              v-if="userId != publication?.user.id"
+              class="popup"
+              :class="{ visible: isPopupVisible }"
+            >
+              <Rating
+                :model-value="rating"
+                @update:model-value="handleUpdateRating"
+                :stars="5"
+              />
+            </div>
           </div>
         </div>
         <div class="flex flex-row fs-18">
@@ -111,7 +123,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import {
   YandexMap,
   YandexMapDefaultFeaturesLayer,
@@ -123,12 +135,16 @@ import { useRouter } from 'vue-router'
 import 'vue3-carousel/dist/carousel.css'
 import ImageModal from '@/components/Modals/ImageModal.vue'
 import { useFavouriteStore } from '@/store/favourite/useFavouriteStore'
+import Rating from 'primevue/rating'
+import { useReviewStore } from '@/store/reviews/useReviewStore'
 
 const router = useRouter()
 
 const isPinActive = ref(false)
 
 const { getFavourites, addToFavourites, deleteFavourites } = useFavouriteStore()
+
+const { createRouteReview, createTourReview } = useReviewStore()
 // eslint-disable-next-line no-undef
 const props = defineProps({
   publication: {
@@ -144,6 +160,35 @@ const props = defineProps({
     default: 'routeImages'
   }
 })
+
+const userId = localStorage.getItem('userId')
+
+const rating = ref(0)
+
+const isPopupVisible = ref(false)
+
+const toggleStarPopup = () => {
+  isPopupVisible.value = !isPopupVisible.value
+}
+
+const handleUpdateRating = async newRating => {
+  rating.value = newRating
+  if (props.isTour) {
+    await createTourReview({
+      text: '1',
+      rating: newRating,
+      tourId: props.publication.id
+    })
+    isPopupVisible.value = false
+  } else {
+    await createRouteReview({
+      text: '1',
+      rating: newRating,
+      routeId: props.publication.id
+    })
+    isPopupVisible.value = false
+  }
+}
 
 const isMobile = computed(() => window.innerWidth < 768)
 
@@ -177,7 +222,6 @@ const isInFavourites = ref(false)
 onMounted(async () => {
   const response = await getFavourites()
   if (response) {
-    console.log(response?.data?.includes(props?.publication?.id))
     isInFavourites.value = response?.data?.includes(props?.publication?.id)
   }
 })
@@ -290,4 +334,21 @@ const closeModal = () => {
   width: max-content
   padding: 5px 7px
   white-space: nowrap
+
+
+.popup
+  position: absolute
+  background-color: white
+  top: -40px
+  border-radius: 10px
+  left: -38px
+  border: 1px solid #ccc
+  padding: 10px
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+  z-index: 1000
+  display: none
+
+
+.popup.visible
+  display: block
 </style>
