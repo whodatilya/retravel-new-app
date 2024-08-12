@@ -12,6 +12,20 @@ const routes = [
     component: () => import('@/pages/Login.vue')
   },
   {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/pages/Admin.vue')
+  },
+  {
+    path: '/payment',
+    name: 'payment',
+    component: () => import('@/pages/Payment.vue'),
+    beforeEnter: ifAuthenticated,
+    props: route => ({
+      data: route?.query?.data ?? false
+    })
+  },
+  {
     path: '/signUp',
     name: 'register',
     component: () => import('@/pages/Register.vue')

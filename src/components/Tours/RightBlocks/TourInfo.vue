@@ -170,6 +170,8 @@ const props = defineProps({
   }
 })
 
+const isTinkoffModal = ref(false)
+
 const { addTourParticipant } = useTourStore()
 
 const fieldsStore = reactive({
@@ -215,6 +217,8 @@ const parsedSchedule = computed(() => {
   return []
 })
 
+const preparedPaymentData = ref()
+
 const userId = localStorage.getItem('userId')
 
 const isCurrentUserPublication = computed(
@@ -223,11 +227,25 @@ const isCurrentUserPublication = computed(
 
 const createTourParticipant = async () => {
   toggleModal()
+
+  preparedPaymentData.value = {
+    price: props?.tour?.price,
+    description: props?.tour?.description,
+    name: props?.tour?.user?.name + ' ' + props?.tour?.user?.surname,
+    email: props?.tour?.user?.email,
+    phone: props?.tour?.user?.phone
+  }
+  router.push({
+    name: 'payment',
+    query: {
+      data: JSON.stringify(preparedPaymentData.value)
+    }
+  })
   await addTourParticipant({
     tourId: props?.tour?.id,
     userId: userId
   })
-  location.reload()
+  // location.reload()
 }
 </script>
 
