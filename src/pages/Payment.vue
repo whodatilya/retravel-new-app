@@ -1,10 +1,6 @@
 <template>
   <div class="h-[100vh] flex flex-col justify-center items-center">
-    <form
-      class="payform-tinkoff"
-      name="payform-tinkoff"
-      onsubmit="pay(this); return false;"
-    >
+    <form class="payform-tinkoff" name="payform-tinkoff" id="payform-tinkoff">
       <input
         class="payform-tinkoff-row"
         type="hidden"
@@ -22,6 +18,12 @@
         type="hidden"
         name="language"
         value="ru"
+      />
+      <input
+        class="payform-tinkoff-row"
+        type="hidden"
+        name="receipt"
+        value=""
       />
       <label for="price">Сумма заказа: </label>
       <input
@@ -99,6 +101,38 @@ onMounted(async () => {
   script.src = 'https://securepay.tinkoff.ru/html/payForm/js/tinkoff_v2.js'
   script.async = true
   document.head.appendChild(script)
+
+  const TPF = document.getElementById('payform-tinkoff')
+
+  TPF.addEventListener('submit', function (e) {
+    e.preventDefault()
+    const { description, amount, email, phone, receipt } = TPF
+    console.log(TPF)
+    if (receipt) {
+      if (!email.value && !phone.value) {
+        return alert('Поле E-mail или Phone не должно быть пустым')
+      }
+
+      TPF.receipt.value = JSON.stringify({
+        EmailCompany: 'mail@mail.com',
+        Taxation: 'usn_income_outcome',
+        FfdVersion: '1.2',
+        Items: [
+          {
+            Name: description.value || 'Оплата',
+            Price: amount.value + '00',
+            Quantity: 1.0,
+            Amount: amount.value + '00',
+            PaymentMethod: 'full_prepayment',
+            PaymentObject: 'service',
+            Tax: 'none',
+            MeasurementUnit: 'pc'
+          }
+        ]
+      })
+    }
+    pay(TPF)
+  })
 })
 </script>
 
