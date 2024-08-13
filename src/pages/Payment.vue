@@ -133,6 +133,7 @@ onMounted(async () => {
         ]
       })
     }
+    // eslint-disable-next-line no-undef
     pay(TPF)
   })
 })

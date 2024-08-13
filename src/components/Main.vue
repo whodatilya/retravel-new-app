@@ -134,7 +134,7 @@ watch(
   async newValue => {
     const popularCardsData = await getPublications({
       ...newValue,
-      itemsPerPage: 4
+      itemsPerPage: 3
     })
     if (popularCardsData.data) {
       popularCards.value = popularCardsData.data
@@ -169,7 +169,7 @@ onMounted(async () => {
     placeCards.value = []
   }
   const popularData = await getPublications({
-    itemsPerPage: 4,
+    itemsPerPage: 3,
     sort: 'avgRating'
   })
   if (popularData.data) {
@@ -239,6 +239,8 @@ const currentWindowWidth = computed(() => window.innerWidth)
     background: #DAE8DA
     border-radius: 25px
     border: 1px solid #4E944F80
+    max-height: 100vh // Ограничиваем высоту экрана
+    overflow: auto // Добавляем прокрутку, если контент превышает высоту экрана
     @media (max-width: 768px)
       background: transparent
       border-radius: unset
