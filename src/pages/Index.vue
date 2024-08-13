@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col h-screen">
     <header
       v-if="currentWindowSize < 768"
       class="header"
@@ -14,7 +14,7 @@
         <search />
       </div>
     </header>
-    <div class="flex">
+    <div class="flex flex-grow">
       <Sidebar
         class="sidebar pb-10 pt-16"
         @selectedComponent="processComponent"

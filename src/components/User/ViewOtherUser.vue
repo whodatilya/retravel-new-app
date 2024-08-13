@@ -12,7 +12,6 @@
             height: 120px;
             border-radius: 50%;
             object-fit: cover;
-            cursor: pointer;
           "
           alt=""
         />
@@ -21,9 +20,7 @@
         {{ user?.name }} {{ user?.surname }}
       </div>
     </div>
-    <div
-      class="content-wrapper flex flex-col flex-auto gap-6 h-full wide-inputs"
-    >
+    <div class="content-wrapper flex flex-col flex-auto gap-6 h-full">
       <div class="flex flex-row justify-between items-center">
         <div class="font-semibold">Публикации:</div>
         <div class="flex flex-row relative">
@@ -153,6 +150,10 @@ watch(
   border-radius: 20px
   background: white
   padding: 1.5rem
+  display: flex
+  flex-direction: column
+  flex: 1
+  overflow: hidden // Предотвращает растягивание страницы
   .carousel__item
     min-height: 200px
     width: 80%
@@ -188,5 +189,6 @@ watch(
     &:hover
       background: #f0f0f0
 .popular-cards-container
-  max-height: 300px
+  flex: 1
+  overflow-y: auto
 </style>

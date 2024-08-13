@@ -40,7 +40,7 @@
       />
       <label for="price">Описание заказа: </label>
       <input
-        class="payform-tinkoff-row"
+        class="payform-tinkoff-row payform-tinkoff-row_disabled"
         type="text"
         :value="parsedData?.description"
         placeholder="Описание заказа"

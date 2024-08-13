@@ -161,6 +161,7 @@ body
   margin: 2.25rem 2.5rem 2.5rem
   border-radius: 25px
   flex-basis: 45%
+  position: relative // Добавьте эту строку для установки относительного позиционирования
   @media (max-width: 768px)
     border: none
     background: white
@@ -178,10 +179,11 @@ iframe#webpack-dev-server-client-overlay
   display: none !important
 
 .pagination-container-fix
-  bottom: 10px !important
-  position: relative
+  bottom: 3px !important
+  position: absolute
   display: flex
   justify-content: center
+  width: 100% // Добавьте эту строку для установки ширины контейнера
   li
     justify-content: center
   .Page

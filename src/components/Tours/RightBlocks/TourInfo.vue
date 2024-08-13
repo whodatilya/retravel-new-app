@@ -45,25 +45,30 @@
         <span class="fs-12 font-light color-main-gray">За одного человека</span>
       </div>
     </div>
-    <button
-      class="button__edit fs-14 font-semibold"
-      v-if="tour?.participants?.length <= tour?.participantsCount"
-      @click="toggleModal"
-    >
-      Хочу пойти!
-    </button>
+    <div class="flex flex-col gap-4">
+      <button
+        class="button__edit fs-14 font-semibold"
+        v-if="
+          tour?.participants?.length <= tour?.participantsCount &&
+          !isCurrentUserPublication
+        "
+        @click="toggleModal"
+      >
+        Хочу пойти!
+      </button>
+      <button
+        v-if="isCurrentUserPublication"
+        @click="changeMode('edit')"
+        class="button__edit fs-14 font-semibold"
+      >
+        Редактировать публикацию
+      </button>
+    </div>
     <ConfirmationModal
       :show="isModalOpened"
       @submit="createTourParticipant"
       @close="isModalOpened = false"
     />
-    <button
-      v-if="isCurrentUserPublication"
-      @click="changeMode('edit')"
-      class="button__edit fs-14 font-semibold"
-    >
-      Редактировать публикацию
-    </button>
     <div
       :class="{ 'description-wrapper': fieldsStore.description.value }"
       class="flex flex-col mt-4"
@@ -151,9 +156,11 @@
               </div>
             </div>
             <img
+              v-if="isCurrentUserPublication"
               class="cursor-pointer"
               src="@/assets/images/iconClose.svg"
               alt=""
+              @click="removeParticipant(participant)"
             />
           </div>
         </template>
@@ -180,9 +187,7 @@ const props = defineProps({
   }
 })
 
-const isTinkoffModal = ref(false)
-
-const { addTourParticipant } = useTourStore()
+const { addTourParticipant, deleteTourParticipant } = useTourStore()
 
 const fieldsStore = reactive({
   description: { value: true },
@@ -232,7 +237,7 @@ const preparedPaymentData = ref()
 const userId = localStorage.getItem('userId')
 
 const isCurrentUserPublication = computed(
-  () => +userId === props?.publication?.user?.id
+  () => +userId === props?.tour?.user?.id
 )
 
 const createTourParticipant = async () => {
@@ -240,12 +245,12 @@ const createTourParticipant = async () => {
 
   preparedPaymentData.value = {
     price: props?.tour?.price,
-    description: props?.tour?.description,
+    description: `Оплата тура "${props?.tour?.name}"`,
     name: props?.tour?.user?.name + ' ' + props?.tour?.user?.surname,
     email: props?.tour?.user?.email,
     phone: props?.tour?.user?.phone
   }
-  router.push({
+  await router.push({
     name: 'payment',
     query: {
       data: JSON.stringify(preparedPaymentData.value)
@@ -256,6 +261,13 @@ const createTourParticipant = async () => {
     userId: userId
   })
   // location.reload()
+}
+
+const removeParticipant = async participant => {
+  await deleteTourParticipant({
+    tourId: props?.tour?.id,
+    userId: participant.id
+  })
 }
 </script>
 

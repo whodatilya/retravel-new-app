@@ -3,7 +3,7 @@
     :class="{ 'w-[60%]': !isMobile, 'pb-5': isMobile }"
     class="flex flex-col flex-1 gap-5"
   >
-    <div class="flex flex-col gap-4 justify-center items-center">
+    <div class="flex flex-col gap-2 justify-center items-center">
       <div class="flex flex-row justify-center">
         <img
           :src="profilePhotoUrl || require('@/assets/images/iconUserBig.svg')"

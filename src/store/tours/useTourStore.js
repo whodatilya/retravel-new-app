@@ -72,11 +72,25 @@ export const useTourStore = defineStore('tours', () => {
     return response.data
   }
 
+  const deleteTourParticipant = async formData => {
+    return await request({
+      url: '/api/tour-participants/delete',
+      headers: {
+        'Content-Type': 'application/ld+json'
+      },
+      method: 'DELETE',
+      data: formData
+    }).catch(error => {
+      console.log('Error!!!', error)
+    })
+  }
+
   return {
     createTour,
     getTours,
     addTourParticipant,
     updateTour,
-    getTourById
+    getTourById,
+    deleteTourParticipant
   }
 })
