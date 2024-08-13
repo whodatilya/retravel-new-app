@@ -27,8 +27,9 @@
       />
       <label for="price">Сумма заказа: </label>
       <input
-        class="payform-tinkoff-row"
+        class="payform-tinkoff-row payform-tinkoff-row_disabled"
         type="text"
+        disabled
         placeholder="Сумма заказа"
         :value="parsedData?.price"
         name="amount"
@@ -44,6 +45,7 @@
       <input
         class="payform-tinkoff-row payform-tinkoff-row_disabled"
         type="text"
+        disabled
         :value="parsedData?.description"
         placeholder="Описание заказа"
         name="description"
