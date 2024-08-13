@@ -7,7 +7,7 @@
       <img
         :class="{ 'br-8': isTiny }"
         :src="cardData?.routeImages?.[0]"
-        style="width: 5rem; height: 4rem"
+        style="width: 5rem; height: 4rem; object-fit: cover"
         alt="Иконка популярного"
       />
       <div class="flex flex-col gap-1 justify-center">

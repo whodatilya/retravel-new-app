@@ -8,7 +8,12 @@
               publication?.user?.profilePhoto ||
               require('@/assets/images/iconUser.svg')
             "
-            style="width: 45px; height: 45px; border-radius: 50%"
+            style="
+              width: 45px;
+              height: 45px;
+              border-radius: 50%;
+              object-fit: cover;
+            "
             alt=""
           />
         </div>
@@ -83,7 +88,7 @@ const role = computed(() => {
   if (props.publication?.user?.roles?.includes('ROLE_GUIDE')) {
     return 'Гид'
   } else {
-    return 'Пользователь'
+    return 'Турист'
   }
 })
 </script>

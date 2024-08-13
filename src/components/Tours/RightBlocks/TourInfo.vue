@@ -8,7 +8,12 @@
               tour?.user?.profilePhoto ||
               require('@/assets/images/iconUser.svg')
             "
-            style="width: 45px; height: 45px; border-radius: 50%"
+            style="
+              width: 45px;
+              height: 45px;
+              border-radius: 50%;
+              object-fit: cover;
+            "
             alt=""
           />
         </div>
@@ -132,7 +137,12 @@
                   participant?.profilePhoto ||
                   require('@/assets/images/iconUser.svg')
                 "
-                style="width: 42px; height: 42px; border-radius: 50%"
+                style="
+                  width: 42px;
+                  height: 42px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                "
                 alt=""
               />
               <div class="flex flex-row gap-1 items-center">

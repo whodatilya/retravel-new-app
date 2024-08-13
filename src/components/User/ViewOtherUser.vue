@@ -7,7 +7,13 @@
       <div class="flex flex-row justify-center">
         <img
           :src="profilePhotoUrl || require('@/assets/images/iconUserBig.svg')"
-          style="width: 145px; height: 145px; border-radius: 50%"
+          style="
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+          "
           alt=""
         />
       </div>
@@ -169,6 +175,7 @@ watch(
   position: absolute
   top: 100%
   right: 0
+  z-index: 100000001
   background: white
   border: 1px solid #d0d0d0
   border-radius: 8px

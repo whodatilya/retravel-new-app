@@ -7,11 +7,24 @@
       <div class="flex flex-row justify-center">
         <img
           :src="profilePhotoUrl || require('@/assets/images/iconUserBig.svg')"
-          style="width: 145px; height: 145px; border-radius: 50%"
+          style="
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+          "
           alt=""
+          @click="triggerFileInput"
         />
       </div>
-      <input ref="myFiles" accept="image/*" @change="processFile" type="file" />
+      <input
+        ref="myFiles"
+        accept="image/*"
+        @change="processFile"
+        type="file"
+        style="display: none"
+      />
       <div class="p-2 white-background br-8 flex w-fit flex-row justify-center">
         {{ user?.name }} {{ user?.surname }}
       </div>
@@ -102,6 +115,10 @@ const processFile = async () => {
 
   // Создаем URL для отображения загруженного изображения
   profilePhotoUrl.value = URL.createObjectURL(value.value)
+}
+
+const triggerFileInput = () => {
+  myFiles.value.click()
 }
 
 const submitUserData = () => {

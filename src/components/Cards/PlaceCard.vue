@@ -5,35 +5,24 @@
       class="w-full br-22"
       alt="Фото локации"
     />
-    <div class="card__text flex flex-col justify-center p-2">
-      <div class="fs-18">{{ cardData.name }}</div>
+    <div class="card__text flex flex-col gap-1 justify-center p-2">
+      <div class="fs-16 text-ellipsis">{{ cardData.name }}</div>
       <div class="flex flex-row align-middle justify-between">
         <div class="flex flex-row gap-1">
-          <img :src="iconLocation" alt="" />
-          <div class="fs-10">{{ cardData.name }}</div>
+          <img src="@/assets/images/cardImages/locationPin.svg" alt="" />
+          <div class="fs-10 text-ellipsis">{{ cardData.description }}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
-<script>
-import { defineComponent } from 'vue'
-import iconLocation from '@/assets/images/cardImages/locationPin.svg'
-import iconStar from '@/assets/images/cardImages/iconStar.svg'
 
-export default defineComponent({
-  name: 'PlaceCard',
-  data() {
-    return {
-      iconLocation,
-      iconStar
-    }
-  },
-  props: {
-    cardData: {
-      type: Object,
-      default: () => {}
-    }
+<script setup>
+// eslint-disable-next-line no-undef
+const props = defineProps({
+  cardData: {
+    type: Object,
+    default: () => {}
   }
 })
 </script>
@@ -46,10 +35,19 @@ export default defineComponent({
     border-radius: 22px
   &__text
     width: 100%
-    min-height: 30%
+    height: 50%
     border-radius: 0 0 22px 22px
     background: rgba(0, 0, 0, 0.38)
     backdrop-filter: blur(1px)
     bottom: 0
     position: absolute
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+    line-clamp: 2
+
+.text-ellipsis
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
 </style>

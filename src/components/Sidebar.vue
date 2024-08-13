@@ -6,13 +6,18 @@
     >
       <img :src="logo" alt="Логотип" class="mb-4" />
       <div
-        class="flex gap-6 br-10 menu__text p-1.5 mb-3"
+        class="flex menu__item gap-6 br-10 menu__text p-1.5 mb-3"
         :class="{ 'menu__text-active': selectedComponent === 'Settings' }"
         @click="switchPage('Settings')"
       >
         <img
           :src="user?.profilePhoto || iconUser"
-          style="width: 45px; height: 45px; border-radius: 50%"
+          style="
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+          "
           alt=""
         />
         <div class="flex flex-col justify-center user-text">
@@ -117,7 +122,7 @@ const role = computed(() => {
   if (roles.includes('ROLE_GUIDE')) {
     return 'Гид'
   } else {
-    return 'Пользователь'
+    return 'Турист'
   }
 })
 </script>

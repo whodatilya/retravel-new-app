@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col gap-2 p-2">
+  <div class="hover:cursor-pointer flex flex-col gap-2 p-2" @click="goToUser">
     <div class="flex flex-row gap-4 items-center">
       <span class="fs-20 color-main-gray">{{ data?.author?.name }}</span>
       <img
         :src="
           data?.author?.profilePhoto || require('@/assets/images/iconUser.svg')
         "
-        style="width: 45px; height: 45px; border-radius: 50%"
+        style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover"
         alt=""
       />
     </div>
@@ -26,13 +26,16 @@
 
 <script setup>
 import moment from 'moment/moment'
+import router from '@/router'
 // eslint-disable-next-line no-undef
-defineProps({
+const props = defineProps({
   data: {
     type: Object,
     required: true
   }
 })
+
+const localUserId = localStorage.getItem('userId')
 
 const parseRating = rating => {
   switch (rating) {
@@ -48,6 +51,21 @@ const parseRating = rating => {
       return 'Отлично'
     default:
       return 'Неизвестно'
+  }
+}
+
+const goToUser = () => {
+  if (props.data?.author?.id == localUserId) {
+    router.push({
+      name: 'user'
+    })
+  } else {
+    router.push({
+      name: 'other-user',
+      params: {
+        id: props?.data?.author?.id
+      }
+    })
   }
 }
 </script>

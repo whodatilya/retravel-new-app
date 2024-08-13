@@ -216,7 +216,12 @@ const openFavourite = id => {
 }
 
 const openMap = () => {
-  router.push({ path: 'map' })
+  router.push({
+    path: 'map',
+    query: {
+      isMap: true
+    }
+  })
 }
 
 const currentWindowWidth = computed(() => window.innerWidth)
@@ -273,6 +278,7 @@ const currentWindowWidth = computed(() => window.innerWidth)
 
 .dropdown-menu
   position: absolute
+  z-index: 100000001
   top: 100%
   right: 0
   background: white

@@ -102,7 +102,7 @@
         </YandexMap>
       </template>
     </div>
-    <div class="content-wrapper flex flex-1 flex-col">
+    <div class="content-wrapper flex flex-1 flex-col justify-center">
       <Carousel :items-to-show="1.5" :wrap-around="true">
         <Slide v-for="slide in publication?.[imagePath]" :key="slide">
           <div class="carousel__item" @click="openModal(slide)">

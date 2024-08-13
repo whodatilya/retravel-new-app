@@ -82,7 +82,7 @@ import VPagination from '@hennge/vue3-pagination'
 const { getPublications } = usePublicationsStore()
 
 let page = ref(1)
-const itemsPerPage = 8
+const itemsPerPage = 6
 
 const isDropdownVisible = ref(false)
 const sortOrder = ref('rating')
@@ -104,7 +104,7 @@ watch(
   async newValue => {
     const popularCardsData = await getPublications({
       ...newValue,
-      itemsPerPage: 8,
+      itemsPerPage: 6,
       page: page.value
     })
     if (popularCardsData.data) {
@@ -117,7 +117,7 @@ watch(
 
 const updateHandler = async newPageNumber => {
   const tempData = await getPublications({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: newPageNumber
   })
   publications.value = tempData.data
@@ -146,7 +146,7 @@ onMounted(async () => {
   }
 
   const publicationsData = await getPublications({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: 1
   })
   if (publicationsData.data) {
@@ -175,7 +175,7 @@ const openPublication = id => {
 <style scoped lang="sass">
 .main-container
   display: grid
-  grid-template-columns: repeat(4, 1fr)
+  grid-template-columns: repeat(3, 1fr)
   grid-template-rows: repeat(2, 1fr)
   height: 100%
   grid-gap: 1rem
@@ -216,6 +216,7 @@ const openPublication = id => {
 
 .dropdown-menu
   position: absolute
+  z-index: 100000001
   top: 100%
   right: 0
   background: white

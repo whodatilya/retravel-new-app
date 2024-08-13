@@ -1,6 +1,10 @@
 <template>
   <div class="favourite__wrapper br-10 relative">
-    <img :src="favouriteData?.[imagePath]?.[0] ?? emptyImage" alt="" />
+    <img
+      :src="favouriteData?.[imagePath]?.[0] ?? emptyImage"
+      alt=""
+      class="object-cover rounded-full"
+    />
     <div
       v-if="isFavourite"
       class="absolute"

@@ -88,7 +88,7 @@ const { getTours } = useTourStore()
 const isGuide = computed(() => getRoles().includes('ROLE_GUIDE'))
 
 let page = ref(1)
-const itemsPerPage = 8
+const itemsPerPage = 6
 
 const paginatedTours = ref(null)
 
@@ -125,7 +125,7 @@ watch(
   async newValue => {
     const popularCardsData = await getTours({
       ...newValue,
-      itemsPerPage: 8,
+      itemsPerPage: 6,
       page: page.value
     })
     if (popularCardsData.data) {
@@ -138,7 +138,7 @@ watch(
 
 const updateHandler = async newPageNumber => {
   const tempData = await getTours({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: newPageNumber
   })
   tours.value = tempData.data
@@ -152,7 +152,7 @@ onMounted(async () => {
     paginatedTours.value = 0
   }
   const toursData = await getTours({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: 1
   })
   if (toursData.data) {
@@ -180,7 +180,7 @@ const openTour = id => {
 <style scoped lang="sass">
 .main-container
   display: grid
-  grid-template-columns: repeat(4, 1fr)
+  grid-template-columns: repeat(3, 1fr)
   grid-template-rows: repeat(2, 1fr)
   height: 100%
   grid-gap: 1rem
@@ -222,6 +222,7 @@ const openTour = id => {
   position: absolute
   top: 100%
   right: 0
+  z-index: 100000001
   background: white
   border: 1px solid #d0d0d0
   border-radius: 8px

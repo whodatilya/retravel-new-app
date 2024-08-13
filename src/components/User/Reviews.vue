@@ -8,7 +8,7 @@
     </div>
     <div class="overflow-auto">
       <template v-for="(item, index) in reviews" :key="index">
-        <Review :data="item" />
+        <Review :data="item" @click="goToUser(item.id)" />
       </template>
     </div>
     <button
@@ -31,6 +31,7 @@ import Review from '@/components/User/Review.vue'
 import { computed, onMounted, ref } from 'vue'
 import { useReviewStore } from '@/store/reviews/useReviewStore'
 import ReviewModal from '@/components/Modals/ReviewModal.vue'
+import router from '@/router'
 
 const reviews = ref([])
 const isModalOpened = ref(false)

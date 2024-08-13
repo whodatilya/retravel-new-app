@@ -54,11 +54,11 @@ const pageNumber = computed(() => {
 })
 
 let page = ref(1)
-const itemsPerPage = 8
+const itemsPerPage = 6
 
 const updateHandler = async newPageNumber => {
   const tempData = await getFavourites({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: newPageNumber
   })
   favourites.value = tempData.data
@@ -74,7 +74,7 @@ const deleteFavouriteById = async id => {
 
   // Обновить данные избранного
   const favouritesData = await getFavourites({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: 1
   })
   if (favouritesData) {
@@ -95,7 +95,7 @@ onMounted(async () => {
     paginatedFavourites.value = 0
   }
   const favouritesData = await getFavourites({
-    itemsPerPage: 8,
+    itemsPerPage: 6,
     page: 1
   })
   if (favouritesData) {
@@ -120,7 +120,7 @@ const openFavourite = id => {
 <style scoped lang="sass">
 .main-container
   display: grid
-  grid-template-columns: repeat(4, 1fr)
+  grid-template-columns: repeat(3, 1fr)
   grid-template-rows: repeat(2, 1fr)
   height: 100%
   grid-gap: 1rem
