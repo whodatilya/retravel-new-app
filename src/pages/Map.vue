@@ -50,7 +50,7 @@
           <div class="marker" :class="{ marker_used: isUsed(marker.id) }">
             <div class="flex flex-row items-center gap-1">
               <img src="@/assets/images/iconMapPin.svg" alt="" />
-              <div>{{ marker.name }}</div>
+              <div class="123">{{ marker.name }}</div>
             </div>
             <div
               v-if="openMarker === index"
@@ -58,10 +58,38 @@
               @click.stop="openMarker = null"
             >
               <div class="relative">
-                <span style="line-height: 30px" class="fs-14 font-semibold">{{
-                  marker.name
-                }}</span>
-                <div class="description-wrapper">
+                <div class="flex relative flex-row justify-between">
+                  <div class="flex flex-row gap-2 items-center">
+                    <span class="fs-14 font-semibold text-wrap">{{
+                      marker.name
+                    }}</span>
+                    <img
+                      src="@/assets/images/cardImages/iconStarBig.svg"
+                      alt="рейтинг"
+                      @mouseover="isPopupVisible = true"
+                    />
+                    <div
+                      class="popup-rating"
+                      :class="{ visible: isPopupVisible }"
+                    >
+                      <Rating
+                        :model-value="rating"
+                        @update:model-value="
+                          handleUpdateRating($event, marker.id)
+                        "
+                        :stars="5"
+                      />
+                    </div>
+                  </div>
+                  <img
+                    v-if="isCurrentUserPoint(marker?.user)"
+                    class="cursor-pointer"
+                    src="@/assets/images/iconTrash.svg"
+                    alt=""
+                    @click="deleteMarker(marker.id, index)"
+                  />
+                </div>
+                <div class="description-wrapper mt-2">
                   <div
                     class=""
                     :class="[
@@ -94,15 +122,6 @@
                     Использовать
                   </button>
                 </div>
-
-                <img
-                  v-if="isCurrentUserPoint(marker?.user)"
-                  class="cursor-pointer"
-                  style="position: absolute; right: 0; top: 0"
-                  src="@/assets/images/iconTrash.svg"
-                  alt=""
-                  @click="deleteMarker(marker.id, index)"
-                />
               </div>
             </div>
           </div>
@@ -158,8 +177,10 @@ import {
 import router from '@/router'
 import NewMarkerModal from '@/components/Modals/NewMarkerModal.vue'
 import { useComponentsStore } from '@/store/components/useComponentsStore'
+import Rating from 'primevue/rating'
 import { useMapStore } from '@/store/map/useMapStore'
 import { useRoute } from 'vue-router'
+import { useReviewStore } from '@/store/reviews/useReviewStore'
 
 const isMobile = computed(() => window.innerWidth < 768)
 
@@ -192,11 +213,27 @@ const map = shallowRef(null)
 
 const route = ref(null)
 
+const rating = ref(0)
+
 const isModalActive = ref(false)
+const isPopupVisible = ref(false)
+
 const routePoints = ref([])
 const usedRoutePoints = ref([])
 let countUsedRoutePoints = ref(0)
 const mode = ref('read')
+
+const { createTravelPointReview } = useReviewStore()
+
+const handleUpdateRating = async (newRating, markerId) => {
+  rating.value = newRating
+  await createTravelPointReview({
+    text: '1',
+    rating: newRating,
+    pointId: markerId
+  })
+  isPopupVisible.value = false
+}
 
 // eslint-disable-next-line no-undef
 const props = defineProps({
@@ -595,4 +632,19 @@ const toggleDescription = marker => {
     padding: 10px 18px
     background: #4E944F
     color: white
+.popup-rating
+  position: absolute
+  background-color: white
+  top: -40px
+  border-radius: 10px
+  left: 24px
+  border: 1px solid #ccc
+  padding: 10px
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)
+  z-index: 1000
+  display: none
+
+
+.popup-rating.visible
+  display: block
 </style>

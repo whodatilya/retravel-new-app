@@ -25,7 +25,10 @@ request.interceptors.response.use(
     return response
   },
   error => {
-    if (error.data && error.data.message === 'Expired JWT Token') {
+    if (
+      error.response.data &&
+      error.response.data.message === 'Expired JWT Token'
+    ) {
       localStorage.clear()
       location.reload()
     }
