@@ -123,7 +123,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import {
   YandexMap,
   YandexMapDefaultFeaturesLayer,
@@ -230,27 +230,6 @@ onMounted(async () => {
 //   let favourites = JSON.parse(localStorage.getItem('favourites')) || []
 //   return favourites.includes(props?.publication?.id)
 // })
-
-const coordinatesCenter = computed(() => {
-  const travelPoints = props.publication?.travelPoints
-  if (!travelPoints || travelPoints.length === 0) {
-    return [0, 0] // Возвращаем [0, 0] если нет точек
-  }
-
-  const totalLatitude = travelPoints.reduce(
-    (sum, point) => sum + point.latitude,
-    0
-  )
-  const totalLongitude = travelPoints.reduce(
-    (sum, point) => sum + point.longitude,
-    0
-  )
-
-  const averageLatitude = totalLatitude / travelPoints.length
-  const averageLongitude = totalLongitude / travelPoints.length
-
-  return [averageLatitude, averageLongitude]
-})
 
 const mapSettings = computed(() => ({
   location: {

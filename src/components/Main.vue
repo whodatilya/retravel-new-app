@@ -257,6 +257,7 @@ const currentWindowWidth = computed(() => window.innerWidth)
   background: white
   padding: 1.5rem
 .footer-banner
+  margin-top: auto
   position: relative
   width: 100%
   img
