@@ -3,7 +3,7 @@
     <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[50%]">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5 items-center">
-          <div class="fs-18 font-medium">Маршрут:</div>
+          <div class="fs-18 font-medium">Маршрут</div>
           <div class="flex flex-row gap-1.5 relative">
             <img
               src="@/assets/images/cardImages/iconStarBig.svg"

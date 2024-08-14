@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrapper min-w-[40%] flex flex-col">
-    <div class="flex flex-row justify-between pb-5">
+    <div class="flex flex-row justify-between pb-5 mb-2">
       <div class="flex flex-row gap-5 cursor-pointer" @click="showUser">
         <div>
           <img
@@ -35,19 +35,20 @@
         <span class="fs-14 font-light color-main-gray" v-else>нет оценок</span>
       </div>
     </div>
-    <span class="fs-16 font-medium pb-5">{{ publication?.name }}</span>
+    <span class="fs-16 font-semibold">{{ publication?.name }}</span>
     <!--    <span class="fs-12 font-light color-main-gray pb-5">{{-->
     <!--      publication?.description-->
     <!--    }}</span>-->
+    <hr class='my-4'>
     <button
       v-if="isCurrentUserPublication"
       @click="changeMode('edit')"
-      class="button__edit fs-14 font-semibold"
+      class="button__edit fs-14 font-semibold mb-4"
     >
       Редактировать публикацию
     </button>
-    <div class="flex flex-col description-wrapper mt-4">
-      <span class="fs-16 font-medium">Описание</span>
+    <div class="flex flex-col description-wrapper ">
+      <span class="fs-16 font-medium pb-1">Описание</span>
       <div class="description-container font-normal mt-2">
         {{ publication?.description }}
       </div>
@@ -105,11 +106,24 @@ const role = computed(() => {
     padding: 0.5rem 0
   .description
     &-container
-      padding: 0.75rem
-      height: 100%
+      padding: 1rem 1.5rem
       border-radius: 8px
-      border: 1px solid rgba(208, 208, 208, 0.50)
-      background: rgba(250, 250, 250, 0.70)
+      background-color: #dae8da6e
+      color: #333333
+      line-height: 1.6
+      font-size: 1rem
+      max-width: 100%
+      overflow-wrap: break-word
+      text-align: justify
+      p
+        margin-bottom: 0.75rem
+      ul, ol
+        padding-left: 1.5rem
+        margin-bottom: 1rem
+      h1, h2, h3, h4, h5, h6
+        margin-top: 1.5rem
+        margin-bottom: 0.75rem
+        color: #4E944F
     &-wrapper
       flex: 1 0 auto
 </style>
