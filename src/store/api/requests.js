@@ -16,4 +16,23 @@ request.interceptors.request.use(config => {
   return addAuthTokenHeader(config)
 })
 
+request.interceptors.response.use(
+  response => {
+    if (response.data && response.data.message === 'Expired JWT Token') {
+      localStorage.clear()
+      location.reload()
+    }
+    return response
+  },
+  error => {
+    if (error.data && error.data.message === 'Expired JWT Token') {
+      localStorage.clear()
+      location.reload()
+    }
+    return error
+    // Обработка ошибок, если необходимо
+    // return Promise.reject(error)
+  }
+)
+
 export default request
