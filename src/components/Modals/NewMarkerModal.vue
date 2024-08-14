@@ -11,6 +11,10 @@
           field-name="travelPointImages"
           drop-zone-text="Перетащите файл или нажмите для загрузки"
         />
+        <RetravelCheckboxField
+          field-name="isPublic"
+          label-text="Сделать точку публичной"
+        />
         <div class="flex flex-row justify-between gap-3">
           <button @click="closeModal" class="basis-[50%] button button__cancel">
             Отмена
@@ -33,6 +37,7 @@ import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue
 import RetravelFileField from '@/components/Fields/RetravelFileField.vue'
 import { ref } from 'vue'
 import { useForm } from 'vee-validate'
+import RetravelCheckboxField from '@/components/Fields/RetravelCheckboxField.vue'
 
 // eslint-disable-next-line no-undef
 const emit = defineEmits(['onClose', 'onSubmit'])

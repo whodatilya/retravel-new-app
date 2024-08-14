@@ -17,7 +17,7 @@
     <div class="cards my-2.5">
       <place-card v-for="card in placeCards" :key="card.id" :card-data="card" />
     </div>
-    <div class="popular br-20 my-2.5">
+    <div class="popular br-20 my-2.5 mb-4 h-full">
       <div class="flex flex-row justify-between items-center pb-2 relative">
         <div class="fs-18 font-semibold color-main-black">
           Популярные маршруты

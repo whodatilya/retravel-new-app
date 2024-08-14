@@ -39,7 +39,7 @@
     <!--    <span class="fs-12 font-light color-main-gray pb-5">{{-->
     <!--      publication?.description-->
     <!--    }}</span>-->
-    <hr class='my-4'>
+    <hr class="my-4" />
     <button
       v-if="isCurrentUserPublication"
       @click="changeMode('edit')"
@@ -47,7 +47,7 @@
     >
       Редактировать публикацию
     </button>
-    <div class="flex flex-col description-wrapper ">
+    <div class="flex flex-col description-wrapper">
       <span class="fs-16 font-medium pb-1">Описание</span>
       <div class="description-container font-normal mt-2">
         {{ publication?.description }}
@@ -99,12 +99,23 @@ const role = computed(() => {
   border-radius: 20px
   background: white
   padding: 1.5rem
+  display: flex
+  flex-direction: column
+  min-height: 0 // Важно для корректного поведения flex внутри flex-контейнеров
+
   .button__edit
     color: white
     background: #4E944F
     border-radius: 8px
     padding: 0.5rem 0
+
   .description
+    &-wrapper
+      display: flex
+      flex-direction: column
+      flex-grow: 1
+      min-height: 0 // Для ограничения высоты внутри flex-контейнера
+
     &-container
       padding: 1rem 1.5rem
       border-radius: 8px
@@ -115,6 +126,8 @@ const role = computed(() => {
       max-width: 100%
       overflow-wrap: break-word
       text-align: justify
+      flex-grow: 1
+      overflow: auto // Добавляет скролл, если контент превышает высоту контейнера
       p
         margin-bottom: 0.75rem
       ul, ol
@@ -124,6 +137,4 @@ const role = computed(() => {
         margin-top: 1.5rem
         margin-bottom: 0.75rem
         color: #4E944F
-    &-wrapper
-      flex: 1 0 auto
 </style>
