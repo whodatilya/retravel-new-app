@@ -5,7 +5,7 @@
   >
     <div class="flex gap-4 w-full">
       <img
-        :class="{ 'br-8': isTiny }"
+        class="br-8"
         :src="cardData?.routeImages?.[0]"
         style="width: 5rem; height: 4rem; object-fit: cover"
         alt="Иконка популярного"
@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!isTiny" class="flex flex-row items-center gap-1.5 ">
+    <div v-if="!isTiny" class="flex flex-row items-center gap-1.5">
       <img src="@/assets/images/cardImages/iconStarBig.svg" alt="" />
       <div class="fs-19">{{ cardData?.avgRating }}</div>
     </div>
@@ -60,5 +60,4 @@ const props = defineProps({
   text-overflow: ellipsis
   white-space: normal
   padding-right: 1rem
-
 </style>
