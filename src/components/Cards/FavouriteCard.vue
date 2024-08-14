@@ -93,7 +93,7 @@ export default defineComponent({
     text-overflow: ellipsis
     display: -webkit-box
     -webkit-box-orient: vertical
-    -webkit-line-clamp: 3 // Ограничиваем количество строк текста
+    -webkit-line-clamp: 2 // Ограничиваем количество строк текста
     max-height: 4.5em // Максимальная высота блока для текста
 
 .close
