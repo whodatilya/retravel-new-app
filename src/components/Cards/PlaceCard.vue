@@ -6,13 +6,7 @@
       alt="Фото локации"
     />
     <div class="card__text flex flex-col gap-1 justify-center p-2">
-      <div class="fs-16 text-ellipsis">{{ cardData.name }}</div>
-      <div class="flex flex-row align-middle justify-between">
-        <div class="flex flex-row gap-1">
-          <img src="@/assets/images/cardImages/locationPin.svg" alt="" />
-          <div class="fs-10 text-ellipsis">{{ cardData.description }}</div>
-        </div>
-      </div>
+      <div class="fs-14 text-ellipsis">{{ cardData.name }}</div>
     </div>
   </div>
 </template>
@@ -35,7 +29,7 @@ const props = defineProps({
     border-radius: 22px
   &__text
     width: 100%
-    height: 50%
+    height: 35%
     border-radius: 0 0 22px 22px
     background: rgba(0, 0, 0, 0.38)
     backdrop-filter: blur(1px)

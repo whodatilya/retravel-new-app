@@ -18,7 +18,11 @@
           {{ cardData?.name }}
         </div>
         <div class="flex flex-row gap-1 color-main-gray fs-12">
-          <img src="@/assets/images/cardImages/locationPin.svg" alt="локация" />
+          <img
+            src="@/assets/images/cardImages/locationPin.svg"
+            class="self-start"
+            alt="локация"
+          />
           <span class="description">{{ cardData?.description }}</span>
         </div>
       </div>
