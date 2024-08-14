@@ -293,4 +293,6 @@ const removeParticipant = async participant => {
       background: rgba(250, 250, 250, 0.70)
     &-wrapper
       flex: 1 0 auto
+
+
 </style>

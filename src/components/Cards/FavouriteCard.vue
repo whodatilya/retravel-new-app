@@ -23,12 +23,13 @@
           <span class="fs-13 font-medium">{{ favouriteData.avgRating }}</span>
         </div>
       </div>
-      <div class="fs-12 font-medium color-main-gray">
+      <div class="fs-12 font-medium color-main-gray text-ellipsis">
         {{ favouriteData.description }}
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import { defineComponent } from 'vue'
 import iconRating from '@/assets/images/cardImages/iconRating.svg'
@@ -60,31 +61,41 @@ export default defineComponent({
 </script>
 
 <style scoped lang="sass">
-.favourite
-  &__wrapper
-    display: flex
-    flex-direction: column
-    max-height: 300px
-    height: -moz-available
-    height: -webkit-fill-available
-    height: fill-available
-    width: -moz-available
-    width: -webkit-fill-available
-    width: fill-available
-    background: white
-    box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.05)
-    img
-      border-radius: 10px 10px 0 0
-      height: 70%
-    &:hover
-      cursor: pointer
-  &__content
-    display: flex
-    flex-direction: column
-    gap: 0.5rem
-    padding: 0.7rem
-    justify-content: center
-    height: 30%
+.favourite__wrapper
+  display: flex
+  flex-direction: column
+  max-height: 300px
+  height: -moz-available
+  height: -webkit-fill-available
+  height: fill-available
+  width: -moz-available
+  width: -webkit-fill-available
+  width: fill-available
+  background: white
+  box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.05)
+  img
+    border-radius: 10px 10px 0 0
+    height: 70%
+  &:hover
+    cursor: pointer
+
+.favourite__content
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+  padding: 0.7rem
+  justify-content: center
+  height: 30%
+
+  .fs-12.font-medium.color-main-gray.text-ellipsis
+    overflow: hidden
+    white-space: normal
+    text-overflow: ellipsis
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    -webkit-line-clamp: 3 // Ограничиваем количество строк текста
+    max-height: 4.5em // Максимальная высота блока для текста
+
 .close
   display: flex
   flex-direction: row

@@ -11,11 +11,11 @@ const routes = [
     name: 'login',
     component: () => import('@/pages/Login.vue')
   },
-  {
-    path: '/admin',
-    name: 'admin',
-    component: () => import('@/pages/Admin.vue')
-  },
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   component: () => import('@/pages/Admin.vue')
+  // },
   {
     path: '/payment',
     name: 'payment',
