@@ -292,6 +292,23 @@ const createMarker = async values => {
     routePoints.value[routePoints.value.length - 1].longitude
   )
   await createTravelPoint(formData)
+  const response = await getTravelPoints()
+  if (routeUsedIds.length) {
+    const responseRoute = await Promise.all(
+      routeUsedIds.map(async route => {
+        return await getTravelPointById(route.id)
+      })
+    )
+    if (responseRoute.length) {
+      routePoints.value = responseRoute.map((point, index) =>
+        formatResponsePoints(point, routeUsedIds[index].number)
+      )
+    }
+  } else {
+    routePoints.value = response.data.map((point, index) =>
+      formatResponsePoints(point, index + 1)
+    )
+  }
 }
 
 const isUsed = markerId => {
