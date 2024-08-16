@@ -38,7 +38,7 @@ import RetravelTextField from '@/components/Fields/RetravelTextField.vue'
 import RetravelTextareaField from '@/components/Fields/RetravelTextareaField.vue'
 import router from '@/router'
 
-const dropZoneText = 'Перетащите изображение или нажмите для загрузки'
+const dropZoneText = 'Загрузка изображений'
 let file = ref(null)
 const selectFile = () => {
   const fileInput = document.getElementById('uploadFile')

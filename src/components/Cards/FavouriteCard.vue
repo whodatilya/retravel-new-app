@@ -17,13 +17,13 @@
     </div>
     <div class="favourite__content">
       <div class="flex flex-row justify-between">
-        <div class="fs-16 font-semibold">{{ favouriteData.name }}</div>
+        <div class="fs-16 font-semibold title">{{ favouriteData.name }}</div>
         <div v-if="favouriteData?.avgRating" class="flex flex-row gap-1.5">
           <img src="@/assets/images/cardImages/iconStarBig.svg" alt="рейтинг" />
           <span class="fs-13 font-medium">{{ favouriteData.avgRating }}</span>
         </div>
       </div>
-      <div class="fs-12 font-medium color-main-gray text-ellipsis">
+      <div class="fs-12 font-medium color-main-gray text-ellipsis description">
         {{ favouriteData.description }}
       </div>
     </div>
@@ -86,15 +86,21 @@ export default defineComponent({
   padding: 0.7rem
   justify-content: center
   height: 30%
-
-  .fs-12.font-medium.color-main-gray.text-ellipsis
+  .title
     overflow: hidden
     white-space: normal
     text-overflow: ellipsis
     display: -webkit-box
     -webkit-box-orient: vertical
-    -webkit-line-clamp: 2 // Ограничиваем количество строк текста
-    max-height: 4.5em // Максимальная высота блока для текста
+    -webkit-line-clamp: 1
+  .description
+    overflow: hidden
+    white-space: normal
+    text-overflow: ellipsis
+    display: -webkit-box
+    -webkit-box-orient: vertical
+    -webkit-line-clamp: 2
+    max-height: 4.5em
 
 .close
   display: flex

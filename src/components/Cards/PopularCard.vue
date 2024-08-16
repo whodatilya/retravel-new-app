@@ -13,16 +13,19 @@
       <div class="flex flex-col justify-center">
         <div
           :class="isTiny ? 'fs-15' : 'fs-16'"
-          class="color-main-black font-semibold truncate pb-1"
+          class="color-main-black font-semibold pb-1"
         >
-          {{ cardData?.name }}
+          <div class="flex flex-row gap-1">
+            <img
+              src="@/assets/images/cardImages/locationPin.svg"
+              alt="локация"
+            />
+            <div class="title">
+              {{ cardData?.name }}
+            </div>
+          </div>
         </div>
-        <div class="flex flex-row gap-1 color-main-gray fs-12">
-          <img
-            src="@/assets/images/cardImages/locationPin.svg"
-            class="self-start"
-            alt="локация"
-          />
+        <div class="flex flex-row color-main-gray fs-12">
           <span class="description">{{ cardData?.description }}</span>
         </div>
       </div>
@@ -56,6 +59,13 @@ const props = defineProps({
   border: 1px solid #D0D0D0
   box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.10)
 
+.title
+  display: -webkit-box
+  -webkit-line-clamp: 1
+  -webkit-box-orient: vertical
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: normal
 .description
   display: -webkit-box
   -webkit-line-clamp: 2

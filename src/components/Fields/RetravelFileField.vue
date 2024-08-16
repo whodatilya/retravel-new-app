@@ -15,8 +15,10 @@
       @change="processFile"
     />
     <template v-if="!previews.length">
-      <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
-      <div class="w-[238px]">{{ preparedDropZoneText }}</div>
+      <div class="flex flex-col gap-2 items-center">
+        <img class="w-fit" src="@/assets/images/iconUpload.svg" alt="" />
+        <div class="w-[238px]">{{ preparedDropZoneText }}</div>
+      </div>
     </template>
     <div v-if="previews.length" class="previews">
       <img

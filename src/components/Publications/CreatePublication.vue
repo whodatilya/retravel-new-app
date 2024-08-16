@@ -7,7 +7,7 @@
       <RetravelFileField
         class="!w-full"
         :class="isMobile ? 'h-full' : '!h-full'"
-        drop-zone-text="Перетащите изображение или нажмите для загрузки"
+        drop-zone-text="Загрузка изображений"
         field-name="routeImages"
         multiple
       />

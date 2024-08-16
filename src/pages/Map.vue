@@ -32,7 +32,11 @@
       />
     </header>
     <main class="map__content map-fix flex-1">
-      <YandexMap style="padding: 1rem" :settings="mapSettings" width="100%">
+      <YandexMap
+        style="padding: 1rem; height: calc(100vh - 45px)"
+        :settings="mapSettings"
+        width="100%"
+      >
         <YandexMapDefaultFeaturesLayer />
         <YandexMapDefaultSchemeLayer />
         <yandex-map-controls :settings="{ position: 'right' }">

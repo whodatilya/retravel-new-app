@@ -9,7 +9,7 @@
         <RetravelFileField
           style="width: 100%"
           field-name="travelPointImages"
-          drop-zone-text="Перетащите файл или нажмите для загрузки"
+          drop-zone-text="Загрузка изображений"
         />
         <RetravelCheckboxField
           field-name="isPublic"
