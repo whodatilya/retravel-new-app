@@ -1,5 +1,8 @@
 <template>
-  <div :class="{ 'w-[60%]': !isMobile }" class="flex flex-col flex-1 gap-2.5">
+  <div
+    :class="{ 'w-[60%] min-w-[60%]': !isMobile }"
+    class="flex flex-col flex-1 gap-2.5"
+  >
     <div class="content-wrapper flex flex-col flex-auto gap-6 max-h-[50%]">
       <div class="flex flex-row justify-between">
         <div class="flex flex-row gap-2.5 items-center">
