@@ -31,7 +31,7 @@
         type="text"
         disabled
         placeholder="Сумма заказа"
-        :value="parsedData?.price"
+        value="200"
         name="amount"
         required
       />
@@ -122,7 +122,7 @@ onMounted(async () => {
         Items: [
           {
             Name: description.value || 'Оплата',
-            Price: amount.value + '00',
+            Price: 200 + '00',
             Quantity: 1.0,
             Amount: amount.value + '00',
             PaymentMethod: 'full_prepayment',
